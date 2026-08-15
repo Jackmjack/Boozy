@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 // 给 Boozy 应用使用
 
@@ -6,4 +6,6 @@
 
 // --- 入口点 ---
 #include "Boozy/EntryPoint.h"
-// -------------
+
+// 日志系统
+#include "Boozy/Log.h"

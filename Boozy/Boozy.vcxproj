@@ -11,12 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Boozy\Log.h" />
     <ClInclude Include="src\Boozy\Application.h" />
     <ClInclude Include="src\Boozy.h" />
     <ClInclude Include="src\Boozy\Core.h" />
     <ClInclude Include="src\Boozy\EntryPoint.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Boozy\Log.cpp" />
     <ClCompile Include="src\Boozy\Application.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

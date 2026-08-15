@@ -1,18 +1,18 @@
-#pragma once
+﻿#pragma once
 #include "Core.h"
 
 namespace Boozy {
 
-	class BOOZY_API Application
-	{
-	public:
-		Application();
-		virtual ~Application();
+    class BOOZY_API Application
+    {
+    public:
+        Application();
+        virtual ~Application();
 
-		void Run();
-	};
+        void Run();
+    };
 
-	// 在客户端中定义
-	Application* CreateApplication();
+    // 在客户端中定义
+    Application* CreateApplication();
 
 }
