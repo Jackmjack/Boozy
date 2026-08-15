@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="SandBox/SandBox.vcxproj" Id="25e85c42-fe1b-4dbb-95fb-2ed3588481a3" />
+  <Project Path="Boozy/Boozy.vcxproj" Id="73f8014a-98d3-4b40-b741-74b2dbfa6a5b" />
+</Solution>
