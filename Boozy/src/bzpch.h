@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <iostream>
 #include <utility>
@@ -13,5 +13,5 @@
 #include <string>
 
 #ifdef BZ_PLATFORM_WINDOWS
-	#include <Windows.h>
+    #include <Windows.h>
 #endif

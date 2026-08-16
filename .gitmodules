@@ -1,0 +1,3 @@
+[submodule "Boozy/vendor/GLFW"]
+	path = Boozy/vendor/GLFW
+	url = https://github.com/glfw/glfw.git

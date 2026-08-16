@@ -26,22 +26,30 @@ Boozy 包含两个项目：
   - `EventDispatcher::Dispatch<T>` 按事件类型分发
   - 种类掩码过滤（`IsInCategory`）
   - 支持隐式转 `std::string`，可直接 `BZ_TRACE(e)` 打印
+- 窗口系统 `Window`：
+  - `Window` 抽象接口（纯虚基类）与 `WindowProps` 配置（标题 / 宽 / 高）
+  - 静态工厂 `Window::Create()` 返回平台实现，应用层只面向接口
+  - Windows 平台基于 GLFW 实现（`WindowsWindow`）
 
 ## 环境要求
 
 - Windows
 - Visual Studio（支持 premake 的 `vs2026` action）
 - Premake5（放在 `vendor/bin/premake/`，未纳入版本控制）
+- GLFW（作为 git submodule 引入，固定 `3.4`，见下方「构建」）
 
 ## 构建
 
 ```bat
-:: 1. 生成 Visual Studio 工程
+:: 1. 拉取子模块（GLFW 源码；clone 后首次构建必做）
+git submodule update --init --recursive
+
+:: 2. 生成 Visual Studio 工程
 GenerateProjects.bat
 :: 等价于
 vendor\bin\premake\premake5.exe vs2026
 
-:: 2. 打开 Boozy.slnx，以 SandBox 为启动项目，Debug x64 编译运行
+:: 3. 打开 Boozy.slnx，以 SandBox 为启动项目，Debug x64 编译运行
 ```
 
 ## 项目结构
@@ -51,23 +59,31 @@ Boozy/
 ├── Boozy/                          # 引擎（DLL）
 │   └── src/
 │       ├── Boozy.h                 # 对外总头文件
-│       └── Boozy/
-│           ├── Application.h/.cpp  # 应用基类
-│           ├── Core.h              # DLL 导出/导入宏
-│           ├── EntryPoint.h        # main() 入口点
-│           ├── Log.h/.cpp          # 日志系统
-│           └── Events/             # 事件系统
-│               ├── Event.h             # 事件基类 + 分发器
-│               ├── ApplicationEvent.h  # 窗口 / 应用事件
-│               ├── KeyEvent.h          # 键盘事件
-│               └── MouseEvent.h        # 鼠标事件
+│       ├── Boozy/
+│       │   ├── Application.h/.cpp  # 应用基类
+│       │   ├── Core.h              # DLL 导出/导入宏
+│       │   ├── EntryPoint.h        # main() 入口点
+│       │   ├── Log.h/.cpp          # 日志系统
+│       │   ├── Window.h            # 窗口抽象接口
+│       │   └── Events/             # 事件系统
+│       │       ├── Event.h             # 事件基类 + 分发器
+│       │       ├── ApplicationEvent.h  # 窗口 / 应用事件
+│       │       ├── KeyEvent.h          # 键盘事件
+│       │       └── MouseEvent.h        # 鼠标事件
+│       └── Platform/               # 平台实现
+│           └── Windows/
+│               ├── WindowsWindow.h     # GLFW 窗口实现声明
+│               └── WindowsWindow.cpp   # GLFW 窗口实现
 ├── SandBox/                        # 示例游戏（exe）
 │   └── src/
 │       └── SandBoxApp.cpp          # 游戏逻辑 + CreateApplication
 ├── premake5.lua                    # 构建配置
 ├── GenerateProjects.bat            # 生成工程脚本
 ├── Boozy.slnx                      # 解决方案（由 premake 生成）
-└── vendor/                         # 外部工具（premake，未纳入版本控制）
+└── vendor/
+    ├── GLFW/                       # GLFW 源码（git submodule，固定 3.4）
+    ├── glfw_config.h               # GLFW 平台宏配置（_GLFW_WIN32）
+    └── bin/premake/                # premake5（未纳入版本控制）
 ```
 
 ## 快速示例
@@ -76,7 +92,8 @@ Boozy/
 
 ## 计划
 
-- [ ] 接入 GLFW / GLAD（窗口与 OpenGL 上下文）
+- [x] 接入 GLFW（窗口创建，git submodule 引入）
+- [ ] 接入 GLAD（OpenGL 上下文加载）
 - [x] 事件系统
 - [ ] 输入抽象（键盘 / 鼠标状态查询）
 - [ ] 渲染抽象层（VertexBuffer / Shader / Renderer）

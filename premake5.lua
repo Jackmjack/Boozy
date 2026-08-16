@@ -9,6 +9,70 @@ workspace "Boozy"
     }
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+IncludeDir = {}
+IncludeDir["GLFW"] = "Boozy/vendor/GLFW/include"
+
+project "GLFW"
+    location "Boozy/vendor"
+    kind "StaticLib"
+    language "C"
+
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files
+    {
+        "Boozy/vendor/GLFW/include/GLFW/glfw3.h",
+        "Boozy/vendor/GLFW/include/GLFW/glfw3native.h",
+        "Boozy/vendor/GLFW/src/context.c",
+        "Boozy/vendor/GLFW/src/init.c",
+        "Boozy/vendor/GLFW/src/input.c",
+        "Boozy/vendor/GLFW/src/monitor.c",
+        "Boozy/vendor/GLFW/src/platform.c",
+        "Boozy/vendor/GLFW/src/vulkan.c",
+        "Boozy/vendor/GLFW/src/window.c",
+        "Boozy/vendor/GLFW/src/egl_context.c",
+        "Boozy/vendor/GLFW/src/osmesa_context.c",
+        "Boozy/vendor/GLFW/src/null_init.c",
+        "Boozy/vendor/GLFW/src/null_monitor.c",
+        "Boozy/vendor/GLFW/src/null_window.c",
+        "Boozy/vendor/GLFW/src/null_joystick.c"
+    }
+
+    includedirs
+    {
+        "Boozy/vendor"
+    }
+
+    filter "system:windows"
+        systemversion "latest"
+        staticruntime "On"
+
+        files
+        {
+            "Boozy/vendor/GLFW/src/win32_init.c",
+            "Boozy/vendor/GLFW/src/win32_joystick.c",
+            "Boozy/vendor/GLFW/src/win32_module.c",
+            "Boozy/vendor/GLFW/src/win32_monitor.c",
+            "Boozy/vendor/GLFW/src/win32_time.c",
+            "Boozy/vendor/GLFW/src/win32_thread.c",
+            "Boozy/vendor/GLFW/src/win32_window.c",
+            "Boozy/vendor/GLFW/src/wgl_context.c"
+        }
+
+        defines
+        {
+            "_GLFW_WIN32",
+            "_CRT_SECURE_NO_WARNINGS"
+        }
+
+    filter "configurations:Debug"
+        runtime "Debug"
+        symbols "On"
+
+    filter "configurations:Release"
+        runtime "Release"
+        optimize "On"
 
 project "Boozy"
     location "Boozy"
@@ -29,7 +93,17 @@ project "Boozy"
 
     includedirs
     {
-        "%{prj.name}/src"
+        "%{prj.name}/src",
+        "%{IncludeDir.GLFW}"
+    }
+
+    links
+    {
+        "GLFW",
+        "opengl32.lib",
+        "gdi32.lib",
+        "user32.lib",
+        "shell32.lib"
     }
 
     filter "system:windows"
