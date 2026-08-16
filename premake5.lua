@@ -18,6 +18,9 @@ project "Boozy"
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+    pchheader "bzpch.h"
+    pchsource "Boozy/src/bzpch.cpp"
+
     files
     {
         "%{prj.name}/src/**.h",

@@ -1,12 +1,5 @@
-﻿#include "Log.h"
-
-#include <windows.h>
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <iomanip>
-#include <ctime>
-#include <mutex>
+﻿#include "bzpch.h"
+#include "Log.h"
 
 namespace Boozy {
 
