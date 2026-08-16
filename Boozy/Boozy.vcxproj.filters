@@ -4,6 +4,9 @@
     <Filter Include="Boozy">
       <UniqueIdentifier>{D817E80C-442C-10BE-0DAE-B31D79810CEF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Boozy\Events">
+      <UniqueIdentifier>{BC800985-A8E3-9829-5169-D1DF3DAB64AC}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Boozy.h" />
@@ -15,6 +18,18 @@
     </ClInclude>
     <ClInclude Include="src\Boozy\EntryPoint.h">
       <Filter>Boozy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Events\ApplicationEvent.h">
+      <Filter>Boozy\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Events\Event.h">
+      <Filter>Boozy\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Events\KeyEvent.h">
+      <Filter>Boozy\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Events\MouseEvent.h">
+      <Filter>Boozy\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Log.h">
       <Filter>Boozy</Filter>

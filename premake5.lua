@@ -24,6 +24,11 @@ project "Boozy"
         "%{prj.name}/src/**.cpp",
     }
 
+    includedirs
+    {
+        "%{prj.name}/src"
+    }
+
     filter "system:windows"
         cppdialect "C++20"
         staticruntime "On"
