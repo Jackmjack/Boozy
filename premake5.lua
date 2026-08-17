@@ -46,7 +46,7 @@ project "GLFW"
 
     filter "system:windows"
         systemversion "latest"
-        staticruntime "On"
+        staticruntime "Off"
 
         files
         {
@@ -72,7 +72,12 @@ project "GLFW"
 
     filter "configurations:Release"
         runtime "Release"
+        symbols "On"
         optimize "On"
+
+    filter "configurations:Dist"
+        runtime "Release"
+        symbols "On"
 
 project "Boozy"
     location "Boozy"
@@ -108,7 +113,7 @@ project "Boozy"
 
     filter "system:windows"
         cppdialect "C++20"
-        staticruntime "On"
+        staticruntime "Off"
         systemversion "latest"
 
         defines
@@ -161,7 +166,7 @@ project "SandBox"
 
     filter "system:windows"
         cppdialect "C++20"
-        staticruntime "On"
+        staticruntime "Off"
         systemversion "latest"
 
         defines

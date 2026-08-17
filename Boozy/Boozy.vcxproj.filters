@@ -37,6 +37,12 @@
     <ClInclude Include="src\Boozy\Events\MouseEvent.h">
       <Filter>Boozy\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Boozy\Layer.h">
+      <Filter>Boozy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\LayerStack.h">
+      <Filter>Boozy</Filter>
+    </ClInclude>
     <ClInclude Include="src\Boozy\Log.h">
       <Filter>Boozy</Filter>
     </ClInclude>
@@ -50,6 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Boozy\Application.cpp">
+      <Filter>Boozy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Layer.cpp">
+      <Filter>Boozy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\LayerStack.cpp">
       <Filter>Boozy</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Log.cpp">

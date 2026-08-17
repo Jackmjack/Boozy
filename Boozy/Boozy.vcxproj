@@ -83,7 +83,7 @@
       <AdditionalIncludeDirectories>src;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -109,7 +109,7 @@ copy /B /Y ..\bin\Debug-windows-x86_64\Boozy\Boozy.dll ..\bin\Debug-windows-x86_
       <AdditionalIncludeDirectories>src;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -135,7 +135,7 @@ copy /B /Y ..\bin\Release-windows-x86_64\Boozy\Boozy.dll ..\bin\Release-windows-
       <AdditionalIncludeDirectories>src;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -161,6 +161,8 @@ copy /B /Y ..\bin\Dist-windows-x86_64\Boozy\Boozy.dll ..\bin\Dist-windows-x86_64
     <ClInclude Include="src\Boozy\Events\Event.h" />
     <ClInclude Include="src\Boozy\Events\KeyEvent.h" />
     <ClInclude Include="src\Boozy\Events\MouseEvent.h" />
+    <ClInclude Include="src\Boozy\Layer.h" />
+    <ClInclude Include="src\Boozy\LayerStack.h" />
     <ClInclude Include="src\Boozy\Log.h" />
     <ClInclude Include="src\Boozy\Window.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
@@ -168,6 +170,8 @@ copy /B /Y ..\bin\Dist-windows-x86_64\Boozy\Boozy.dll ..\bin\Dist-windows-x86_64
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Boozy\Application.cpp" />
+    <ClCompile Include="src\Boozy\Layer.cpp" />
+    <ClCompile Include="src\Boozy\LayerStack.cpp" />
     <ClCompile Include="src\Boozy\Log.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\bzpch.cpp">

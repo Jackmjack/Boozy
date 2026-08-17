@@ -9,6 +9,7 @@
 #include <ctime>
 #include <mutex>
 #include <format>
+#include <algorithm>
 
 #include <string>
 
