@@ -5,6 +5,8 @@
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
+BZ_INIT_LOGGER("Core"); // 初始化本文件日志器
+
 namespace Boozy {
 
     Application::Application()

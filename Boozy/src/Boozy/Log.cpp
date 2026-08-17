@@ -1,15 +1,12 @@
 ﻿#include "bzpch.h"
 #include "Log.h"
+#include <memory>
+#include <unordered_map>
 
 namespace Boozy {
 
-    // 默认全开，方便调试
-    LogLevel Log::s_Level = LogLevel::Trace;
-
     // 线程锁
     static std::mutex g_LogMutex;
-    // 日志文件
-    static std::ofstream g_LogFile("boozy.log", std::ios::app);
 
     // 每个等级对应的控制台前景色
     static WORD LevelToColor(LogLevel level)
@@ -52,33 +49,67 @@ namespace Boozy {
         return ss.str();
     }
 
-    // =======================================================
-    // 公开接口实现
-    // =======================================================
-    void Log::SetLevel(LogLevel level) { std::lock_guard<std::mutex> lock(g_LogMutex); s_Level = level; }
-    LogLevel Log::GetLevel() { std::lock_guard<std::mutex> lock(g_LogMutex); return s_Level; }
+    // 获取 exe 所在目录
+    static std::filesystem::path GetExecutableDirectory()
+    {
+        wchar_t buffer[MAX_PATH];
+        GetModuleFileNameW(nullptr, buffer, MAX_PATH);
+        return std::filesystem::path(buffer).parent_path();
+    }
 
-    void Log::Write(LogLevel level, const std::string& message)
+    Logger::Logger(const std::string& name)
+        : m_Name(name)
+    {
+        // 统一写入 exe 旁 logs/ 目录
+        std::filesystem::path logDir = GetExecutableDirectory() / "logs";
+        std::error_code ec;
+        std::filesystem::create_directories(logDir, ec);
+        m_File.open(logDir / (name + ".log"), std::ios::app);
+    }
+
+    void Logger::Write(LogLevel level, const std::string& message)
     {
         std::lock_guard<std::mutex> lock(g_LogMutex);
 
-        if (level < s_Level)
+        if (level < m_Level)
             return;
 
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-        std::string time = CurrentTime();
+        // [时间][等级][模块]:正文
+        std::string line = "[" + CurrentTime() + "][" + LevelToString(level) + "][" + m_Name + "] " + message;
 
-        // [时间][等级]:正文
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
         if (hConsole)
             SetConsoleTextAttribute(hConsole, LevelToColor(level));
-        std::cout << "[" << time << "][" << LevelToString(level) << "] " << message << std::endl;
+        std::cout << line << std::endl;
 
         // 恢复默认色
         if (hConsole)
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
-        // 写入到日志文件
-        if (g_LogFile)
-            g_LogFile << "[" << time << "][" << LevelToString(level) << "] " << message << std::endl;
+        // 写入本模块的日志文件
+        if (m_File)
+            m_File << line << std::endl;
     }
-} // namespace Boozy
+
+    // 注册表用函数局部 static（magic static）懒初始化：首次调用才构造
+    static std::unordered_map<std::string, std::unique_ptr<Logger>>& GetLoggers()
+    {
+        static std::unordered_map<std::string, std::unique_ptr<Logger>> s_Loggers;
+        return s_Loggers;
+    }
+
+    Logger& Logger::Register(const std::string& name)
+    {
+        auto& loggers = GetLoggers();
+        auto it = loggers.find(name);
+        if (it != loggers.end())
+            return *it->second;
+
+        // 未注册则创建并打开该模块的日志文件
+        std::unique_ptr<Logger> logger(new Logger(name));
+        Logger& ref = *logger;
+        loggers.emplace(name, std::move(logger));
+        return ref;
+    }
+
+}

@@ -6,6 +6,8 @@
 #include "Boozy/Events/KeyEvent.h"
 #include "Boozy/Events/MouseEvent.h"
 
+BZ_INIT_LOGGER("Core"); // 初始化本文件（引擎窗口模块）日志器
+
 namespace Boozy {
 
     // 保证 GLFW 只初始化一次

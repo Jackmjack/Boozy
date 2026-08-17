@@ -129,15 +129,15 @@ project "Boozy"
         }
 
     filter "configurations:Debug"
-        defines "BZ_DEBUG"
+        defines "BZ_CONFIG_DEBUG"
         symbols "On"
 
     filter "configurations:Release"
-        defines "BZ_RELEASE"
+        defines "BZ_CONFIG_RELEASE"
         symbols "On"
 
     filter "configurations:Dist"
-        defines "BZ_DIST"
+        defines "BZ_CONFIG_DIST"
         symbols "On"
 
 project "SandBox"
@@ -175,13 +175,13 @@ project "SandBox"
         }
 
     filter "configurations:Debug"
-        defines "BZ_DEBUG"
+        defines "BZ_CONFIG_DEBUG"
         symbols "On"
 
     filter "configurations:Release"
-        defines "BZ_RELEASE"
+        defines "BZ_CONFIG_RELEASE"
         symbols "On"
 
     filter "configurations:Dist"
-        defines "BZ_DIST"
+        defines "BZ_CONFIG_DIST"
         symbols "On"
