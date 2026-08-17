@@ -29,7 +29,7 @@ namespace Boozy {
         std::string ToString() const override
         {
             std::stringstream ss;
-            ss << "KeyPressedEvent: " << m_KeyCode << "(重复了" << m_RepeatCount << "次)";
+            ss << "KeyPressedEvent: " << m_KeyCode << "(" << m_RepeatCount << " repeats)";
             return ss.str();
         }
 
