@@ -6,6 +6,8 @@
 #include "Boozy/Events/KeyEvent.h"
 #include "Boozy/Events/MouseEvent.h"
 
+#include <glad/glad.h>
+
 BZ_INIT_LOGGER("Core"); // 初始化本文件（引擎窗口模块）日志器
 
 namespace Boozy {
@@ -46,13 +48,15 @@ namespace Boozy {
         if (!s_GLFWInitialized)
         {
             int success = glfwInit();
-            BZ_ASSERT(success, "Could not initialize GLFW!");
+            BZ_ASSERT(success, "Failed to initialize GLFW!");
             s_GLFWInitialized = true;
         }
 
         m_Window = glfwCreateWindow(props.Width, props.Height, m_Data.Title.c_str(), nullptr, nullptr);
         BZ_ASSERT(m_Window, "Failed to create window!");
         glfwMakeContextCurrent(m_Window);
+        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+        BZ_ASSERT(status, "Failed to initialize Glad!");
         glfwSetWindowUserPointer(m_Window, &m_Data);
         SetVSync(true);
 

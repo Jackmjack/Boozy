@@ -1,4 +1,4 @@
-workspace "Boozy"
+﻿workspace "Boozy"
     architecture "x64"
 
     configurations
@@ -11,6 +11,9 @@ workspace "Boozy"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "Boozy/vendor/GLFW/include"
+IncludeDir["Glad"] = "Boozy/vendor/Glad/include"
+
+include "Boozy/vendor/Glad"
 
 project "GLFW"
     location "Boozy/vendor"
@@ -99,7 +102,8 @@ project "Boozy"
     includedirs
     {
         "%{prj.name}/src",
-        "%{IncludeDir.GLFW}"
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.Glad}"
     }
 
     links
@@ -108,7 +112,8 @@ project "Boozy"
         "opengl32.lib",
         "gdi32.lib",
         "user32.lib",
-        "shell32.lib"
+        "shell32.lib",
+        "Glad"
     }
 
     filter "system:windows"
@@ -119,7 +124,8 @@ project "Boozy"
         defines
         {
             "BZ_PLATFORM_WINDOWS",
-            "BZ_BUILD_DLL"
+            "BZ_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
         postbuildcommands
@@ -129,7 +135,7 @@ project "Boozy"
         }
 
     filter "configurations:Debug"
-        defines "BZ_CONFIG_DEBUG"
+        defines { "BZ_CONFIG_DEBUG", "BZ_ENABLE_ASSERTS" }
         symbols "On"
 
     filter "configurations:Release"

@@ -7,6 +7,8 @@
   </Configurations>
   <Project Path="Boozy\Boozy.vcxproj" Id="D817E80C-442C-10BE-0DAE-B31D79810CEF">
   </Project>
+  <Project Path="Boozy\vendor\Glad\Glad.vcxproj" Id="BDD6857C-A90D-870D-52FA-6C103E10030F">
+  </Project>
   <Project Path="Boozy\vendor\GLFW.vcxproj" Id="154B857C-0182-860D-AA6E-6C109684020F">
   </Project>
   <Project Path="SandBox\SandBox.vcxproj" Id="D43924E3-4019-A37E-4931-2E55B58F09E0">
