@@ -13,6 +13,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Boozy/vendor/GLFW/include"
 IncludeDir["Glad"] = "Boozy/vendor/Glad/include"
 IncludeDir["ImGui"] = "Boozy/vendor/imgui"
+IncludeDir["glm"] = "Boozy/vendor/glm"
 
 include "Boozy/vendor/Glad"
 
@@ -154,7 +155,8 @@ project "Boozy"
         "%{prj.name}/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
-        "%{IncludeDir.ImGui}"
+        "%{IncludeDir.ImGui}",
+        "%{IncludeDir.glm}"
     }
 
     links
@@ -215,7 +217,8 @@ project "SandBox"
     includedirs
     {
         "Boozy/src",
-        "%{IncludeDir.ImGui}"
+        "%{IncludeDir.ImGui}",
+        "%{IncludeDir.glm}"
     }
 
     links

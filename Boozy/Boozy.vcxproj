@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>bzpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BZ_PLATFORM_WINDOWS;BZ_BUILD_DLL;GLFW_INCLUDE_NONE;BZ_CONFIG_DEBUG;BZ_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -106,7 +106,7 @@ copy /B /Y ..\bin\Debug-windows-x86_64\Boozy\Boozy.dll ..\bin\Debug-windows-x86_
       <PrecompiledHeaderFile>bzpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BZ_PLATFORM_WINDOWS;BZ_BUILD_DLL;GLFW_INCLUDE_NONE;BZ_CONFIG_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -132,7 +132,7 @@ copy /B /Y ..\bin\Release-windows-x86_64\Boozy\Boozy.dll ..\bin\Release-windows-
       <PrecompiledHeaderFile>bzpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BZ_PLATFORM_WINDOWS;BZ_BUILD_DLL;GLFW_INCLUDE_NONE;BZ_CONFIG_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -153,7 +153,6 @@ copy /B /Y ..\bin\Dist-windows-x86_64\Boozy\Boozy.dll ..\bin\Dist-windows-x86_64
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Boozy\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Boozy.h" />
     <ClInclude Include="src\Boozy\Application.h" />
     <ClInclude Include="src\Boozy\Core.h" />
@@ -162,6 +161,7 @@ copy /B /Y ..\bin\Dist-windows-x86_64\Boozy\Boozy.dll ..\bin\Dist-windows-x86_64
     <ClInclude Include="src\Boozy\Events\Event.h" />
     <ClInclude Include="src\Boozy\Events\KeyEvent.h" />
     <ClInclude Include="src\Boozy\Events\MouseEvent.h" />
+    <ClInclude Include="src\Boozy\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Boozy\Input.h" />
     <ClInclude Include="src\Boozy\KeyCodes.h" />
     <ClInclude Include="src\Boozy\Layer.h" />
@@ -169,22 +169,22 @@ copy /B /Y ..\bin\Dist-windows-x86_64\Boozy\Boozy.dll ..\bin\Dist-windows-x86_64
     <ClInclude Include="src\Boozy\Log.h" />
     <ClInclude Include="src\Boozy\MouseButtonCodes.h" />
     <ClInclude Include="src\Boozy\Window.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\bzpch.h" />
-    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Boozy\Application.cpp" />
     <ClCompile Include="src\Boozy\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Boozy\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Boozy\Application.cpp" />
     <ClCompile Include="src\Boozy\Layer.cpp" />
     <ClCompile Include="src\Boozy\LayerStack.cpp" />
     <ClCompile Include="src\Boozy\Log.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\bzpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW.vcxproj">
