@@ -1,18 +1,26 @@
 ﻿#include "bzpch.h"
 #include "Application.h"
 #include "Log.h"
+#include "Input.h"
 #include <glad/glad.h>
-
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 BZ_INIT_LOGGER("Core"); // 初始化本文件日志器
 
 namespace Boozy {
 
+    Application* Application::s_Instance = nullptr;
+
     Application::Application()
     {
+        BZ_ASSERT(!s_Instance, "Application already exists!");
+        s_Instance = this;
+
         m_Window = std::unique_ptr<Window>(Window::Create());
-        m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+        m_Window->SetEventCallback(BZ_BIND_EVENT_FN(Application::OnEvent));
+
+        m_ImGuiLayer = new ImGuiLayer();
+        PushOverlay(m_ImGuiLayer);
+
     }
 
     Application::~Application()
@@ -23,24 +31,26 @@ namespace Boozy {
     void Application::PushLayer(Layer* layer)
     {
         m_LayerStack.PushLayer(layer);
+        layer->OnAttach();
     }
 
     void Application::PushOverlay(Layer* overlay)
     {
         m_LayerStack.PushOverlay(overlay);
+        overlay->OnAttach();
     }
 
-    void Application::OnEvent(Event& e)
+    void Application::OnEvent(Event& event)
     {
-        EventDispatcher dispatcher(e);
-        dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+        EventDispatcher dispatcher(event);
+        dispatcher.Dispatch<WindowCloseEvent>(BZ_BIND_EVENT_FN(Application::OnWindowClose));
 
-        BZ_TRACE(e);
+        //BZ_TRACE(e);
 
         for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
         {
-            (*--it)->OnEvent(e);
-            if (e.GetHandled())
+            (*--it)->OnEvent(event);
+            if (event.GetHandled())
                 break;
         }
     }
@@ -56,11 +66,16 @@ namespace Boozy {
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate();
 
+            m_ImGuiLayer->Begin();
+            for (Layer* layer : m_LayerStack)
+                layer->OnImGuiRender();
+            m_ImGuiLayer->End();
+
             m_Window->OnUpdate();
         }
     }
 
-    bool Application::OnWindowClose(WindowCloseEvent& e)
+    bool Application::OnWindowClose(WindowCloseEvent& event)
     {
         m_Running = false;
         return true;

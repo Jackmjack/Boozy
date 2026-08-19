@@ -53,6 +53,11 @@
       <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\bzpch.h" />
+    <ClInclude Include="src\Boozy\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\Boozy\Input.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="src\Boozy\KeyCodes.h" />
+    <ClInclude Include="src\Boozy\MouseButtonCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Boozy\Application.cpp">
@@ -71,5 +76,8 @@
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\bzpch.cpp" />
+    <ClCompile Include="src\Boozy\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
+    <ClCompile Include="src\Boozy\ImGui\ImGuiBuild.cpp" />
   </ItemGroup>
 </Project>

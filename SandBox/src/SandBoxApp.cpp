@@ -1,4 +1,5 @@
 ﻿#include <Boozy.h>
+#include <imgui.h>
 
 BZ_INIT_LOGGER("SandBox"); // 初始化本文件 SandBox 日志器
 
@@ -10,12 +11,26 @@ public:
 
     void OnUpdate() override
     {
-        //BZ_INFO("ExampleLayer::Update");
+        
+    }
+
+    void OnImGuiRender() override
+    {
+        ImGui::Begin("Test");
+        ImGui::Text("Hello world");
+        ImGui::End();
     }
 
     void OnEvent(Boozy::Event& event) override
     {
-        BZ_TRACE(event);
+        if (event.GetEventType() == Boozy::EventType::KeyPressed)
+        {
+            Boozy::KeyPressedEvent& e = (Boozy::KeyPressedEvent&)event;
+            if (e.GetKeyCode() == BZ_KEY_TAB)
+                BZ_INFO("Tab key is pressed!");
+            BZ_TRACE("{}", char(e.GetKeyCode()));
+
+        }
     }
 };
 

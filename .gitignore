@@ -1,4 +1,4 @@
-# 目录
+﻿# 目录
 .vs/
 bin/
 bin-int/
@@ -6,6 +6,7 @@ bin-int/
 # 文件
 *.user
 *.log
+imgui.ini
 
 # 个人参考文档（不纳入版本控制）
 docs/

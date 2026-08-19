@@ -11,6 +11,8 @@
 #include <format>
 #include <algorithm>
 #include <filesystem>
+#include <memory>
+#include <unordered_map>
 
 #include <string>
 

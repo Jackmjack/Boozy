@@ -12,6 +12,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "Boozy/vendor/GLFW/include"
 IncludeDir["Glad"] = "Boozy/vendor/Glad/include"
+IncludeDir["ImGui"] = "Boozy/vendor/imgui"
 
 include "Boozy/vendor/Glad"
 
@@ -82,6 +83,55 @@ project "GLFW"
         runtime "Release"
         symbols "On"
 
+project "ImGui"
+    location "Boozy/vendor"
+    kind "StaticLib"
+    language "C++"
+
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files
+    {
+        "Boozy/vendor/imgui/imgui.cpp",
+        "Boozy/vendor/imgui/imgui_draw.cpp",
+        "Boozy/vendor/imgui/imgui_tables.cpp",
+        "Boozy/vendor/imgui/imgui_widgets.cpp",
+        "Boozy/vendor/imgui/imgui_demo.cpp",
+        "Boozy/vendor/imgui/backends/imgui_impl_glfw.cpp",
+        "Boozy/vendor/imgui/backends/imgui_impl_opengl3.cpp"
+    }
+
+    includedirs
+    {
+        "Boozy/vendor/imgui",
+        "Boozy/vendor/imgui/backends",
+        "Boozy/vendor/GLFW/include"
+    }
+
+    defines
+    {
+        "GLFW_INCLUDE_NONE",
+        "IMGUI_API=__declspec(dllexport)"
+    }
+
+    filter "system:windows"
+        cppdialect "C++20"
+        staticruntime "Off"
+        systemversion "latest"
+
+    filter "configurations:Debug"
+        runtime "Debug"
+        symbols "On"
+
+    filter "configurations:Release"
+        runtime "Release"
+        optimize "On"
+
+    filter "configurations:Dist"
+        runtime "Release"
+        symbols "On"
+
 project "Boozy"
     location "Boozy"
     kind "SharedLib"
@@ -103,17 +153,19 @@ project "Boozy"
     {
         "%{prj.name}/src",
         "%{IncludeDir.GLFW}",
-        "%{IncludeDir.Glad}"
+        "%{IncludeDir.Glad}",
+        "%{IncludeDir.ImGui}"
     }
 
     links
     {
         "GLFW",
+        "Glad",
+        "ImGui",
         "opengl32.lib",
         "gdi32.lib",
         "user32.lib",
-        "shell32.lib",
-        "Glad"
+        "shell32.lib"
     }
 
     filter "system:windows"
@@ -162,7 +214,8 @@ project "SandBox"
 
     includedirs
     {
-        "Boozy/src"
+        "Boozy/src",
+        "%{IncludeDir.ImGui}"
     }
 
     links
@@ -177,7 +230,8 @@ project "SandBox"
 
         defines
         {
-            "BZ_PLATFORM_WINDOWS"
+            "BZ_PLATFORM_WINDOWS",
+            "IMGUI_API=__declspec(dllimport)"
         }
 
     filter "configurations:Debug"

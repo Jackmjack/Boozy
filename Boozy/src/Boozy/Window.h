@@ -43,6 +43,9 @@ namespace Boozy {
         /// \brief 查询当前是否开启垂直同步
         virtual bool IsVSync() const = 0;
 
+        /// \brief 获取窗口句柄
+        virtual void* GetNativeWindow() const = 0;
+
         /// \brief 静态 Create 方法，应用层只调用接口的该方法，细节由子类实现
         static Window* Create(const WindowProps& props = WindowProps());
     };
