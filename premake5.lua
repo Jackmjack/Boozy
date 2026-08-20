@@ -100,9 +100,7 @@ project "ImGui"
         "Boozy/vendor/imgui/imgui_draw.cpp",
         "Boozy/vendor/imgui/imgui_tables.cpp",
         "Boozy/vendor/imgui/imgui_widgets.cpp",
-        "Boozy/vendor/imgui/imgui_demo.cpp",
-        "Boozy/vendor/imgui/backends/imgui_impl_glfw.cpp",
-        "Boozy/vendor/imgui/backends/imgui_impl_opengl3.cpp"
+        "Boozy/vendor/imgui/imgui_demo.cpp"
     }
 
     includedirs

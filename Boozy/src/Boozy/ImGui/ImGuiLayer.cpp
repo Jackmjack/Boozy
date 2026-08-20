@@ -1,12 +1,12 @@
 ﻿#include "bzpch.h"
 #include "ImGuiLayer.h"
+#include "Boozy/Renderer/GraphicsContext.h"
 
 #include "imgui.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "backends/imgui_impl_glfw.h"
 
 #include "Boozy/Application.h"
-#include <GLFW/glfw3.h>
 
 namespace Boozy {
     ImGuiLayer::ImGuiLayer()
@@ -75,10 +75,12 @@ namespace Boozy {
 
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
-            GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            GraphicsContext* context = Application::GetInstance().GetWindow().GetContext();
+
+            void* backup_current_context = context->GetCurrentContext();
             ImGui::UpdatePlatformWindows();
             ImGui::RenderPlatformWindowsDefault();
-            glfwMakeContextCurrent(backup_current_context);
+            context->MakeCurrentContext(backup_current_context);
         }
     }
 }

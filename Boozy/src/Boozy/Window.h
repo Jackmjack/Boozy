@@ -7,6 +7,8 @@
 
 namespace Boozy {
 
+    class GraphicsContext;
+
     /// \brief 窗口基本属性结构体
     struct WindowProps
     {
@@ -45,6 +47,9 @@ namespace Boozy {
 
         /// \brief 获取窗口句柄
         virtual void* GetNativeWindow() const = 0;
+
+        /// \brief 获取上下文
+        virtual GraphicsContext* GetContext() const = 0;
 
         /// \brief 静态 Create 方法，应用层只调用接口的该方法，细节由子类实现
         static Window* Create(const WindowProps& props = WindowProps());

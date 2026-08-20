@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "Log.h"
 #include "Input.h"
-#include <glad/glad.h>
+#include "Renderer/GraphicsContext.h"
 
 BZ_INIT_LOGGER("Core"); // 初始化本文件日志器
 
@@ -57,11 +57,9 @@ namespace Boozy {
 
     void Application::Run()
     {
-
         while (m_Running)
         {
-            glClearColor(1, 0, 1, 1); // 设置清屏颜色 (R, G, B, A)
-            glClear(GL_COLOR_BUFFER_BIT); // 清屏
+            m_Window->GetContext()->Clear(1.0f, 0.0f, 1.0f, 1.0f);
 
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate();

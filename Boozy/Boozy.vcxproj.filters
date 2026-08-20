@@ -10,8 +10,14 @@
     <Filter Include="Boozy\ImGui">
       <UniqueIdentifier>{020F89FC-6EC4-01F2-F7B8-FBC8636DF8F5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Boozy\Renderer">
+      <UniqueIdentifier>{7EAE67E4-6A7C-5BEA-5310-CC103F7D374F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Platform">
       <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\OpenGL">
+      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Platform\Windows">
       <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
@@ -61,8 +67,14 @@
     <ClInclude Include="src\Boozy\MouseButtonCodes.h">
       <Filter>Boozy</Filter>
     </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\GraphicsContext.h">
+      <Filter>Boozy\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Boozy\Window.h">
       <Filter>Boozy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
       <Filter>Platform\Windows</Filter>
@@ -90,6 +102,9 @@
     </ClCompile>
     <ClCompile Include="src\Boozy\Log.cpp">
       <Filter>Boozy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>Platform\Windows</Filter>

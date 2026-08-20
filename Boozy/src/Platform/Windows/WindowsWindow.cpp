@@ -6,7 +6,6 @@
 #include "Boozy/Events/KeyEvent.h"
 #include "Boozy/Events/MouseEvent.h"
 
-#include <glad/glad.h>
 
 BZ_INIT_LOGGER("Core"); // 初始化本文件（引擎窗口模块）日志器
 
@@ -52,11 +51,16 @@ namespace Boozy {
             s_GLFWInitialized = true;
         }
 
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
         m_Window = glfwCreateWindow(props.Width, props.Height, m_Data.Title.c_str(), nullptr, nullptr);
         BZ_ASSERT(m_Window, "Failed to create window!");
-        glfwMakeContextCurrent(m_Window);
-        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        BZ_ASSERT(status, "Failed to initialize Glad!");
+
+        m_Context = GraphicsContext::Create(this);
+        m_Context->Init();
+
         glfwSetWindowUserPointer(m_Window, &m_Data);
         SetVSync(true);
 
@@ -153,13 +157,15 @@ namespace Boozy {
 
     void WindowsWindow::Shutdown()
     {
+        delete m_Context;
+        m_Context = nullptr;
         glfwDestroyWindow(m_Window);
     }
 
     void WindowsWindow::OnUpdate()
     {
         glfwPollEvents();           // 处理输入/窗口事件（触发各种回调）
-        glfwSwapBuffers(m_Window);  // 把后台缓冲翻到前台
+        m_Context->SwapBuffers();
     }
 
     void WindowsWindow::SetVSync(bool enabled)

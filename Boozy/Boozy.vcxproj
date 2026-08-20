@@ -164,7 +164,9 @@
     <ClInclude Include="src\Boozy\LayerStack.h" />
     <ClInclude Include="src\Boozy\Log.h" />
     <ClInclude Include="src\Boozy\MouseButtonCodes.h" />
+    <ClInclude Include="src\Boozy\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Boozy\Window.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\bzpch.h" />
@@ -176,6 +178,7 @@
     <ClCompile Include="src\Boozy\Layer.cpp" />
     <ClCompile Include="src\Boozy\LayerStack.cpp" />
     <ClCompile Include="src\Boozy\Log.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\bzpch.cpp">
