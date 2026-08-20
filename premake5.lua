@@ -21,6 +21,8 @@ project "GLFW"
     location "Boozy/vendor"
     kind "StaticLib"
     language "C"
+    staticruntime "on"
+
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -51,7 +53,6 @@ project "GLFW"
 
     filter "system:windows"
         systemversion "latest"
-        staticruntime "Off"
 
         files
         {
@@ -73,21 +74,22 @@ project "GLFW"
 
     filter "configurations:Debug"
         runtime "Debug"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         runtime "Release"
-        symbols "On"
-        optimize "On"
+        optimize "on"
 
     filter "configurations:Dist"
         runtime "Release"
-        symbols "On"
+        optimize "on"
 
 project "ImGui"
     location "Boozy/vendor"
     kind "StaticLib"
     language "C++"
+    cppdialect "C++20"
+    staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -113,30 +115,29 @@ project "ImGui"
     defines
     {
         "GLFW_INCLUDE_NONE",
-        "IMGUI_API=__declspec(dllexport)"
     }
 
     filter "system:windows"
-        cppdialect "C++20"
-        staticruntime "Off"
         systemversion "latest"
 
     filter "configurations:Debug"
         runtime "Debug"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         runtime "Release"
-        optimize "On"
+        optimize "on"
 
     filter "configurations:Dist"
         runtime "Release"
-        symbols "On"
+        optimize "on"
 
 project "Boozy"
     location "Boozy"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
+    cppdialect "C++20"
+    staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -148,6 +149,11 @@ project "Boozy"
     {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
+    }
+
+    defines
+    {
+        "_CRT_SECURE_NO_WARNINGS"
     }
 
     includedirs
@@ -164,46 +170,39 @@ project "Boozy"
         "GLFW",
         "Glad",
         "ImGui",
-        "opengl32.lib",
-        "gdi32.lib",
-        "user32.lib",
-        "shell32.lib"
+        "opengl32.lib"
     }
 
     filter "system:windows"
-        cppdialect "C++20"
-        staticruntime "Off"
         systemversion "latest"
 
         defines
         {
             "BZ_PLATFORM_WINDOWS",
-            "BZ_BUILD_DLL",
             "GLFW_INCLUDE_NONE"
-        }
-
-        postbuildcommands
-        {
-            ("{MKDIR} ../bin/" .. outputdir .. "/SandBox"),
-            ("{COPYFILE} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .."/SandBox/")
         }
 
     filter "configurations:Debug"
         defines { "BZ_CONFIG_DEBUG", "BZ_ENABLE_ASSERTS" }
-        symbols "On"
+        runtime "Debug"
+        symbols "on"
 
     filter "configurations:Release"
         defines "BZ_CONFIG_RELEASE"
-        symbols "On"
+        runtime "Release"
+        optimize "on"
 
     filter "configurations:Dist"
         defines "BZ_CONFIG_DIST"
-        symbols "On"
+        runtime "Release"
+        optimize "on"
 
 project "SandBox"
     location "SandBox"
     kind "ConsoleApp"
     language "C++"
+    cppdialect "C++20"
+    staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -223,28 +222,28 @@ project "SandBox"
 
     links
     {
-        "Boozy"
+        "Boozy",
     }
 
     filter "system:windows"
-        cppdialect "C++20"
-        staticruntime "Off"
         systemversion "latest"
 
         defines
         {
             "BZ_PLATFORM_WINDOWS",
-            "IMGUI_API=__declspec(dllimport)"
         }
 
     filter "configurations:Debug"
         defines "BZ_CONFIG_DEBUG"
-        symbols "On"
+        runtime "Debug"
+        symbols "on"
 
     filter "configurations:Release"
         defines "BZ_CONFIG_RELEASE"
-        symbols "On"
+        runtime "Release"
+        optimize "on"
 
     filter "configurations:Dist"
         defines "BZ_CONFIG_DIST"
-        symbols "On"
+        runtime "Release"
+        optimize "on"
