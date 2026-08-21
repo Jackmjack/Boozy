@@ -149,6 +149,14 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="src\Boozy\Renderer\RenderCommand.h" />
+    <ClInclude Include="src\Boozy\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\Boozy\Renderer\Renderer.h" />
+    <ClInclude Include="src\Boozy\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Boozy.h" />
     <ClInclude Include="src\Boozy\Application.h" />
     <ClInclude Include="src\Boozy\Core.h" />
@@ -164,7 +172,9 @@
     <ClInclude Include="src\Boozy\LayerStack.h" />
     <ClInclude Include="src\Boozy\Log.h" />
     <ClInclude Include="src\Boozy\MouseButtonCodes.h" />
+    <ClInclude Include="src\Boozy\Renderer\Buffer.h" />
     <ClInclude Include="src\Boozy\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Boozy\Renderer\Shader.h" />
     <ClInclude Include="src\Boozy\Window.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
@@ -172,12 +182,22 @@
     <ClInclude Include="src\bzpch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\RenderCommand.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Boozy\Application.cpp" />
     <ClCompile Include="src\Boozy\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Boozy\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Boozy\Layer.cpp" />
     <ClCompile Include="src\Boozy\LayerStack.cpp" />
     <ClCompile Include="src\Boozy\Log.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\Shader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />

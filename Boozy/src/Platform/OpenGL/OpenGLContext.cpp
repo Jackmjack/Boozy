@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-BZ_INIT_LOGGER("Core"); // 初始化本文件（引擎窗口模块）日志器
+BZ_INIT_LOGGER("OpenGL");
 
 namespace Boozy {
 
@@ -25,17 +25,15 @@ namespace Boozy {
         glfwMakeContextCurrent(m_WindowHandle);
         int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         BZ_ASSERT(status, "Failed to initialize Glad!");
+        BZ_INFO("Initialized OpenGL context successfully.");
+        BZ_INFO("Vendor:   {}", (const char*)glGetString(GL_VENDOR));
+        BZ_INFO("Renderer: {}", (const char*)glGetString(GL_RENDERER));
+        BZ_INFO("Version:  {}", (const char*)glGetString(GL_VERSION));
     }
 
     void OpenGLContext::SwapBuffers()
     {
         glfwSwapBuffers(m_WindowHandle);
-    }
-
-    void OpenGLContext::Clear(float r, float g, float b, float a)
-    {
-        glClearColor(r, g, b, a); // 设置清屏颜色
-        glClear(GL_COLOR_BUFFER_BIT); // 清屏
     }
 
     void* OpenGLContext::GetCurrentContext() const

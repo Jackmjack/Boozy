@@ -7,7 +7,7 @@
 #include "Boozy/Events/MouseEvent.h"
 
 
-BZ_INIT_LOGGER("Core"); // 初始化本文件（引擎窗口模块）日志器
+BZ_INIT_LOGGER("Window");
 
 namespace Boozy {
 

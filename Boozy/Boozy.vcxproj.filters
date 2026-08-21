@@ -83,6 +83,16 @@
       <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\bzpch.h" />
+    <ClInclude Include="src\Boozy\Renderer\Renderer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
+    <ClInclude Include="src\Boozy\Renderer\Buffer.h" />
+    <ClInclude Include="src\Boozy\Renderer\Shader.h" />
+    <ClInclude Include="src\Boozy\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\Boozy\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\Boozy\Renderer\RenderCommand.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Boozy\Application.cpp">
@@ -113,5 +123,15 @@
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\bzpch.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\RenderCommand.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
   </ItemGroup>
 </Project>

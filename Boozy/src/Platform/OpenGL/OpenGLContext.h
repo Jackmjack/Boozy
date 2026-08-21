@@ -13,7 +13,6 @@ namespace Boozy {
 
         virtual void Init() override;
         virtual void SwapBuffers() override;
-        virtual void Clear(float r, float g, float b, float a) override;
         virtual void* GetCurrentContext() const override;
         virtual void MakeCurrentContext(void* context) override;
 

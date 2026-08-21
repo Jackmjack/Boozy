@@ -2,9 +2,9 @@
 #include "Application.h"
 #include "Log.h"
 #include "Input.h"
-#include "Renderer/GraphicsContext.h"
+#include "Renderer/Renderer.h"
 
-BZ_INIT_LOGGER("Core"); // 初始化本文件日志器
+BZ_INIT_LOGGER("Application");
 
 namespace Boozy {
 
@@ -21,6 +21,58 @@ namespace Boozy {
         m_ImGuiLayer = new ImGuiLayer();
         PushOverlay(m_ImGuiLayer);
 
+        m_VertexArray.reset(VertexArray::Create());
+
+        // 逆时针
+        float vertices[3 * 7] = {
+            -0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
+             0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
+             0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
+        };
+
+        std::shared_ptr<VertexBuffer> vertexBuffer;
+        vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+
+        BufferLayout layout = {
+            {ShaderDataType::Float3, "a_Position"},
+            {ShaderDataType::Float4, "a_Color"}
+        };
+
+        vertexBuffer->SetLayout(layout);
+        m_VertexArray->AddVertexBuffer(vertexBuffer);
+
+        std::shared_ptr<IndexBuffer> indexBuffer;
+        uint32_t indices[3] = { 0, 1, 2 };
+        indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+        m_VertexArray->SetIndexBuffer(indexBuffer);
+
+        std::string vertexSrc = R"(
+            #version 460 core
+
+            layout(location = 0) in vec3 a_Position;
+            layout(location = 1) in vec4 a_Color;
+
+            out vec4 v_Color;
+
+            void main()
+            {
+                v_Color = a_Color;
+                gl_Position = vec4(a_Position, 1.0);
+            })";
+
+        std::string fragmentSrc = R"(
+            #version 460 core
+
+            in vec4 v_Color;
+
+            layout(location = 0) out vec4 color;
+
+            void main()
+            {
+                color = v_Color;
+            })";
+
+        m_Shader.reset(Shader::Create(vertexSrc, fragmentSrc));
     }
 
     Application::~Application()
@@ -59,7 +111,16 @@ namespace Boozy {
     {
         while (m_Running)
         {
-            m_Window->GetContext()->Clear(1.0f, 0.0f, 1.0f, 1.0f);
+
+            RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+            RenderCommand::Clear();
+
+            Renderer::BeginScene();
+
+            m_Shader->Bind();
+            Renderer::Submit(m_VertexArray);
+
+            Renderer::EndScene();
 
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate();
