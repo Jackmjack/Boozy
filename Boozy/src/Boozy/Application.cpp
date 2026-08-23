@@ -1,8 +1,6 @@
 ﻿#include "bzpch.h"
 #include "Application.h"
 #include "Log.h"
-#include "Input.h"
-#include "Renderer/Renderer.h"
 
 BZ_INIT_LOGGER("Application");
 
@@ -11,7 +9,6 @@ namespace Boozy {
     Application* Application::s_Instance = nullptr;
 
     Application::Application()
-        : m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
     {
         BZ_ASSERT(!s_Instance, "Application already exists!");
         s_Instance = this;
@@ -21,61 +18,6 @@ namespace Boozy {
 
         m_ImGuiLayer = new ImGuiLayer();
         PushOverlay(m_ImGuiLayer);
-
-        m_VertexArray.reset(VertexArray::Create());
-
-        // 逆时针
-        float vertices[3 * 7] = {
-            -0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
-             0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
-             0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
-        };
-
-        std::shared_ptr<VertexBuffer> vertexBuffer;
-        vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-
-        BufferLayout layout = {
-            {ShaderDataType::Float3, "a_Position"},
-            {ShaderDataType::Float4, "a_Color"}
-        };
-
-        vertexBuffer->SetLayout(layout);
-        m_VertexArray->AddVertexBuffer(vertexBuffer);
-
-        std::shared_ptr<IndexBuffer> indexBuffer;
-        uint32_t indices[3] = { 0, 1, 2 };
-        indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-        m_VertexArray->SetIndexBuffer(indexBuffer);
-
-        std::string vertexSrc = R"(
-            #version 460 core
-
-            layout(location = 0) in vec3 a_Position;
-            layout(location = 1) in vec4 a_Color;
-
-            uniform mat4 u_ViewProjection;
-
-            out vec4 v_Color;
-
-            void main()
-            {
-                v_Color = a_Color;
-                gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
-            })";
-
-        std::string fragmentSrc = R"(
-            #version 460 core
-
-            in vec4 v_Color;
-
-            layout(location = 0) out vec4 color;
-
-            void main()
-            {
-                color = v_Color;
-            })";
-
-        m_Shader.reset(Shader::Create(vertexSrc, fragmentSrc));
     }
 
     Application::~Application()
@@ -100,8 +42,6 @@ namespace Boozy {
         EventDispatcher dispatcher(event);
         dispatcher.Dispatch<WindowCloseEvent>(BZ_BIND_EVENT_FN(Application::OnWindowClose));
 
-        //BZ_TRACE(e);
-
         for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
         {
             (*--it)->OnEvent(event);
@@ -114,39 +54,6 @@ namespace Boozy {
     {
         while (m_Running)
         {
-
-            RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-            RenderCommand::Clear();
-
-            m_Camera.SetRotation(45.0f);
-
-            if (Input::IsKeyPressed(87))
-            {
-                glm::vec3 pos = m_Camera.GetPosition();
-                m_Camera.SetPosition({pos.x, pos.y + 0.01f, pos.z});
-            }
-            if (Input::IsKeyPressed(65))
-            {
-                glm::vec3 pos = m_Camera.GetPosition();
-                m_Camera.SetPosition({ pos.x - 0.01f, pos.y, pos.z });
-            }
-            if (Input::IsKeyPressed(83))
-            {
-                glm::vec3 pos = m_Camera.GetPosition();
-                m_Camera.SetPosition({ pos.x, pos.y - 0.01f, pos.z });
-            }
-            if (Input::IsKeyPressed(68))
-            {
-                glm::vec3 pos = m_Camera.GetPosition();
-                m_Camera.SetPosition({ pos.x + 0.01f, pos.y, pos.z });
-            }
-
-            Renderer::BeginScene(m_Camera);
-
-            Renderer::Submit(m_Shader, m_VertexArray);
-
-            Renderer::EndScene();
-
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate();
 

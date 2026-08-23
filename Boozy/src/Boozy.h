@@ -12,5 +12,19 @@
 
 #include "Boozy/ImGui/ImGuiLayer.h"
 
-// --- 入口点 ---
+// ============= 渲染器 =============
+#include "Boozy/Renderer/Renderer.h"
+#include "Boozy/Renderer/RenderCommand.h"
+
+#include "Boozy/Renderer/Buffer.h"
+#include "Boozy/Renderer/Shader.h"
+#include "Boozy/Renderer/VertexArray.h"
+
+#include "Boozy/Renderer/OrthographicCamera.h"
+// =================================
+
+
+// ============= 入口点 =============
 #include "Boozy/EntryPoint.h"
+// =================================
+
