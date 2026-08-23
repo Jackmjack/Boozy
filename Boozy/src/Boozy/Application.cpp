@@ -11,6 +11,7 @@ namespace Boozy {
     Application* Application::s_Instance = nullptr;
 
     Application::Application()
+        : m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
     {
         BZ_ASSERT(!s_Instance, "Application already exists!");
         s_Instance = this;
@@ -52,12 +53,14 @@ namespace Boozy {
             layout(location = 0) in vec3 a_Position;
             layout(location = 1) in vec4 a_Color;
 
+            uniform mat4 u_ViewProjection;
+
             out vec4 v_Color;
 
             void main()
             {
                 v_Color = a_Color;
-                gl_Position = vec4(a_Position, 1.0);
+                gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
             })";
 
         std::string fragmentSrc = R"(
@@ -115,10 +118,32 @@ namespace Boozy {
             RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
             RenderCommand::Clear();
 
-            Renderer::BeginScene();
+            m_Camera.SetRotation(45.0f);
 
-            m_Shader->Bind();
-            Renderer::Submit(m_VertexArray);
+            if (Input::IsKeyPressed(87))
+            {
+                glm::vec3 pos = m_Camera.GetPosition();
+                m_Camera.SetPosition({pos.x, pos.y + 0.01f, pos.z});
+            }
+            if (Input::IsKeyPressed(65))
+            {
+                glm::vec3 pos = m_Camera.GetPosition();
+                m_Camera.SetPosition({ pos.x - 0.01f, pos.y, pos.z });
+            }
+            if (Input::IsKeyPressed(83))
+            {
+                glm::vec3 pos = m_Camera.GetPosition();
+                m_Camera.SetPosition({ pos.x, pos.y - 0.01f, pos.z });
+            }
+            if (Input::IsKeyPressed(68))
+            {
+                glm::vec3 pos = m_Camera.GetPosition();
+                m_Camera.SetPosition({ pos.x + 0.01f, pos.y, pos.z });
+            }
+
+            Renderer::BeginScene(m_Camera);
+
+            Renderer::Submit(m_Shader, m_VertexArray);
 
             Renderer::EndScene();
 

@@ -7,9 +7,10 @@
 #include <memory>
 
 
-#include <Boozy/Renderer/Shader.h>
-#include <Boozy/Renderer/Buffer.h>
-#include <Boozy/Renderer/VertexArray.h>
+#include "Boozy/Renderer/Shader.h"
+#include "Boozy/Renderer/Buffer.h"
+#include "Boozy/Renderer/VertexArray.h"
+#include "Renderer/OrthographicCamera.h"
 
 namespace Boozy {
 
@@ -39,6 +40,8 @@ namespace Boozy {
 
         std::shared_ptr<Shader> m_Shader;
         std::shared_ptr<VertexArray> m_VertexArray;
+
+        OrthographicCamera m_Camera;
 
         static Application* s_Instance;
     };
