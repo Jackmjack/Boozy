@@ -52,10 +52,19 @@ namespace Boozy {
 
     void Application::Run()
     {
+        m_LastFrameTime = m_Window->GetTime();
+
         while (m_Running)
         {
+            double time = m_Window->GetTime();
+            Timestep delta = (float)(time - m_LastFrameTime);
+            m_LastFrameTime = time;
+
+            if (delta.GetSeconds() > 0.04)
+                delta = 0.04;
+
             for (Layer* layer : m_LayerStack)
-                layer->OnUpdate();
+                layer->OnUpdate(delta);
 
             m_ImGuiLayer->Begin();
             for (Layer* layer : m_LayerStack)

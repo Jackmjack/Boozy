@@ -168,6 +168,11 @@ namespace Boozy {
         m_Context->SwapBuffers();
     }
 
+    double WindowsWindow::GetTime() const
+    {
+        return glfwGetTime();
+    }
+
     void WindowsWindow::SetVSync(bool enabled)
     {
         if (enabled)

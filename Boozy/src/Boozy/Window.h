@@ -33,6 +33,8 @@ namespace Boozy {
         /// \brief 每帧更新：轮询事件 + 交换缓冲
         virtual void OnUpdate() = 0;
 
+        virtual double GetTime() const = 0;
+
         virtual unsigned int GetWidth() const = 0;
         virtual unsigned int GetHeight() const = 0;
 

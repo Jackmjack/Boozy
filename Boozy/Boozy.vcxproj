@@ -149,6 +149,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Boozy\Core\Timestep.h" />
     <ClInclude Include="src\Boozy\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Boozy\Renderer\RenderCommand.h" />

@@ -66,25 +66,25 @@ public:
         m_Shader.reset(Boozy::Shader::Create(vertexSrc, fragmentSrc));
     }
 
-    void OnUpdate() override
+    void OnUpdate(Boozy::Timestep delta) override
     {
         if (Boozy::Input::IsKeyPressed(BZ_KEY_W))
-            m_CameraPosition.y += m_CameraMoveSpeed;
+            m_CameraPosition.y += m_CameraMoveSpeed * delta;
 
         if (Boozy::Input::IsKeyPressed(BZ_KEY_A))
-            m_CameraPosition.x -= m_CameraMoveSpeed;
+            m_CameraPosition.x -= m_CameraMoveSpeed * delta;
 
         if (Boozy::Input::IsKeyPressed(BZ_KEY_S))
-            m_CameraPosition.y -= m_CameraMoveSpeed;
+            m_CameraPosition.y -= m_CameraMoveSpeed * delta;
 
         if (Boozy::Input::IsKeyPressed(BZ_KEY_D))
-            m_CameraPosition.x += m_CameraMoveSpeed;
+            m_CameraPosition.x += m_CameraMoveSpeed * delta;
 
         if (Boozy::Input::IsKeyPressed(BZ_KEY_E))
-            m_CameraRotation -= m_CameraRotateSpeed;
+            m_CameraRotation -= m_CameraRotateSpeed * delta;
 
         if (Boozy::Input::IsKeyPressed(BZ_KEY_Q))
-            m_CameraRotation += m_CameraRotateSpeed;
+            m_CameraRotation += m_CameraRotateSpeed * delta;
 
         Boozy::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
         Boozy::RenderCommand::Clear();
@@ -115,9 +115,9 @@ private:
 
     Boozy::OrthographicCamera m_Camera;
     glm::vec3 m_CameraPosition;
-    float m_CameraMoveSpeed = 0.01f;
+    float m_CameraMoveSpeed = 1.0f;
     float m_CameraRotation;
-    float m_CameraRotateSpeed = 1.0f;
+    float m_CameraRotateSpeed = 180.0f;
 };
 
 class SandBox : public Boozy::Application

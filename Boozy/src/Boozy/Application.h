@@ -4,6 +4,7 @@
 #include "Events/ApplicationEvent.h"
 #include "LayerStack.h"
 #include "ImGui/ImGuiLayer.h"
+#include "Core/Timestep.h"
 #include <memory>
 
 namespace Boozy {
@@ -31,6 +32,7 @@ namespace Boozy {
         ImGuiLayer* m_ImGuiLayer;
         bool m_Running = true;
         LayerStack m_LayerStack;
+        double m_LastFrameTime = 0.0f;
 
         static Application* s_Instance;
     };

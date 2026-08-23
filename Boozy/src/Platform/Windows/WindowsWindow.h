@@ -16,6 +16,8 @@ namespace Boozy {
 
         void OnUpdate() override;
 
+        double GetTime() const override;
+
         inline unsigned int GetWidth() const override { return m_Data.Width; }
         inline unsigned int GetHeight() const override { return m_Data.Height; }
 

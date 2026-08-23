@@ -94,6 +94,7 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Boozy\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\Boozy\Core\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Boozy\Application.cpp">

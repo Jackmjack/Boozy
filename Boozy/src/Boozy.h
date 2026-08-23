@@ -6,6 +6,8 @@
 #include "Boozy/Log.h"
 #include "Boozy/Layer.h"
 
+#include "Boozy/Core/Timestep.h"
+
 #include "Boozy/Input.h"
 #include "Boozy/KeyCodes.h"
 #include "Boozy/MouseButtonCodes.h"
