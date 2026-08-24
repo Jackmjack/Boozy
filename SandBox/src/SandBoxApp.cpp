@@ -1,6 +1,9 @@
 ﻿#include <Boozy.h>
 #include <imgui.h>
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 BZ_INIT_LOGGER("SandBox"); // 初始化本文件 SandBox 日志器
 
 class ExampleLayer : public Boozy::Layer
@@ -42,13 +45,14 @@ public:
             layout(location = 1) in vec4 a_Color;
 
             uniform mat4 u_ViewProjection;
+            uniform mat4 u_Transform;
 
             out vec4 v_Color;
 
             void main()
             {
                 v_Color = a_Color;
-                gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+                gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
             })";
 
         std::string fragmentSrc = R"(
@@ -64,6 +68,60 @@ public:
             })";
 
         m_Shader.reset(Boozy::Shader::Create(vertexSrc, fragmentSrc));
+
+        // ===========================================================
+
+        m_SquareVertexArray.reset(Boozy::VertexArray::Create());
+
+        // 逆时针
+        float squareVertices[4 * 3] = {
+            -0.5f, -0.5f, 0.0f,
+             0.5f, -0.5f, 0.0f,
+             0.5f,  0.5f, 0.0f,
+            -0.5f,  0.5f, 0.0f
+        };
+
+        std::shared_ptr<Boozy::VertexBuffer> squareVertexBuffer;
+        squareVertexBuffer.reset(Boozy::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+
+        Boozy::BufferLayout squareLayout = {
+            {Boozy::ShaderDataType::Float3, "a_Position"}
+        };
+
+        squareVertexBuffer->SetLayout(squareLayout);
+        m_SquareVertexArray->AddVertexBuffer(squareVertexBuffer);
+
+        std::shared_ptr<Boozy::IndexBuffer> squareIndexBuffer;
+        uint32_t sqaureIndices[6] = { 0, 1, 2, 2, 3, 0 };
+        squareIndexBuffer.reset(Boozy::IndexBuffer::Create(sqaureIndices, sizeof(sqaureIndices) / sizeof(uint32_t)));
+        m_SquareVertexArray->SetIndexBuffer(squareIndexBuffer);
+
+        std::string squareVertexSrc = R"(
+            #version 460 core
+
+            layout(location = 0) in vec3 a_Position;
+
+            uniform mat4 u_ViewProjection;
+            uniform mat4 u_Transform;
+
+            void main()
+            {
+                gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+            })";
+
+        std::string squareFragmentSrc = R"(
+            #version 460 core
+
+            layout(location = 0) out vec4 color;
+
+            uniform vec3 u_Color;
+
+            void main()
+            {
+                color = vec4(u_Color, 1.0);
+            })";
+
+        m_SquareShader.reset(Boozy::Shader::Create(squareVertexSrc, squareFragmentSrc));
     }
 
     void OnUpdate(Boozy::Timestep delta) override
@@ -93,15 +151,32 @@ public:
         m_Camera.SetRotation(m_CameraRotation);
 
         Boozy::Renderer::BeginScene(m_Camera);
+
+        static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+        m_SquareShader->UploadUniformFloat3("u_Color", m_SquareColor);
+
+        for (int x = 0; x < 20; x++)
+        {
+            for (int y = 0; y < 20; y++)
+            {
+                glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+                glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+                Boozy::Renderer::Submit(m_SquareShader, m_SquareVertexArray, transform);
+            }
+        }
+
         Boozy::Renderer::Submit(m_Shader, m_VertexArray);
+
         Boozy::Renderer::EndScene();
 
     }
 
     void OnImGuiRender() override
     {
-        static bool show = true;
-        ImGui::ShowDemoWindow(&show);
+        ImGui::Begin("Settings");
+        ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
+        ImGui::End();
     }
 
     void OnEvent(Boozy::Event& event) override
@@ -112,6 +187,10 @@ public:
 private:
     std::shared_ptr<Boozy::Shader> m_Shader;
     std::shared_ptr<Boozy::VertexArray> m_VertexArray;
+
+    std::shared_ptr<Boozy::Shader> m_SquareShader;
+    std::shared_ptr<Boozy::VertexArray> m_SquareVertexArray;
+    glm::vec3 m_SquareColor{ 0.2f, 0.3f, 0.8f };
 
     Boozy::OrthographicCamera m_Camera;
     glm::vec3 m_CameraPosition;

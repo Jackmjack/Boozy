@@ -1,4 +1,4 @@
-﻿#include "bzpch.h"
+#include "bzpch.h"
 #include "Application.h"
 #include "Log.h"
 
@@ -61,7 +61,7 @@ namespace Boozy {
             m_LastFrameTime = time;
 
             if (delta.GetSeconds() > 0.04)
-                delta = 0.04;
+                delta = 0.04f;
 
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate(delta);
