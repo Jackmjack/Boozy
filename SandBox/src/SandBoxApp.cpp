@@ -22,7 +22,7 @@ public:
              0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
         };
 
-        std::shared_ptr<Boozy::VertexBuffer> vertexBuffer;
+        Boozy::Ref<Boozy::VertexBuffer> vertexBuffer;
         vertexBuffer.reset(Boozy::VertexBuffer::Create(vertices, sizeof(vertices)));
 
         Boozy::BufferLayout layout = {
@@ -33,7 +33,7 @@ public:
         vertexBuffer->SetLayout(layout);
         m_VertexArray->AddVertexBuffer(vertexBuffer);
 
-        std::shared_ptr<Boozy::IndexBuffer> indexBuffer;
+        Boozy::Ref<Boozy::IndexBuffer> indexBuffer;
         uint32_t indices[3] = { 0, 1, 2 };
         indexBuffer.reset(Boozy::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
         m_VertexArray->SetIndexBuffer(indexBuffer);
@@ -81,7 +81,7 @@ public:
             -0.5f,  0.5f, 0.0f
         };
 
-        std::shared_ptr<Boozy::VertexBuffer> squareVertexBuffer;
+        Boozy::Ref<Boozy::VertexBuffer> squareVertexBuffer;
         squareVertexBuffer.reset(Boozy::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 
         Boozy::BufferLayout squareLayout = {
@@ -91,7 +91,7 @@ public:
         squareVertexBuffer->SetLayout(squareLayout);
         m_SquareVertexArray->AddVertexBuffer(squareVertexBuffer);
 
-        std::shared_ptr<Boozy::IndexBuffer> squareIndexBuffer;
+        Boozy::Ref<Boozy::IndexBuffer> squareIndexBuffer;
         uint32_t sqaureIndices[6] = { 0, 1, 2, 2, 3, 0 };
         squareIndexBuffer.reset(Boozy::IndexBuffer::Create(sqaureIndices, sizeof(sqaureIndices) / sizeof(uint32_t)));
         m_SquareVertexArray->SetIndexBuffer(squareIndexBuffer);
@@ -185,11 +185,11 @@ public:
     }
 
 private:
-    std::shared_ptr<Boozy::Shader> m_Shader;
-    std::shared_ptr<Boozy::VertexArray> m_VertexArray;
+    Boozy::Ref<Boozy::Shader> m_Shader;
+    Boozy::Ref<Boozy::VertexArray> m_VertexArray;
 
-    std::shared_ptr<Boozy::Shader> m_SquareShader;
-    std::shared_ptr<Boozy::VertexArray> m_SquareVertexArray;
+    Boozy::Ref<Boozy::Shader> m_SquareShader;
+    Boozy::Ref<Boozy::VertexArray> m_SquareVertexArray;
     glm::vec3 m_SquareColor{ 0.2f, 0.3f, 0.8f };
 
     Boozy::OrthographicCamera m_Camera;
