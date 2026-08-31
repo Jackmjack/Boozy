@@ -20,6 +20,7 @@
 
 #include "Boozy/Renderer/Buffer.h"
 #include "Boozy/Renderer/Shader.h"
+#include "Boozy/Renderer/Texture.h"
 #include "Boozy/Renderer/VertexArray.h"
 
 #include "Boozy/Renderer/OrthographicCamera.h"

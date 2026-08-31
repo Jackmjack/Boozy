@@ -74,18 +74,19 @@ public:
         m_SquareVertexArray.reset(Boozy::VertexArray::Create());
 
         // 逆时针
-        float squareVertices[4 * 3] = {
-            -0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.5f,  0.5f, 0.0f,
-            -0.5f,  0.5f, 0.0f
+        float squareVertices[5 * 4] = {
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+             0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+             0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
         };
 
         Boozy::Ref<Boozy::VertexBuffer> squareVertexBuffer;
         squareVertexBuffer.reset(Boozy::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 
         Boozy::BufferLayout squareLayout = {
-            {Boozy::ShaderDataType::Float3, "a_Position"}
+            {Boozy::ShaderDataType::Float3, "a_Position"},
+            {Boozy::ShaderDataType::Float2, "a_Texcoord"}
         };
 
         squareVertexBuffer->SetLayout(squareLayout);
@@ -122,6 +123,44 @@ public:
             })";
 
         m_SquareShader.reset(Boozy::Shader::Create(squareVertexSrc, squareFragmentSrc));
+
+        std::string textureVertexSrc = R"(
+            #version 460 core
+
+            layout(location = 0) in vec3 a_Position;
+            layout(location = 1) in vec2 a_TexCoord;
+
+            uniform mat4 u_ViewProjection;
+            uniform mat4 u_Transform;
+
+            out vec2 v_TexCoord;
+
+            void main()
+            {
+                v_TexCoord = a_TexCoord;
+                gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+            })";
+
+        std::string textureFragmentSrc = R"(
+            #version 460 core
+
+            layout(location = 0) out vec4 color;
+
+            in vec2 v_TexCoord;
+
+            uniform sampler2D u_Texture;
+
+            void main()
+            {
+                color = texture(u_Texture, v_TexCoord);
+            })";
+
+        m_TextureShader.reset(Boozy::Shader::Create(textureVertexSrc, textureFragmentSrc));
+
+        m_Texture = Boozy::Texture2D::Create("assets/textures/Checkerboard.png");
+
+        m_TextureShader->Bind();
+        m_TextureShader->UploadUniformInt("u_Texture", 0);
     }
 
     void OnUpdate(Boozy::Timestep delta) override
@@ -166,7 +205,10 @@ public:
             }
         }
 
-        Boozy::Renderer::Submit(m_Shader, m_VertexArray);
+        m_Texture->Bind();
+        Boozy::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
+        //Boozy::Renderer::Submit(m_Shader, m_VertexArray);
 
         Boozy::Renderer::EndScene();
 
@@ -188,9 +230,11 @@ private:
     Boozy::Ref<Boozy::Shader> m_Shader;
     Boozy::Ref<Boozy::VertexArray> m_VertexArray;
 
-    Boozy::Ref<Boozy::Shader> m_SquareShader;
+    Boozy::Ref<Boozy::Shader> m_SquareShader, m_TextureShader;
     Boozy::Ref<Boozy::VertexArray> m_SquareVertexArray;
     glm::vec3 m_SquareColor{ 0.2f, 0.3f, 0.8f };
+
+    Boozy::Ref<Boozy::Texture2D> m_Texture;
 
     Boozy::OrthographicCamera m_Camera;
     glm::vec3 m_CameraPosition;

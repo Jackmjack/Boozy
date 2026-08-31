@@ -14,6 +14,7 @@ IncludeDir["GLFW"] = "Boozy/vendor/GLFW/include"
 IncludeDir["Glad"] = "Boozy/vendor/Glad/include"
 IncludeDir["ImGui"] = "Boozy/vendor/imgui"
 IncludeDir["glm"] = "Boozy/vendor/glm"
+IncludeDir["stb_image"] = "Boozy/vendor/stb_image"
 
 include "Boozy/vendor/Glad"
 
@@ -147,6 +148,8 @@ project "Boozy"
     {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
+        "%{prj.name}/vendor/stb_image/**.h",
+        "%{prj.name}/vendor/stb_image/**.cpp"
     }
 
     defines
@@ -160,7 +163,8 @@ project "Boozy"
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.ImGui}",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.stb_image}"
     }
 
     links

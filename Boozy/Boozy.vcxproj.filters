@@ -1,140 +1,222 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Boozy">
-      <UniqueIdentifier>{D817E80C-442C-10BE-0DAE-B31D79810CEF}</UniqueIdentifier>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Boozy\Events">
-      <UniqueIdentifier>{BC800985-A8E3-9829-5169-D1DF3DAB64AC}</UniqueIdentifier>
+    <Filter Include="src\Boozy">
+      <UniqueIdentifier>{2F26A5B2-9B90-5929-E4CE-0ACF5078377E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Boozy\ImGui">
-      <UniqueIdentifier>{020F89FC-6EC4-01F2-F7B8-FBC8636DF8F5}</UniqueIdentifier>
+    <Filter Include="src\Boozy\Core">
+      <UniqueIdentifier>{E77FE836-D34D-DC3C-BCE1-4C63A84EB8A1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Boozy\Renderer">
-      <UniqueIdentifier>{7EAE67E4-6A7C-5BEA-5310-CC103F7D374F}</UniqueIdentifier>
+    <Filter Include="src\Boozy\Events">
+      <UniqueIdentifier>{33272A98-1F20-49EA-4852-2E6F34AA28F6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Platform">
-      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    <Filter Include="src\Boozy\ImGui">
+      <UniqueIdentifier>{99426314-05CE-D0D8-0EDF-53CD7AE92CD9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Platform\OpenGL">
-      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
+    <Filter Include="src\Boozy\Renderer">
+      <UniqueIdentifier>{B5CE4B42-A1B2-0C98-0A13-07EBF615F719}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Platform\Windows">
-      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    <Filter Include="src\Platform">
+      <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\OpenGL">
+      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\Windows">
+      <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor">
+      <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Boozy.h" />
+    <ClInclude Include="src\Boozy.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="src\Boozy\Application.h">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Core.h">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Core\Timestep.h">
+      <Filter>src\Boozy\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\EntryPoint.h">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Events\ApplicationEvent.h">
-      <Filter>Boozy\Events</Filter>
+      <Filter>src\Boozy\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Events\Event.h">
-      <Filter>Boozy\Events</Filter>
+      <Filter>src\Boozy\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Events\KeyEvent.h">
-      <Filter>Boozy\Events</Filter>
+      <Filter>src\Boozy\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Events\MouseEvent.h">
-      <Filter>Boozy\Events</Filter>
+      <Filter>src\Boozy\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\ImGui\ImGuiLayer.h">
-      <Filter>Boozy\ImGui</Filter>
+      <Filter>src\Boozy\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Input.h">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\KeyCodes.h">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Layer.h">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\LayerStack.h">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Log.h">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\MouseButtonCodes.h">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Buffer.h">
+      <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Renderer\GraphicsContext.h">
-      <Filter>Boozy\Renderer</Filter>
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\OrthographicCamera.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\RenderCommand.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Renderer.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\RendererAPI.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Shader.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Texture.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\VertexArray.h">
+      <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Window.h">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
-      <Filter>Platform\OpenGL</Filter>
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
-      <Filter>Platform\Windows</Filter>
+      <Filter>src\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
-      <Filter>Platform\Windows</Filter>
+      <Filter>src\Platform\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\bzpch.h" />
-    <ClInclude Include="src\Boozy\Renderer\Renderer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
-    <ClInclude Include="src\Boozy\Renderer\Buffer.h" />
-    <ClInclude Include="src\Boozy\Renderer\Shader.h" />
-    <ClInclude Include="src\Boozy\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="src\Boozy\Renderer\RendererAPI.h" />
-    <ClInclude Include="src\Boozy\Renderer\RenderCommand.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
-    <ClInclude Include="src\Boozy\Renderer\OrthographicCamera.h" />
-    <ClInclude Include="src\Boozy\Core\Timestep.h" />
+    <ClInclude Include="src\bzpch.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Boozy\Application.cpp">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\ImGui\ImGuiBuild.cpp">
-      <Filter>Boozy\ImGui</Filter>
+      <Filter>src\Boozy\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\ImGui\ImGuiLayer.cpp">
-      <Filter>Boozy\ImGui</Filter>
+      <Filter>src\Boozy\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Layer.cpp">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\LayerStack.cpp">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Log.cpp">
-      <Filter>Boozy</Filter>
+      <Filter>src\Boozy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Buffer.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\OrthographicCamera.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\RenderCommand.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Renderer.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\RendererAPI.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Shader.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Texture.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\VertexArray.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
-      <Filter>Platform\OpenGL</Filter>
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
-      <Filter>Platform\Windows</Filter>
+      <Filter>src\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
-      <Filter>Platform\Windows</Filter>
+      <Filter>src\Platform\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\bzpch.cpp" />
-    <ClCompile Include="src\Boozy\Renderer\Renderer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
-    <ClCompile Include="src\Boozy\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\Boozy\Renderer\Shader.cpp" />
-    <ClCompile Include="src\Boozy\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="src\Boozy\Renderer\RendererAPI.cpp" />
-    <ClCompile Include="src\Boozy\Renderer\RenderCommand.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
-    <ClCompile Include="src\Boozy\Renderer\OrthographicCamera.cpp" />
+    <ClCompile Include="src\bzpch.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
