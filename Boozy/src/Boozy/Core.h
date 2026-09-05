@@ -16,7 +16,7 @@
 #endif
 
 #ifdef BZ_ENABLE_ASSERTS
-    #define BZ_ASSERT(x, ...) { if(!x) { BZ_ERROR("Assertion Failed: {}", __VA_ARGS__); __debugbreak(); } }
+    #define BZ_ASSERT(x, ...) { if(!(x)) { BZ_ERROR("Assertion Failed: {}", __VA_ARGS__); __debugbreak(); } }
 #else
     #define BZ_ASSERT(x, ...)
 #endif
