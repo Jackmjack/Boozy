@@ -211,8 +211,15 @@ namespace Boozy {
 
     void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
     {
+        if (shaderSources.size() > 2)
+        {
+            BZ_ERROR("Only 2 shaders are supported for now");
+            return;
+        }
+
         GLuint program = glCreateProgram();
-        std::vector<GLenum> glShaderIDs;
+        std::array<GLuint, 2> glShaderIDs{};
+        int glShaderIDIndex = 0;
         for (auto& kv : shaderSources)
         {
             GLenum type = kv.first;
@@ -236,13 +243,17 @@ namespace Boozy {
                 glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
 
                 glDeleteShader(shader);
+                for (int i = 0; i < glShaderIDIndex; i++)
+                    glDeleteShader(glShaderIDs[i]);
+
+                glDeleteProgram(program);
 
                 BZ_ERROR(infoLog.data());
                 BZ_ASSERT(false, "Failed to compile shader!");
-                break;
+                return;
             }
             glAttachShader(program, shader);
-            glShaderIDs.push_back(shader);
+            glShaderIDs[glShaderIDIndex++] = shader;
         }
 
         glLinkProgram(program);
@@ -258,9 +269,9 @@ namespace Boozy {
 
             glDeleteProgram(program);
 
-            for (auto id : glShaderIDs)
+            for (int i = 0; i < glShaderIDIndex; i++)
             {
-                glDeleteShader(id);
+                glDeleteShader(glShaderIDs[i]);
             }
 
             BZ_ERROR(infoLog.data());
@@ -268,10 +279,10 @@ namespace Boozy {
             return;
         }
 
-        for (auto id : glShaderIDs)
+        for (int i = 0; i < glShaderIDIndex; i++)
         {
-            glDetachShader(program, id);
-            glDeleteShader(id);
+            glDetachShader(program, glShaderIDs[i]);
+            glDeleteShader(glShaderIDs[i]);
         }
 
         m_RendererID = program;
