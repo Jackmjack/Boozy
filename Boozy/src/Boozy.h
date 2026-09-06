@@ -11,6 +11,7 @@
 #include "Boozy/Input.h"
 #include "Boozy/KeyCodes.h"
 #include "Boozy/MouseButtonCodes.h"
+#include "Boozy/OrthographicCameraController.h"
 
 #include "Boozy/ImGui/ImGuiLayer.h"
 

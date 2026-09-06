@@ -10,8 +10,7 @@ class ExampleLayer : public Boozy::Layer
 {
 public:
     ExampleLayer()
-        : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f),
-        m_CameraPosition(0.0f), m_CameraRotation(0.0f)
+        : Layer("Example"), m_CameraController(1280.0f / 720.0f, true)
     {
         m_VertexArray.reset(Boozy::VertexArray::Create());
 
@@ -135,31 +134,12 @@ public:
 
     void OnUpdate(Boozy::Timestep delta) override
     {
-        if (Boozy::Input::IsKeyPressed(BZ_KEY_W))
-            m_CameraPosition.y += m_CameraMoveSpeed * delta;
-
-        if (Boozy::Input::IsKeyPressed(BZ_KEY_A))
-            m_CameraPosition.x -= m_CameraMoveSpeed * delta;
-
-        if (Boozy::Input::IsKeyPressed(BZ_KEY_S))
-            m_CameraPosition.y -= m_CameraMoveSpeed * delta;
-
-        if (Boozy::Input::IsKeyPressed(BZ_KEY_D))
-            m_CameraPosition.x += m_CameraMoveSpeed * delta;
-
-        if (Boozy::Input::IsKeyPressed(BZ_KEY_E))
-            m_CameraRotation -= m_CameraRotateSpeed * delta;
-
-        if (Boozy::Input::IsKeyPressed(BZ_KEY_Q))
-            m_CameraRotation += m_CameraRotateSpeed * delta;
+        m_CameraController.OnUpdate(delta);
 
         Boozy::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
         Boozy::RenderCommand::Clear();
 
-        m_Camera.SetPosition(m_CameraPosition);
-        m_Camera.SetRotation(m_CameraRotation);
-
-        Boozy::Renderer::BeginScene(m_Camera);
+        Boozy::Renderer::BeginScene(m_CameraController.GetCamera());
 
         static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
@@ -197,7 +177,7 @@ public:
 
     void OnEvent(Boozy::Event& event) override
     {
-
+        m_CameraController.OnEvent(event);
     }
 
 private:
@@ -212,11 +192,7 @@ private:
     Boozy::Ref<Boozy::Texture2D> m_Texture;
     Boozy::Ref<Boozy::Texture2D> m_AlphaTest;
 
-    Boozy::OrthographicCamera m_Camera;
-    glm::vec3 m_CameraPosition;
-    float m_CameraMoveSpeed = 1.0f;
-    float m_CameraRotation;
-    float m_CameraRotateSpeed = 180.0f;
+    Boozy::OrthographicCameraController m_CameraController;
 };
 
 class SandBox : public Boozy::Application
