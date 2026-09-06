@@ -1,8 +1,11 @@
 ﻿#include <Boozy.h>
+#include <Boozy/Core/EntryPoint.h>
 #include <imgui.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include "Sandbox2D.h"
 
 BZ_INIT_LOGGER("SandBox"); // 初始化本文件 SandBox 日志器
 
@@ -12,7 +15,7 @@ public:
     ExampleLayer()
         : Layer("Example"), m_CameraController(1280.0f / 720.0f, true)
     {
-        m_VertexArray.reset(Boozy::VertexArray::Create());
+        m_VertexArray = Boozy::VertexArray::Create();
 
         // 逆时针
         float vertices[3 * 7] = {
@@ -70,7 +73,7 @@ public:
 
         // ===========================================================
 
-        m_SquareVertexArray.reset(Boozy::VertexArray::Create());
+        m_SquareVertexArray = Boozy::VertexArray::Create();
 
         // 逆时针
         float squareVertices[5 * 4] = {
@@ -200,7 +203,8 @@ class SandBox : public Boozy::Application
 public:
     SandBox()
     {
-        PushLayer(new ExampleLayer());
+        //PushLayer(new ExampleLayer());
+        PushLayer(new Sandbox2D());
     }
 
     ~SandBox()
