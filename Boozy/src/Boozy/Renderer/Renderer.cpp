@@ -1,5 +1,5 @@
 ﻿#include "bzpch.h"
-#include "Renderer.h"
+#include "Boozy/Renderer/Renderer.h"
 
 namespace Boozy {
 

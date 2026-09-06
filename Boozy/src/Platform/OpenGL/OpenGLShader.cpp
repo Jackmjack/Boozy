@@ -1,6 +1,6 @@
 ﻿#include "bzpch.h"
-#include "OpenGLShader.h"
-#include "Boozy/Log.h"
+#include "Platform/OpenGL/OpenGLShader.h"
+#include "Boozy/Core/Log.h"
 #include <fstream>
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>

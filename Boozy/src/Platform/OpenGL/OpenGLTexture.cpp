@@ -1,6 +1,6 @@
 ﻿#include "bzpch.h"
-#include "OpenGLTexture.h"
-#include "Boozy/Log.h"
+#include "Platform/OpenGL/OpenGLTexture.h"
+#include "Boozy/Core/Log.h"
 
 #include "stb_image.h"
 

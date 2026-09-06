@@ -1,5 +1,5 @@
 ﻿#include "bzpch.h"
-#include "Log.h"
+#include "Boozy/Core/Log.h"
 
 namespace Boozy {
 

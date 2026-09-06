@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Boozy/Input.h"
+#include "Boozy/Core/Input.h"
 
 namespace Boozy {
 
@@ -9,7 +9,7 @@ namespace Boozy {
     protected:
         virtual bool IsKeyPressedImpl(int keycode) override;
         virtual bool IsMouseButtonPressedImpl(int button) override;
-		virtual std::pair<float, float> GetMousePositionImpl() override;
+        virtual std::pair<float, float> GetMousePositionImpl() override;
         virtual float GetMouseXImpl() override;
         virtual float GetMouseYImpl() override;
     };

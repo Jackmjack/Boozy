@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Boozy/Core.h"
-#include "RendererAPI.h"
+#include "Boozy/Core/Core.h"
+#include "Boozy/Renderer/RendererAPI.h"
 
 namespace Boozy {
 

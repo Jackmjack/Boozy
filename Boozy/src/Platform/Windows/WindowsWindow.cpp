@@ -1,6 +1,6 @@
 ﻿#include "bzpch.h"
-#include "WindowsWindow.h"
-#include "Boozy/Log.h"
+#include "Platform/Windows/WindowsWindow.h"
+#include "Boozy/Core/Log.h"
 
 #include "Boozy/Events/ApplicationEvent.h"
 #include "Boozy/Events/KeyEvent.h"

@@ -1,12 +1,12 @@
 ﻿#include "bzpch.h"
-#include "ImGuiLayer.h"
+#include "Boozy/ImGui/ImGuiLayer.h"
 #include "Boozy/Renderer/GraphicsContext.h"
 
 #include "imgui.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "backends/imgui_impl_glfw.h"
 
-#include "Boozy/Application.h"
+#include "Boozy/Core/Application.h"
 
 namespace Boozy {
     ImGuiLayer::ImGuiLayer()

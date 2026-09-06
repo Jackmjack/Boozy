@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Boozy/Window.h"
+#include "Boozy/Core/Window.h"
 #include <GLFW/glfw3.h>
 
 #include "Boozy/Renderer/GraphicsContext.h"

@@ -1,6 +1,6 @@
 ﻿#include "bzpch.h"
-#include "OpenGLContext.h"
-#include "Boozy/Log.h"
+#include "Platform/OpenGL/OpenGLContext.h"
+#include "Boozy/Core/Log.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>

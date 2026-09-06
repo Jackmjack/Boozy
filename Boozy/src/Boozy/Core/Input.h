@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Boozy/Core.h"
+#include "Boozy/Core/Core.h"
 
 namespace Boozy {
 

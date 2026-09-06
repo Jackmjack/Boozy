@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Boozy/Core.h"
-#include "VertexArray.h"
+#include "Boozy/Core/Core.h"
+#include "Boozy/Renderer/VertexArray.h"
 
 #include <memory>
 #include <glm/glm.hpp>

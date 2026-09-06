@@ -1,5 +1,5 @@
 ﻿#include "bzpch.h"
-#include "OrthographicCamera.h"
+#include "Boozy/Renderer/OrthographicCamera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 

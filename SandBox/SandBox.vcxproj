@@ -147,9 +147,6 @@
       <Project>{D817E80C-442C-10BE-0DAE-B31D79810CEF}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="assets\shaders\Texture.glsl" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

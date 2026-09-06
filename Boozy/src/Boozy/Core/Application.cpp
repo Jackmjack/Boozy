@@ -1,7 +1,7 @@
 ﻿#include "bzpch.h"
-#include "Application.h"
-#include "Log.h"
-#include "Renderer/Renderer.h"
+#include "Boozy/Core/Application.h"
+#include "Boozy/Core/Log.h"
+#include "Boozy/Renderer/Renderer.h"
 
 BZ_INIT_LOGGER("Application");
 

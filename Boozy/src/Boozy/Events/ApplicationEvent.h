@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Event.h"
+#include "Boozy/Events/Event.h"
 #include <sstream>
 
 namespace Boozy {

@@ -1,6 +1,6 @@
 ﻿#include "bzpch.h"
-#include "OpenGLVertexArray.h"
-#include "Boozy/Log.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Boozy/Core/Log.h"
 #include <glad/glad.h>
 
 BZ_INIT_LOGGER("OpenGL");

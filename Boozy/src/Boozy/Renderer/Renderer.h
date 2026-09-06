@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "Boozy/Core.h"
-#include "RenderCommand.h"
+#include "Boozy/Core/Core.h"
+#include "Boozy/Renderer/RenderCommand.h"
 
-#include "OrthographicCamera.h"
-#include "Shader.h"
+#include "Boozy/Renderer/OrthographicCamera.h"
+#include "Boozy/Renderer/Shader.h"
 
 #include <cstdint>
 

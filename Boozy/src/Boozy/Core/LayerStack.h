@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Core.h"
-#include "Layer.h"
+#include "Boozy/Core/Core.h"
+#include "Boozy/Core/Layer.h"
 
 #include <vector>
 

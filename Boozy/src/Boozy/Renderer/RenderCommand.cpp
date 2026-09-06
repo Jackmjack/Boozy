@@ -1,5 +1,5 @@
 ﻿#include "bzpch.h"
-#include "RenderCommand.h"
+#include "Boozy/Renderer/RenderCommand.h"
 
 #include "Platform/OpenGL/OpenGLRendererAPI.h"
 

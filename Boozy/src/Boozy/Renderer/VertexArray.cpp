@@ -1,7 +1,7 @@
 ﻿#include "bzpch.h"
-#include "VertexArray.h"
-#include "Boozy/Log.h"
-#include "Renderer.h"
+#include "Boozy/Renderer/VertexArray.h"
+#include "Boozy/Core/Log.h"
+#include "Boozy/Renderer/Renderer.h"
 
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Boozy/Layer.h"
+#include "Boozy/Core/Layer.h"
 #include "Boozy/Events/Event.h"
 #include "Boozy/Events/KeyEvent.h"
 #include "Boozy/Events/MouseEvent.h"

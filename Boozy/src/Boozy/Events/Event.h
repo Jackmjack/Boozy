@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Boozy/Core.h"
+#include "Boozy/Core/Core.h"
 #include <string>
 #include <functional>
 #include <ostream>

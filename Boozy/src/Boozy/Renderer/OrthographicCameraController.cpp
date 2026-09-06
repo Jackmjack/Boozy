@@ -1,8 +1,8 @@
 ﻿#include "bzpch.h"
-#include "OrthographicCameraController.h"
+#include "Boozy/Renderer/OrthographicCameraController.h"
 
-#include "Boozy/Input.h"
-#include "Boozy/KeyCodes.h"
+#include "Boozy/Core/Input.h"
+#include "Boozy/Core/KeyCodes.h"
 
 namespace Boozy {
 

@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include "Core.h"
-#include "Window.h"
-#include "Events/ApplicationEvent.h"
-#include "LayerStack.h"
-#include "ImGui/ImGuiLayer.h"
-#include "Core/Timestep.h"
+#include "Boozy/Core/Core.h"
+#include "Boozy/Core/Window.h"
+#include "Boozy/Events/ApplicationEvent.h"
+#include "Boozy/Core/LayerStack.h"
+#include "Boozy/ImGui/ImGuiLayer.h"
+#include "Boozy/Core/Timestep.h"
 #include <memory>
 
 namespace Boozy {

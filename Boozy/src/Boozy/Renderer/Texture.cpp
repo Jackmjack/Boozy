@@ -1,8 +1,8 @@
 ﻿#include "bzpch.h"
-#include "Texture.h"
+#include "Boozy/Renderer/Texture.h"
 
-#include "Boozy/Log.h"
-#include "Renderer.h"
+#include "Boozy/Core/Log.h"
+#include "Boozy/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLTexture.h"
 
 BZ_INIT_LOGGER("Renderer");

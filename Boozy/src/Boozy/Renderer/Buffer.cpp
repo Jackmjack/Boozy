@@ -1,7 +1,7 @@
 ﻿#include "bzpch.h"
-#include "Buffer.h"
-#include "Boozy/Log.h"
-#include "Renderer.h"
+#include "Boozy/Renderer/Buffer.h"
+#include "Boozy/Core/Log.h"
+#include "Boozy/Renderer/Renderer.h"
 
 #include "Platform/OpenGL/OpenGLBuffer.h"
 

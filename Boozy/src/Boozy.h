@@ -2,16 +2,16 @@
 
 // 给 Boozy 应用使用
 
-#include "Boozy/Application.h"
-#include "Boozy/Log.h"
-#include "Boozy/Layer.h"
+#include "Boozy/Core/Application.h"
+#include "Boozy/Core/Log.h"
+#include "Boozy/Core/Layer.h"
 
 #include "Boozy/Core/Timestep.h"
 
-#include "Boozy/Input.h"
-#include "Boozy/KeyCodes.h"
-#include "Boozy/MouseButtonCodes.h"
-#include "Boozy/OrthographicCameraController.h"
+#include "Boozy/Core/Input.h"
+#include "Boozy/Core/KeyCodes.h"
+#include "Boozy/Core/MouseButtonCodes.h"
+#include "Boozy/Renderer/OrthographicCameraController.h"
 
 #include "Boozy/ImGui/ImGuiLayer.h"
 
@@ -29,6 +29,6 @@
 
 
 // ============= 入口点 =============
-#include "Boozy/EntryPoint.h"
+#include "Boozy/Core/EntryPoint.h"
 // =================================
 

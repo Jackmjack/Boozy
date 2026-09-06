@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "Boozy/Core.h"
-#include "Buffer.h"
+#include "Boozy/Core/Core.h"
+#include "Boozy/Renderer/Buffer.h"
 #include <memory>
 
 namespace Boozy {

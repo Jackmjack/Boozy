@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Boozy/Window.h"
+#include "Boozy/Core/Window.h"
 
 namespace Boozy {
 
