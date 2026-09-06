@@ -44,6 +44,7 @@ namespace Boozy {
     {
         EventDispatcher dispatcher(event);
         dispatcher.Dispatch<WindowCloseEvent>(BZ_BIND_EVENT_FN(Application::OnWindowClose));
+        dispatcher.Dispatch<WindowResizeEvent>(BZ_BIND_EVENT_FN(Application::OnWindowResize));
 
         for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
         {
@@ -66,8 +67,11 @@ namespace Boozy {
             if (delta.GetSeconds() > 0.04)
                 delta = 0.04f;
 
-            for (Layer* layer : m_LayerStack)
-                layer->OnUpdate(delta);
+            if (!m_Minimized)
+            {
+                for (Layer* layer : m_LayerStack)
+                    layer->OnUpdate(delta);
+            }
 
             m_ImGuiLayer->Begin();
             for (Layer* layer : m_LayerStack)
@@ -84,4 +88,17 @@ namespace Boozy {
         return true;
     }
 
+    bool Application::OnWindowResize(WindowResizeEvent& event)
+    {
+        if (event.GetWidth() == 0 || event.GetHeight() == 0)
+        {
+            m_Minimized = true;
+            return false;
+        }
+        m_Minimized = false;
+
+        Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
+
+        return false;
+    }
 }
