@@ -26,9 +26,3 @@
 
 #include "Boozy/Renderer/OrthographicCamera.h"
 // =================================
-
-
-// ============= 入口点 =============
-#include "Boozy/Core/EntryPoint.h"
-// =================================
-
