@@ -13,6 +13,6 @@
   </Project>
   <Project Path="Boozy\vendor\ImGui.vcxproj" Id="C0FF640D-2C14-8DBE-F595-301E616989EF">
   </Project>
-  <Project Path="SandBox\SandBox.vcxproj" Id="D43924E3-4019-A37E-4931-2E55B58F09E0">
+  <Project Path="Sandbox\Sandbox.vcxproj" Id="F4C124E3-60A1-A37E-69B9-2E55D5170AE0">
   </Project>
 </Solution>

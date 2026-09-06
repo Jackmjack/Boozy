@@ -9,7 +9,7 @@
 Boozy 包含两个项目：
 
 - **Boozy**（引擎，编译为 DLL）：提供 `Application` 基类、`main()` 入口点、日志系统等基础设施。
-- **SandBox**（示例游戏，编译为 exe）：继承 `Application`，编写具体游戏逻辑。
+- **Sandbox**（示例游戏，编译为 exe）：继承 `Application`，编写具体游戏逻辑。
 
 ## 当前特性
 
@@ -53,7 +53,7 @@ GenerateProjects.bat
 :: 等价于
 vendor\bin\premake\premake5.exe vs2026
 
-:: 3. 打开 Boozy.slnx，以 SandBox 为启动项目，Debug x64 编译运行
+:: 3. 打开 Boozy.slnx，以 Sandbox 为启动项目，Debug x64 编译运行
 ```
 
 ## 项目结构
@@ -81,9 +81,9 @@ Boozy/
 │           └── Windows/
 │               ├── WindowsWindow.h     # GLFW 窗口实现声明
 │               └── WindowsWindow.cpp   # GLFW 窗口实现
-├── SandBox/                        # 示例游戏（exe）
+├── Sandbox/                        # 示例游戏（exe）
 │   └── src/
-│       └── SandBoxApp.cpp          # 游戏逻辑 + CreateApplication
+│       └── SandboxApp.cpp          # 游戏逻辑 + CreateApplication
 ├── premake5.lua                    # 构建配置
 ├── GenerateProjects.bat            # 生成工程脚本
 ├── Boozy.slnx                      # 解决方案（由 premake 生成）

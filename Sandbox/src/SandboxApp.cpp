@@ -7,7 +7,7 @@
 
 #include "Sandbox2D.h"
 
-BZ_INIT_LOGGER("SandBox"); // 初始化本文件 SandBox 日志器
+BZ_INIT_LOGGER("Sandbox"); // 初始化本文件 Sandbox 日志器
 
 class ExampleLayer : public Boozy::Layer
 {
@@ -198,16 +198,16 @@ private:
     Boozy::OrthographicCameraController m_CameraController;
 };
 
-class SandBox : public Boozy::Application
+class Sandbox : public Boozy::Application
 {
 public:
-    SandBox()
+    Sandbox()
     {
         //PushLayer(new ExampleLayer());
         PushLayer(new Sandbox2D());
     }
 
-    ~SandBox()
+    ~Sandbox()
     {
 
     }
@@ -216,5 +216,5 @@ public:
 
 Boozy::Application* Boozy::CreateApplication()
 {
-    return new SandBox();
+    return new Sandbox();
 }
