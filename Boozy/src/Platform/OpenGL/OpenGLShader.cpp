@@ -26,10 +26,23 @@ namespace Boozy {
         std::string shaderSource = ReadFile(filepath);
         auto shaderSources = PreProcess(shaderSource);
         Compile(shaderSources);
+
+        auto lastSlash = filepath.find_last_of("/\\");
+        if (lastSlash != std::string::npos)
+        {
+            auto lastDot = filepath.find_last_of(".");
+            if (lastDot != std::string::npos && lastDot > lastSlash)
+            {
+                m_Name = filepath.substr(lastSlash + 1, lastDot - lastSlash - 1);
+            }
+        }
+
+        if (m_Name.empty())
+            m_Name = filepath;
     }
 
-    OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
-        : m_RendererID(0)
+    OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+        : m_Name(name), m_RendererID(0)
     {
         std::unordered_map<GLenum, std::string> shaderSources;
         shaderSources[GL_VERTEX_SHADER] = vertexSrc;
