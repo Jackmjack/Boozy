@@ -132,7 +132,7 @@ public:
         m_AlphaTest = Boozy::Texture2D::Create("assets/textures/AlphaTest.png");
 
         textShader->Bind();
-        textShader->UploadUniformInt("u_Texture", 0);
+        textShader->SetInt("u_Texture", 0);
     }
 
     void OnUpdate(Boozy::Timestep delta) override
@@ -146,7 +146,7 @@ public:
 
         static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-        m_SquareShader->UploadUniformFloat3("u_Color", m_SquareColor);
+        m_SquareShader->SetFloat3("u_Color", m_SquareColor);
 
         for (int x = 0; x < 20; x++)
         {

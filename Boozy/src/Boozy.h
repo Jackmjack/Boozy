@@ -17,6 +17,7 @@
 
 // ============= 渲染器 =============
 #include "Boozy/Renderer/Renderer.h"
+#include "Boozy/Renderer/Renderer2D.h"
 #include "Boozy/Renderer/RenderCommand.h"
 
 #include "Boozy/Renderer/Buffer.h"

@@ -66,6 +66,86 @@ namespace Boozy {
         glUseProgram(0);
     }
 
+    void OpenGLShader::SetBool(const std::string& name, bool value)
+    {
+        OpenGLShader::UploadUniformBool(name, value);
+    }
+
+    void OpenGLShader::SetInt(const std::string & name, int value)
+    {
+        OpenGLShader::UploadUniformInt(name, value);
+    }
+
+    void OpenGLShader::SetInt2(const std::string & name, const glm::ivec2 & value)
+    {
+        OpenGLShader::UploadUniformInt2(name, value);
+    }
+
+    void OpenGLShader::SetInt3(const std::string & name, const glm::ivec3 & value)
+    {
+        OpenGLShader::UploadUniformInt3(name, value);
+    }
+
+    void OpenGLShader::SetInt4(const std::string & name, const glm::ivec4 & value)
+    {
+        OpenGLShader::UploadUniformInt4(name, value);
+    }
+
+    void OpenGLShader::SetUInt(const std::string & name, uint32_t value)
+    {
+        OpenGLShader::UploadUniformUInt(name, value);
+    }
+
+    void OpenGLShader::SetUInt2(const std::string & name, const glm::uvec2 & value)
+    {
+        OpenGLShader::UploadUniformUInt2(name, value);
+    }
+
+    void OpenGLShader::SetUInt3(const std::string & name, const glm::uvec3 & value)
+    {
+        OpenGLShader::UploadUniformUInt3(name, value);
+    }
+
+    void OpenGLShader::SetUInt4(const std::string & name, const glm::uvec4 & value)
+    {
+        OpenGLShader::UploadUniformUInt4(name, value);
+    }
+
+    void OpenGLShader::SetFloat(const std::string & name, float value)
+    {
+        OpenGLShader::UploadUniformFloat(name, value);
+    }
+
+    void OpenGLShader::SetFloat2(const std::string & name, const glm::vec2 & value)
+    {
+        OpenGLShader::UploadUniformFloat2(name, value);
+    }
+
+    void OpenGLShader::SetFloat3(const std::string & name, const glm::vec3 & value)
+    {
+        OpenGLShader::UploadUniformFloat3(name, value);
+    }
+
+    void OpenGLShader::SetFloat4(const std::string & name, const glm::vec4 & value)
+    {
+        OpenGLShader::UploadUniformFloat4(name, value);
+    }
+
+    void OpenGLShader::SetMat2(const std::string & name, const glm::mat2 & matrix)
+    {
+        OpenGLShader::UploadUniformMat2(name, matrix);
+    }
+
+    void OpenGLShader::SetMat3(const std::string & name, const glm::mat3 & matrix)
+    {
+        OpenGLShader::UploadUniformMat3(name, matrix);
+    }
+
+    void OpenGLShader::SetMat4(const std::string & name, const glm::mat4 & matrix)
+    {
+        OpenGLShader::UploadUniformMat4(name, matrix);
+    }
+
     void OpenGLShader::UploadUniformBool(const std::string& name, bool value)
     {
         glUseProgram(m_RendererID);

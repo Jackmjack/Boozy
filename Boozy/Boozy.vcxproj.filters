@@ -105,6 +105,9 @@
     <ClInclude Include="src\Boozy\Renderer\Renderer.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Renderer2D.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Boozy\Renderer\RendererAPI.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
@@ -180,6 +183,9 @@
       <Filter>src\Boozy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Renderer\Renderer.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Renderer2D.cpp">
       <Filter>src\Boozy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Renderer\RendererAPI.cpp">
