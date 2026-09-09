@@ -10,7 +10,7 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-
+    m_Texture = Boozy::Texture2D::Create("assets/textures/Checkerboard.png");
 }
 
 void Sandbox2D::OnDetach()
@@ -27,9 +27,13 @@ void Sandbox2D::OnUpdate(Boozy::Timestep delta)
 
     Boozy::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-    Boozy::Renderer2D::DrawQuad({-0.5f, 0.0f}, {0.9f, 1.0f}, m_SquareColor);
-    Boozy::Renderer2D::DrawQuad({0.5f, 0.5f}, {0.9f, 2.0f}, m_SquareColor);
-    Boozy::Renderer2D::DrawQuad({1.5f, 1.0f}, {0.9f, 3.0f}, m_SquareColor);
+
+    Boozy::Renderer2D::DrawQuad({ -0.5f, 0.0f }, { 0.9f, 1.0f }, m_SquareColor);
+    Boozy::Renderer2D::DrawQuad({ 0.5f, 0.5f }, { 0.9f, 2.0f }, m_SquareColor);
+    Boozy::Renderer2D::DrawQuad({ 1.5f, 1.0f, -0.9f }, { 0.9f, 3.0f }, m_SquareColor);
+
+    Boozy::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.8f }, { 10.0f, 10.0f }, m_Texture);
+
 
     Boozy::Renderer2D::EndScene();
 }
