@@ -23,7 +23,5 @@ namespace Boozy
     void Mesh::Bind() const
     {
         m_VertexArray->Bind();
-        m_VertexBuffer->Bind();
-        m_IndexBuffer->Bind();
     }
 }

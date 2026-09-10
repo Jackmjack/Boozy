@@ -149,6 +149,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Boozy\Renderer\Renderer3D.h" />
     <ClInclude Include="src\Boozy\Renderer\Mesh.h" />
     <ClInclude Include="src\Boozy\Renderer\PerspectiveCamera.h" />
     <ClInclude Include="src\Boozy.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Boozy\Renderer\Renderer3D.cpp" />
     <ClCompile Include="src\Boozy\Renderer\Mesh.cpp" />
     <ClCompile Include="src\Boozy\Renderer\PerspectiveCamera.cpp" />
     <ClCompile Include="src\Boozy\Core\Application.cpp" />
