@@ -149,6 +149,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Boozy\Renderer\PerspectiveCamera.h" />
     <ClInclude Include="src\Boozy.h" />
     <ClInclude Include="src\Boozy\Core\Application.h" />
     <ClInclude Include="src\Boozy\Core\Core.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="src\Boozy\Events\MouseEvent.h" />
     <ClInclude Include="src\Boozy\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Boozy\Renderer\Buffer.h" />
+    <ClInclude Include="src\Boozy\Renderer\Camera.h" />
     <ClInclude Include="src\Boozy\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Boozy\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\Boozy\Renderer\OrthographicCameraController.h" />
@@ -189,6 +191,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Boozy\Renderer\PerspectiveCamera.cpp" />
     <ClCompile Include="src\Boozy\Core\Application.cpp" />
     <ClCompile Include="src\Boozy\Core\Layer.cpp" />
     <ClCompile Include="src\Boozy\Core\LayerStack.cpp" />
