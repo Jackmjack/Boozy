@@ -152,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="src\Boozy\Renderer\Camera.h" />
     <ClInclude Include="src\Boozy\Renderer\PerspectiveCamera.h" />
+    <ClInclude Include="src\Boozy\Renderer\Mesh.h" />
+    <ClInclude Include="src\Boozy\Core\Transform.h" />
+    <ClInclude Include="src\Boozy\Renderer\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Boozy\Core\Application.cpp">
@@ -233,5 +236,7 @@
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Renderer\PerspectiveCamera.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\Mesh.cpp" />
+    <ClCompile Include="src\Boozy\Core\Transform.cpp" />
   </ItemGroup>
 </Project>
