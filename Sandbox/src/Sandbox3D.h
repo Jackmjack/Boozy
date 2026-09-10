@@ -16,7 +16,7 @@ public:
     virtual void OnImGuiRender() override;
     virtual void OnEvent(Boozy::Event& event) override;
 private:
-    Boozy::PerspectiveCamera m_Camera;
+    Boozy::PerspectiveCameraController m_CameraController;
 
     Boozy::Transform m_CubeTransform;
     Boozy::Ref<Boozy::Mesh> m_CubeMesh;

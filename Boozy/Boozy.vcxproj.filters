@@ -156,6 +156,7 @@
     <ClInclude Include="src\Boozy\Core\Transform.h" />
     <ClInclude Include="src\Boozy\Renderer\Vertex.h" />
     <ClInclude Include="src\Boozy\Renderer\Renderer3D.h" />
+    <ClInclude Include="src\Boozy\Renderer\PerspectiveCameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Boozy\Core\Application.cpp">
@@ -240,5 +241,6 @@
     <ClCompile Include="src\Boozy\Renderer\Mesh.cpp" />
     <ClCompile Include="src\Boozy\Core\Transform.cpp" />
     <ClCompile Include="src\Boozy\Renderer\Renderer3D.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\PerspectiveCameraController.cpp" />
   </ItemGroup>
 </Project>

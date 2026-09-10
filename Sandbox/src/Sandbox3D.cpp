@@ -2,16 +2,15 @@
 #include <imgui.h>
 
 Sandbox3D::Sandbox3D()
-    : Layer("Sandbox3D"), m_Camera(45.0f, 1280.0f / 720.0f, 0.1f, 100.0f)
+    : Layer("Sandbox3D"), m_CameraController(45.0f, 1280.0f / 720.0f, 0.1f, 100.0f)
 {
-    m_Camera.SetPosition({ 0.0f, 0.0f, 5.0f });
-    m_Camera.SetLookAt({ 0.0f, 0.0f, 0.0f });
 }
 
 void Sandbox3D::OnAttach()
 {
+    Boozy::Application::GetInstance().GetWindow().SetCursorMode(Boozy::WindowCursorMode::Disabled);
 
-    m_CubeTransform = Boozy::Transform({ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+    m_CubeTransform = Boozy::Transform({ 0.0f, 0.0f, -5.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
 
     Boozy::Vertex vertices[24] = {
         // +Z 面，法线 (0, 0, 1)
@@ -78,17 +77,22 @@ void Sandbox3D::OnAttach()
 }
 void Sandbox3D::OnDetach()
 {
-
+    Boozy::Application::GetInstance().GetWindow().SetCursorMode(Boozy::WindowCursorMode::Normal);
 }
 
 void Sandbox3D::OnUpdate(Boozy::Timestep delta)
 {
+
+    if (Boozy::Input::IsKeyPressed(BZ_KEY_ESCAPE))
+        Boozy::Application::GetInstance().GetWindow().SetCursorMode(Boozy::WindowCursorMode::Normal);
+
+    m_CameraController.OnUpdate(delta);
     m_CubeTransform.SetRotation(m_CubeTransform.GetRotation() + m_CubeRotationSpeed * (float)delta);
 
     Boozy::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
     Boozy::RenderCommand::Clear();
 
-    Boozy::Renderer3D::BeginScene(m_Camera);
+    Boozy::Renderer3D::BeginScene(m_CameraController.GetCamera());
 
     Boozy::Renderer3D::DrawMesh(m_CubeTransform, m_CubeMesh, m_FlatColorShader3D);
 
@@ -102,5 +106,5 @@ void Sandbox3D::OnImGuiRender()
 
 void Sandbox3D::OnEvent(Boozy::Event& event)
 {
-
+    m_CameraController.OnEvent(event);
 }

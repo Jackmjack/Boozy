@@ -41,6 +41,7 @@ namespace Boozy {
         m_Data.Title = props.Title;
         m_Data.Width = props.Width;
         m_Data.Height = props.Height;
+        m_Data.CursorMode = props.CursorMode;
 
         BZ_INFO("Creating window: title = '{}', width = {}, height = {}", props.Title, props.Width, props.Height);
 
@@ -172,6 +173,38 @@ namespace Boozy {
     double WindowsWindow::GetTime() const
     {
         return glfwGetTime();
+    }
+
+    void WindowsWindow::SetCursorMode(WindowCursorMode mode)
+    {
+        switch (mode)
+        {
+            case WindowCursorMode::Normal:
+            {
+                glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                break;
+            }
+            case WindowCursorMode::Hidden:
+            {
+                glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+                break;
+            }
+            case WindowCursorMode::Disabled:
+            {
+                glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                if (glfwRawMouseMotionSupported()) glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+                break;
+            }
+            case WindowCursorMode::Captured:
+            {
+                glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_CAPTURED);
+                break;
+            }
+            default:
+                BZ_ERROR("Unknown cursor mode!");
+        }
+
+        m_Data.CursorMode = mode;
     }
 
     void WindowsWindow::SetVSync(bool enabled)
