@@ -7,3 +7,6 @@
 [submodule "Boozy/vendor/glm"]
 	path = Boozy/vendor/glm
 	url = https://github.com/g-truc/glm
+[submodule "Boozy/vendor/assimp"]
+	path = Boozy/vendor/assimp
+	url = https://github.com/assimp/assimp.git
