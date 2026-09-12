@@ -18,11 +18,13 @@ public:
 private:
     Boozy::PerspectiveCameraController m_CameraController;
 
-    Boozy::Ref<Boozy::Texture2D> m_Texture;
+    Boozy::DirectionalLight m_Light;
+
+    Boozy::Ref<Boozy::Material> m_Material;
 
     Boozy::Ref<Boozy::Model> m_Model;
     Boozy::Transform m_ModelTransform;
 
-    Boozy::Ref<Boozy::Shader> m_TextureShader3D;
-    Boozy::Ref<Boozy::Shader> m_FlatColorShader3D;
+    glm::vec3 m_Rotation = { 0.0f, 0.0f, 0.0f };
+    float m_RotationSpeed = 45.0f;
 };

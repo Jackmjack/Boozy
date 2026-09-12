@@ -25,11 +25,13 @@
 #include "Boozy/Renderer/Buffer.h"
 #include "Boozy/Renderer/Shader.h"
 #include "Boozy/Renderer/Texture.h"
+#include "Boozy/Renderer/Material.h"
 #include "Boozy/Renderer/VertexArray.h"
 
 #include "Boozy/Renderer/Model.h"
 #include "Boozy/Renderer/Mesh.h"
 #include "Boozy/Renderer/Vertex.h"
+#include "Boozy/Renderer/Light.h"
 
 #include "Boozy/Renderer/Camera.h"
 #include "Boozy/Renderer/OrthographicCamera.h"

@@ -10,17 +10,16 @@ void Sandbox3D::OnAttach()
 {
     Boozy::Application::GetInstance().GetWindow().SetCursorMode(Boozy::WindowCursorMode::Disabled);
 
-    m_Texture = Boozy::Texture2D::Create("assets/textures/Checkerboard.png");
+    m_Light.Color = glm::vec3(0.7f, 0.8f, 1.0f);
+
+    Boozy::Ref<Boozy::Shader> shader = Boozy::Shader::Create("assets/shaders/Lit3D.glsl");
+    glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+    m_Material.reset(new Boozy::Material(shader, color));
+    m_Material->SetDoubleSided(true);
 
     m_Model.reset(new Boozy::Model("assets/models/teapot.obj"));
-    m_ModelTransform = Boozy::Transform({ 0.0f, 0.0f, -5.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
-
-    m_FlatColorShader3D = Boozy::Shader::Create("assets/shaders/FlatColor3D.glsl");
-
-    m_TextureShader3D = Boozy::Shader::Create("assets/shaders/Texture3D.glsl");
-    m_TextureShader3D->Bind();
-    m_TextureShader3D->SetInt("u_Texture", 0);
-    m_TextureShader3D->SetFloat4("u_Color", { 1.0f, 1.0f, 1.0f, 1.0f });
+    m_ModelTransform = Boozy::Transform({ 0.0f, 0.0f, -12.0f }, m_Rotation, { 1.0f, 1.0f, 1.0f });
 }
 
 void Sandbox3D::OnDetach()
@@ -36,16 +35,17 @@ void Sandbox3D::OnUpdate(Boozy::Timestep delta)
 
     m_CameraController.OnUpdate(delta);
 
-    Boozy::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+    m_Rotation = { m_Rotation.x + m_RotationSpeed * delta, m_Rotation.y, m_Rotation.z + m_RotationSpeed * 2 * delta };
+    m_ModelTransform = Boozy::Transform({ 0.0f, 0.0f, -12.0f }, m_Rotation, { 1.0f, 1.0f, 1.0f });
+
+    Boozy::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
     Boozy::RenderCommand::Clear();
 
-    Boozy::Renderer3D::BeginScene(m_CameraController.GetCamera());
-
-    m_Texture->Bind();
+    Boozy::Renderer3D::BeginScene(m_CameraController.GetCamera(), m_Light);
 
     if (m_Model && m_Model->IsValid())
         for (const auto& entry : m_Model->GetMeshes())
-            Boozy::Renderer3D::DrawMesh(m_ModelTransform, entry.Mesh, m_FlatColorShader3D);
+            Boozy::Renderer3D::DrawMesh(m_ModelTransform, entry.Mesh, m_Material);
 
     Boozy::Renderer3D::EndScene();
 }
