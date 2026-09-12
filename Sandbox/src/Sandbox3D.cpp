@@ -10,7 +10,7 @@ void Sandbox3D::OnAttach()
 {
     Boozy::Application::GetInstance().GetWindow().SetCursorMode(Boozy::WindowCursorMode::Disabled);
 
-    m_CubeTransform = Boozy::Transform({ 0.0f, 0.0f, -5.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+    m_Texture = Boozy::Texture2D::Create("assets/textures/Checkerboard.png");
 
     Boozy::Vertex vertices[24] = {
         // +Z 面，法线 (0, 0, 1)
@@ -73,8 +73,12 @@ void Sandbox3D::OnAttach()
 
     m_CubeMesh.reset(new Boozy::Mesh(vertices, 24, indices, 36, layout));
 
-    m_FlatColorShader3D = Boozy::Shader::Create("assets/shaders/FlatColor3D.glsl");
+    m_TextureShader3D = Boozy::Shader::Create("assets/shaders/Texture3D.glsl");
+    m_TextureShader3D->Bind();
+    m_TextureShader3D->SetInt("u_Texture", 0);
+    m_TextureShader3D->SetFloat4("u_Color", { 1.0f, 1.0f, 1.0f, 1.0f });
 }
+
 void Sandbox3D::OnDetach()
 {
     Boozy::Application::GetInstance().GetWindow().SetCursorMode(Boozy::WindowCursorMode::Normal);
@@ -87,14 +91,14 @@ void Sandbox3D::OnUpdate(Boozy::Timestep delta)
         Boozy::Application::GetInstance().GetWindow().SetCursorMode(Boozy::WindowCursorMode::Normal);
 
     m_CameraController.OnUpdate(delta);
-    m_CubeTransform.SetRotation(m_CubeTransform.GetRotation() + m_CubeRotationSpeed * (float)delta);
 
     Boozy::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
     Boozy::RenderCommand::Clear();
 
     Boozy::Renderer3D::BeginScene(m_CameraController.GetCamera());
 
-    Boozy::Renderer3D::DrawMesh(m_CubeTransform, m_CubeMesh, m_FlatColorShader3D);
+    m_Texture->Bind();
+    Boozy::Renderer3D::DrawMesh(Boozy::Transform({ 0.0f, 0.0f, -5.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }), m_CubeMesh, m_TextureShader3D);
 
     Boozy::Renderer3D::EndScene();
 }
