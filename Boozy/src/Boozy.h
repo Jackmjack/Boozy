@@ -27,6 +27,7 @@
 #include "Boozy/Renderer/Texture.h"
 #include "Boozy/Renderer/VertexArray.h"
 
+#include "Boozy/Renderer/Model.h"
 #include "Boozy/Renderer/Mesh.h"
 #include "Boozy/Renderer/Vertex.h"
 

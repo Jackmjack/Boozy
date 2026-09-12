@@ -12,66 +12,10 @@ void Sandbox3D::OnAttach()
 
     m_Texture = Boozy::Texture2D::Create("assets/textures/Checkerboard.png");
 
-    Boozy::Vertex vertices[24] = {
-        // +Z 面，法线 (0, 0, 1)
-        { { -0.5f, -0.5f,  0.5f }, { 0.0f,  0.0f,  1.0f }, { 0.0f, 0.0f } },
-        { {  0.5f, -0.5f,  0.5f }, { 0.0f,  0.0f,  1.0f }, { 1.0f, 0.0f } },
-        { {  0.5f,  0.5f,  0.5f }, { 0.0f,  0.0f,  1.0f }, { 1.0f, 1.0f } },
-        { { -0.5f,  0.5f,  0.5f }, { 0.0f,  0.0f,  1.0f }, { 0.0f, 1.0f } },
+    m_Model.reset(new Boozy::Model("assets/models/teapot.obj"));
+    m_ModelTransform = Boozy::Transform({ 0.0f, 0.0f, -5.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
 
-        // -Z 面，法线 (0, 0, -1)
-        { {  0.5f, -0.5f, -0.5f }, { 0.0f,  0.0f, -1.0f }, { 0.0f, 0.0f } },
-        { { -0.5f, -0.5f, -0.5f }, { 0.0f,  0.0f, -1.0f }, { 1.0f, 0.0f } },
-        { { -0.5f,  0.5f, -0.5f }, { 0.0f,  0.0f, -1.0f }, { 1.0f, 1.0f } },
-        { {  0.5f,  0.5f, -0.5f }, { 0.0f,  0.0f, -1.0f }, { 0.0f, 1.0f } },
-
-        // +X 面，法线 (1, 0, 0)
-        { { 0.5f, -0.5f,  0.5f},   {1.0f,  0.0f,  0.0f}, { 0.0f, 0.0f } },
-        { { 0.5f, -0.5f, -0.5f},   {1.0f,  0.0f,  0.0f}, { 1.0f, 0.0f } },
-        { { 0.5f,  0.5f, -0.5f},   {1.0f,  0.0f,  0.0f}, { 1.0f, 1.0f } },
-        { { 0.5f,  0.5f,  0.5f},   {1.0f,  0.0f,  0.0f}, { 0.0f, 1.0f } },
-
-        // -X 面，法线 (-1, 0, 0)
-        { { -0.5f, -0.5f, -0.5f},  { -1.0f,  0.0f,  0.0f}, { 0.0f, 0.0f } },
-        { { -0.5f, -0.5f,  0.5f},  { -1.0f,  0.0f,  0.0f}, { 1.0f, 0.0f } },
-        { { -0.5f,  0.5f,  0.5f},  { -1.0f,  0.0f,  0.0f}, { 1.0f, 1.0f } },
-        { { -0.5f,  0.5f, -0.5f},  { -1.0f,  0.0f,  0.0f}, { 0.0f, 1.0f } },
-
-        // +Y 面，法线 (0, 1, 0)
-        { {  0.5f,  0.5f, -0.5f},   { 0.0f,  1.0f,  0.0f}, { 0.0f, 0.0f } },
-        { { -0.5f,  0.5f, -0.5f},   { 0.0f,  1.0f,  0.0f}, { 1.0f, 0.0f } },
-        { { -0.5f,  0.5f,  0.5f},   { 0.0f,  1.0f,  0.0f}, { 1.0f, 1.0f } },
-        { {  0.5f,  0.5f,  0.5f},   { 0.0f,  1.0f,  0.0f}, { 0.0f, 1.0f } },
-
-        // -Y 面，法线 (0, -1, 0)
-        { { -0.5f, -0.5f, -0.5f},   { 0.0f, -1.0f,  0.0f}, { 0.0f, 0.0f } },
-        { {  0.5f, -0.5f, -0.5f},   { 0.0f, -1.0f,  0.0f}, { 1.0f, 0.0f } },
-        { {  0.5f, -0.5f,  0.5f},   { 0.0f, -1.0f,  0.0f}, { 1.0f, 1.0f } },
-        { { -0.5f, -0.5f,  0.5f},   { 0.0f, -1.0f,  0.0f}, { 0.0f, 1.0f } }
-    };
-
-    uint32_t indices[36] = {
-        // +Z
-        0, 1, 2,   0, 2, 3,
-        // -Z
-        4, 5, 6,   4, 6, 7,
-        // +X
-        8, 9, 10,  8, 10, 11,
-        // -X
-        12, 13, 14, 12, 14, 15,
-        // +Y
-        16, 17, 18, 16, 18, 19,
-        // -Y
-        20, 21, 22, 20, 22, 23,
-    };
-
-    Boozy::BufferLayout layout = {
-        { Boozy::ShaderDataType::Float3, "a_Position" },
-        { Boozy::ShaderDataType::Float3, "a_Normal" },
-        { Boozy::ShaderDataType::Float2, "a_UV" }
-    };
-
-    m_CubeMesh.reset(new Boozy::Mesh(vertices, 24, indices, 36, layout));
+    m_FlatColorShader3D = Boozy::Shader::Create("assets/shaders/FlatColor3D.glsl");
 
     m_TextureShader3D = Boozy::Shader::Create("assets/shaders/Texture3D.glsl");
     m_TextureShader3D->Bind();
@@ -98,7 +42,10 @@ void Sandbox3D::OnUpdate(Boozy::Timestep delta)
     Boozy::Renderer3D::BeginScene(m_CameraController.GetCamera());
 
     m_Texture->Bind();
-    Boozy::Renderer3D::DrawMesh(Boozy::Transform({ 0.0f, 0.0f, -5.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }), m_CubeMesh, m_TextureShader3D);
+
+    if (m_Model && m_Model->IsValid())
+        for (const auto& entry : m_Model->GetMeshes())
+            Boozy::Renderer3D::DrawMesh(m_ModelTransform, entry.Mesh, m_FlatColorShader3D);
 
     Boozy::Renderer3D::EndScene();
 }

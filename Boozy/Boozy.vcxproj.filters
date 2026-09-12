@@ -102,6 +102,9 @@
     <ClInclude Include="src\Boozy\Renderer\Mesh.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Model.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Boozy\Renderer\OrthographicCamera.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
@@ -198,6 +201,9 @@
       <Filter>src\Boozy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Renderer\Mesh.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Model.cpp">
       <Filter>src\Boozy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Renderer\OrthographicCamera.cpp">

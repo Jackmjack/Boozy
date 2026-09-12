@@ -313,6 +313,7 @@ project "Boozy"
         "GLFW",
         "Glad",
         "ImGui",
+        "assimp",
         "opengl32.lib"
     }
 

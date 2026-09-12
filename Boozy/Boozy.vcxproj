@@ -171,6 +171,7 @@
     <ClInclude Include="src\Boozy\Renderer\Camera.h" />
     <ClInclude Include="src\Boozy\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Boozy\Renderer\Mesh.h" />
+    <ClInclude Include="src\Boozy\Renderer\Model.h" />
     <ClInclude Include="src\Boozy\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\Boozy\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\Boozy\Renderer\PerspectiveCamera.h" />
@@ -205,6 +206,7 @@
     <ClCompile Include="src\Boozy\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Boozy\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Boozy\Renderer\Mesh.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\Model.cpp" />
     <ClCompile Include="src\Boozy\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Boozy\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Boozy\Renderer\PerspectiveCamera.cpp" />
@@ -239,6 +241,9 @@
     </ProjectReference>
     <ProjectReference Include="vendor\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\assimp.vcxproj">
+      <Project>{724885F2-5EEA-AFC8-47A5-C31C33E63619}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

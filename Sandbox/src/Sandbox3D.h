@@ -20,9 +20,9 @@ private:
 
     Boozy::Ref<Boozy::Texture2D> m_Texture;
 
-    Boozy::Ref<Boozy::Mesh> m_CubeMesh;
+    Boozy::Ref<Boozy::Model> m_Model;
+    Boozy::Transform m_ModelTransform;
 
     Boozy::Ref<Boozy::Shader> m_TextureShader3D;
-
-    glm::vec3 m_CubeRotationSpeed = { 90.0f, 0.0f, 180.0f };
+    Boozy::Ref<Boozy::Shader> m_FlatColorShader3D;
 };
