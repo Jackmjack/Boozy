@@ -11,6 +11,13 @@ namespace Boozy {
         virtual void SetClearColor(const glm::vec4& color) override;
         virtual void Clear() override;
 
+        virtual void EnableDepthTest() override;
+        virtual void DisableDepthTest() override;
+        virtual void EnableFaceCulling() override;
+        virtual void DisableFaceCulling() override;
+        virtual void EnableBlending() override;
+        virtual void DisableBlending() override;
+
         virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) override;
     };
 

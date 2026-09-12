@@ -65,6 +65,10 @@ namespace Boozy {
 
     void Renderer2D::BeginScene(const OrthographicCamera& camera)
     {
+        RenderCommand::DisableDepthTest();
+        RenderCommand::DisableFaceCulling();
+        RenderCommand::EnableBlending();
+
         s_Data->TextureShader->Bind();
         s_Data->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
     }

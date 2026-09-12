@@ -29,6 +29,10 @@ namespace Boozy
 
     void Renderer3D::BeginScene(const Camera& camera)
     {
+        RenderCommand::EnableDepthTest();
+        RenderCommand::EnableFaceCulling();
+        RenderCommand::EnableBlending();
+
         s_Data->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
     }
 

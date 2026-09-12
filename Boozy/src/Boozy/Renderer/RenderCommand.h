@@ -27,6 +27,36 @@ namespace Boozy {
             s_RendererAPI->Clear();
         }
 
+        inline static void EnableDepthTest()
+        {
+            s_RendererAPI->EnableDepthTest();
+        }
+
+        inline static void DisableDepthTest()
+        {
+            s_RendererAPI->DisableDepthTest();
+        }
+
+        inline static void EnableFaceCulling()
+        {
+            s_RendererAPI->EnableFaceCulling();
+        }
+
+        inline static void DisableFaceCulling()
+        {
+            s_RendererAPI->DisableFaceCulling();
+        }
+
+        inline static void EnableBlending()
+        {
+            s_RendererAPI->EnableBlending();
+        }
+
+        inline static void DisableBlending()
+        {
+            s_RendererAPI->DisableBlending();
+        }
+
         inline static void DrawIndexed(const Ref<VertexArray>& vertexArray)
         {
             s_RendererAPI->DrawIndexed(vertexArray);
