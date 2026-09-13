@@ -146,6 +146,24 @@ namespace Boozy {
         OpenGLShader::UploadUniformMat4(name, matrix);
     }
 
+    void OpenGLShader::SetIntArray(const std::string& name, const int* values, uint32_t count)
+    {
+        if (count == 0) return;
+        OpenGLShader::UploadIntArray(name, values, count);
+    }
+
+    void OpenGLShader::SetFloatArray(const std::string & name, const float* values, uint32_t count)
+    {
+        if (count == 0) return;
+        OpenGLShader::UploadFloatArray(name, values, count);
+    }
+
+    void OpenGLShader::SetFloat3Array(const std::string & name, const glm::vec3 * values, uint32_t count)
+    {
+        if (count == 0) return;
+        OpenGLShader::UploadFloat3Array(name, values, count);
+    }
+
     void OpenGLShader::UploadUniformBool(const std::string& name, bool value)
     {
         glUseProgram(m_RendererID);
@@ -256,6 +274,27 @@ namespace Boozy {
         glUseProgram(m_RendererID);
         GLint location = glGetUniformLocation(m_RendererID, name.c_str());
         glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+    }
+
+    void OpenGLShader::UploadIntArray(const std::string& name, const int* values, uint32_t count)
+    {
+        glUseProgram(m_RendererID);
+        GLuint location = glGetUniformLocation(m_RendererID, name.c_str());
+        glUniform1iv(location, count, values);
+    }
+
+    void OpenGLShader::UploadFloatArray(const std::string & name, const float* values, uint32_t count)
+    {
+        glUseProgram(m_RendererID);
+        GLuint location = glGetUniformLocation(m_RendererID, name.c_str());
+        glUniform1fv(location, count, values);
+    }
+
+    void OpenGLShader::UploadFloat3Array(const std::string & name, const glm::vec3* values, uint32_t count)
+    {
+        glUseProgram(m_RendererID);
+        GLuint location = glGetUniformLocation(m_RendererID, name.c_str());
+        glUniform3fv(location, count, glm::value_ptr(values[0]));
     }
 
     std::string OpenGLShader::ReadFile(const std::string& filepath)

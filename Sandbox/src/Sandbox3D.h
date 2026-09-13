@@ -18,7 +18,8 @@ public:
 private:
     Boozy::PerspectiveCameraController m_CameraController;
 
-    Boozy::DirectionalLight m_Light;
+    std::vector<Boozy::Light> m_Lights;
+    glm::vec3 m_Ambient = { 0.1f, 0.1f, 0.1f };
 
     Boozy::Ref<Boozy::Material> m_Material;
 

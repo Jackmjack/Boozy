@@ -8,6 +8,7 @@
 #include "Boozy/Renderer/Light.h"
 #include "Boozy/Renderer/Material.h"
 
+#include <vector>
 #include <glm/glm.hpp>
 
 namespace Boozy
@@ -20,7 +21,7 @@ namespace Boozy
         static void Shutdown();
 
         static void BeginScene(const Camera& camera);
-        static void BeginScene(const Camera& camera, const DirectionalLight& light);
+        static void BeginScene(const Camera& camera, const std::vector<Light>& lights, const glm::vec3 ambient = { 0.1f,0.1f,0.1f });
         static void EndScene();
 
         static void DrawMesh(const Transform& transform, const Ref<Mesh>& mesh, const Ref<Shader>& shader);

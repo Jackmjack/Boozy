@@ -41,6 +41,10 @@ namespace Boozy {
         virtual void SetMat3(const std::string& name, const glm::mat3& matrix) override;
         virtual void SetMat4(const std::string& name, const glm::mat4& matrix) override;
 
+        virtual void SetIntArray(const std::string& name, const int* values, uint32_t count) override;
+        virtual void SetFloatArray(const std::string& name, const float* values, uint32_t count) override;
+        virtual void SetFloat3Array(const std::string& name, const glm::vec3* values, uint32_t count) override;
+
     private:
         void UploadUniformBool(const std::string& name, bool value);
 
@@ -62,6 +66,10 @@ namespace Boozy {
         void UploadUniformMat2(const std::string& name, const glm::mat2& matrix);
         void UploadUniformMat3(const std::string& name, const glm::mat3& matrix);
         void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
+
+        void UploadIntArray(const std::string& name, const int* values, uint32_t count);
+        void UploadFloatArray(const std::string& name, const float* values, uint32_t count);
+        void UploadFloat3Array(const std::string& name, const glm::vec3* values, uint32_t count);
 
         std::string ReadFile(const std::string& filepath);
         std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
