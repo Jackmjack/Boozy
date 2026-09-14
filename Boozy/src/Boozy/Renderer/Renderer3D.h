@@ -26,6 +26,8 @@ namespace Boozy
 
         static void DrawMesh(const Transform& transform, const Ref<Mesh>& mesh, const Ref<Shader>& shader);
         static void DrawMesh(const Transform& transform, const Ref<Mesh>& mesh, const Ref<Material>& material);
+
+        static void DrawFloor(const Ref<Shader>& shader);
     };
 
 }

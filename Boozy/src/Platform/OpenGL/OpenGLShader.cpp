@@ -322,20 +322,42 @@ namespace Boozy {
     {
         std::unordered_map<GLenum, std::string> shaderSources;
 
+        std::string src = source;
+
+        const std::string token = "#include \"";
+        size_t pos = 0;
+        int time = 0;
+
+        while ((pos = src.find(token, pos)) != std::string::npos)
+        {
+            if (++time > 32)
+            {
+                BZ_ERROR("Shader include expanded more than 32 times!");
+                break;
+            }
+
+            size_t start = pos + token.size();
+            size_t end = src.find("\"", start);
+            std::string includePath = src.substr(start, end - start);
+            std::string path = "assets/shaders/" + includePath;
+            std::string content = ReadFile(path);
+            src.replace(pos, end - pos + 1, content);
+        }
+
         const char* typeToken = "#type";
         size_t typeTokenLength = strlen(typeToken);
-        size_t pos = source.find(typeToken, 0);
+        pos = src.find(typeToken, 0);
         while (pos != std::string::npos)
         {
-            size_t eol = source.find_first_of("\r\n", pos);
+            size_t eol = src.find_first_of("\r\n", pos);
             BZ_ASSERT(eol != std::string::npos, "Syntax error");
             size_t begin = pos + typeTokenLength + 1;
-            std::string type = source.substr(begin, eol - begin);
+            std::string type = src.substr(begin, eol - begin);
             BZ_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
 
-            size_t nextLinePos = source.find_first_not_of("\r\n", eol);
-            pos = source.find(typeToken, nextLinePos);
-            shaderSources[ShaderTypeFromString(type)] = (pos == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, pos - nextLinePos);
+            size_t nextLinePos = src.find_first_not_of("\r\n", eol);
+            pos = src.find(typeToken, nextLinePos);
+            shaderSources[ShaderTypeFromString(type)] = (pos == std::string::npos) ? src.substr(nextLinePos) : src.substr(nextLinePos, pos - nextLinePos);
         }
 
         return shaderSources;

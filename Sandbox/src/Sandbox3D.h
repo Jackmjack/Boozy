@@ -28,4 +28,6 @@ private:
 
     glm::vec3 m_Rotation = { 0.0f, 0.0f, 0.0f };
     float m_RotationSpeed = 45.0f;
+
+    Boozy::Ref<Boozy::Shader> m_FloorShader;
 };

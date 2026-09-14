@@ -11,13 +11,17 @@ void Sandbox3D::OnAttach()
 {
     Boozy::Application::GetInstance().GetWindow().SetCursorMode(Boozy::WindowCursorMode::Disabled);
 
-    Boozy::Light dlight = Boozy::Light::MakeDirectional({ -0.5f, -1.0f, -0.3f }, { 1.0f, 0.0f, 0.0f });
-    Boozy::Light plight = Boozy::Light::MakePoint({ 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-    Boozy::Light slight = Boozy::Light::MakeSpot({ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 1.0f }, 12.5f, 17.5f);
+    m_CameraController.SetCameraPosition({0.0f, 3.0f, 0.0f});
+
+    Boozy::Light dlight = Boozy::Light::MakeDirectional({ -0.5f, -1.0f, -0.3f }, { 0.7f, 0.7f, 0.7f });
+    Boozy::Light plight = Boozy::Light::MakePoint({ 0.0f, 5.0f, -12.0f }, { 0.0f, 1.0f, 0.0f });
+    Boozy::Light slight = Boozy::Light::MakeSpot({ 0.0f, 3.0f, 0.0f }, { 0.0f, -1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f }, 12.5f, 17.5f);
 
     m_Lights.push_back(dlight);
     m_Lights.push_back(plight);
     m_Lights.push_back(slight);
+
+    m_FloorShader = Boozy::Shader::Create("assets/shaders/Floor.glsl");
 
     Boozy::Ref<Boozy::Shader> shader = Boozy::Shader::Create("assets/shaders/Lit3D.glsl");
     glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -53,6 +57,8 @@ void Sandbox3D::OnUpdate(Boozy::Timestep delta)
     if (m_Model && m_Model->IsValid())
         for (const auto& entry : m_Model->GetMeshes())
             Boozy::Renderer3D::DrawMesh(m_ModelTransform, entry.Mesh, m_Material);
+
+    Boozy::Renderer3D::DrawFloor(m_FloorShader);
 
     Boozy::Renderer3D::EndScene();
 }

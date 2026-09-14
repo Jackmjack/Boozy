@@ -19,6 +19,8 @@ namespace Boozy {
 
         PerspectiveCamera& GetCamera() { return m_Camera; }
         const PerspectiveCamera& GetCamera() const { return m_Camera; }
+
+        void SetCameraPosition(glm::vec3 position) { m_CameraPosition = position; }
     private:
         bool OnWindowResized(WindowResizeEvent& event);
 

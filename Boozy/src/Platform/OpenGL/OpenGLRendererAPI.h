@@ -19,6 +19,7 @@ namespace Boozy {
         virtual void DisableBlending() override;
 
         virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) override;
+        virtual void DrawArrays(uint32_t vertexCount) override;
     };
 
 }

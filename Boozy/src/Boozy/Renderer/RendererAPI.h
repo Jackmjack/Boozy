@@ -30,6 +30,7 @@ namespace Boozy {
         virtual void DisableBlending() = 0;
 
         virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) = 0;
+        virtual void DrawArrays(uint32_t vertexCount) = 0;
 
         inline static API GetAPI() { return s_API; }
     private:

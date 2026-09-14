@@ -67,4 +67,8 @@ namespace Boozy {
         glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
     }
 
+    void OpenGLRendererAPI::DrawArrays(uint32_t vertexCount)
+    {
+        glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertexCount);
+    }
 }
