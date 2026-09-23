@@ -1,5 +1,8 @@
 ﻿#pragma once
+#include "Boozy/Core/Log.h"
+
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Boozy {
     inline constexpr int BZ_MAX_LIGHTS = 8;
@@ -60,6 +63,43 @@ namespace Boozy {
             light.OuterCutOff = outerDeg;
             light.Intensity = intensity;
             return light;
+        }
+
+        static std::vector<glm::mat4> MakePointShadowMatrix(const Light& point)
+        {
+            const glm::mat4 proj = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 50.0f);
+
+            // 六个朝向，顺序必须严格对应 GL 的 face 枚举
+            const glm::vec3 dirs[6] = {
+                { 1, 0, 0}, {-1, 0, 0},
+                { 0, 1, 0}, { 0,-1, 0},
+                { 0, 0, 1}, { 0, 0,-1},
+            };
+            const glm::vec3 ups[6] = {
+                {0,-1, 0}, {0,-1, 0},      // +X / -X
+                {0, 0, 1}, {0, 0,-1},      // +Y / -Y
+                {0,-1, 0}, {0,-1, 0},      // +Z / -Z
+            };
+
+            std::vector<glm::mat4> lightSpace;
+            lightSpace.resize(6);
+            for (int f = 0; f < 6; f++) {
+                lightSpace[f] = proj * glm::lookAt(point.Position, point.Position + dirs[f], ups[f]);
+            }
+
+            return lightSpace;
+        }
+
+        static glm::mat4 MakeSpotShadowMatrix(const Light& spot)
+        {
+            if (spot.Type != LightType::Spot) {
+                return glm::mat4(1.0f);
+            }
+
+            glm::vec3 up = std::abs(spot.Direction.y) > 0.99f ? glm::vec3(0.0f, 0.0f, 1.0f) : glm::vec3(0.0f, 1.0f, 0.0f);
+            glm::mat4 spotView = glm::lookAt(spot.Position, spot.Position + spot.Direction, up);
+            glm::mat4 spotProj = glm::perspective(glm::radians(spot.OuterCutOff * 2), 1.0f, 0.1f, 100.0f);
+            return spotProj * spotView;
         }
     };
 

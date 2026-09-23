@@ -15,7 +15,7 @@ void Sandbox3D::OnAttach()
 
     Boozy::Light dlight = Boozy::Light::MakeDirectional({ -0.5f, -1.0f, -0.3f }, { 0.7f, 0.7f, 0.7f });
     Boozy::Light plight = Boozy::Light::MakePoint({ 0.0f, 5.0f, -12.0f }, { 0.0f, 1.0f, 0.0f });
-    Boozy::Light slight = Boozy::Light::MakeSpot({ 0.0f, 3.0f, 0.0f }, { 0.0f, -1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f }, 12.5f, 17.5f);
+    Boozy::Light slight = Boozy::Light::MakeSpot({ 0.0f, 10.0f, -12.0f }, { 0.0f, -1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f }, 12.5f, 17.5f);
 
     m_Lights.push_back(dlight);
     m_Lights.push_back(plight);
@@ -47,12 +47,18 @@ void Sandbox3D::OnUpdate(Boozy::Timestep delta)
     m_CameraController.OnUpdate(delta);
 
     m_Rotation = { m_Rotation.x + m_RotationSpeed * delta, m_Rotation.y, m_Rotation.z + m_RotationSpeed * 2 * delta };
-    m_ModelTransform = Boozy::Transform({ 0.0f, 0.0f, -12.0f }, m_Rotation, { 1.0f, 1.0f, 1.0f });
+    m_ModelTransform = Boozy::Transform({ 0.0f, 5.0f, -12.0f }, m_Rotation, { 1.0f, 1.0f, 1.0f });
 
     Boozy::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
     Boozy::RenderCommand::Clear();
 
     Boozy::Renderer3D::BeginScene(m_CameraController.GetCamera(), m_Lights, m_Ambient);
+
+    Boozy::Renderer3D::BeginShadow();
+    if (m_Model && m_Model->IsValid())
+        for (const auto& entry : m_Model->GetMeshes())
+            Boozy::Renderer3D::DrawShadow(m_ModelTransform, entry.Mesh);
+    Boozy::Renderer3D::EndShadow();
 
     if (m_Model && m_Model->IsValid())
         for (const auto& entry : m_Model->GetMeshes())

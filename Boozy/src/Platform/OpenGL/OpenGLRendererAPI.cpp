@@ -17,6 +17,25 @@ namespace Boozy {
         glViewport(x, y, width, height);
     }
 
+    const int32_t* OpenGLRendererAPI::GetViewport() const
+    {
+        static int32_t viewport[4] = { 0, 0, 0, 0 };
+        glGetIntegerv(GL_VIEWPORT, viewport);
+        return viewport;
+    }
+
+    uint32_t OpenGLRendererAPI::GetFrameBuffer() const
+    {
+        GLint fbo = 0;
+        glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &fbo);
+        return (uint32_t)fbo;
+    }
+
+    void OpenGLRendererAPI::BindFrameBuffer(uint32_t rendererID)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, rendererID);
+    }
+
     void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)
     {
         glClearColor(color.r, color.g, color.b, color.a);
@@ -25,6 +44,11 @@ namespace Boozy {
     void OpenGLRendererAPI::Clear()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    void OpenGLRendererAPI::ClearDepth()
+    {
+        glClear(GL_DEPTH_BUFFER_BIT);
     }
 
     void OpenGLRendererAPI::EnableDepthTest()
@@ -59,6 +83,27 @@ namespace Boozy {
     void OpenGLRendererAPI::DisableBlending()
     {
         glDisable(GL_BLEND);
+    }
+
+    void OpenGLRendererAPI::EnablePolygonOffset()
+    {
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(4.0f, 40.0f);
+    }
+
+    void OpenGLRendererAPI::DisablePolygonOffset()
+    {
+        glDisable(GL_POLYGON_OFFSET_FILL);
+    }
+
+    void OpenGLRendererAPI::BindTexture(uint32_t slot, uint32_t rendererID) {
+        glActiveTexture(GL_TEXTURE0 + slot);
+        glBindTexture(GL_TEXTURE_2D, rendererID);
+    }
+
+    void OpenGLRendererAPI::BindTextureCube(uint32_t slot, uint32_t rendererID) {
+        glActiveTexture(GL_TEXTURE0 + slot);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, rendererID);
     }
 
     void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray)

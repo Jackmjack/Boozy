@@ -164,6 +164,12 @@ namespace Boozy {
         OpenGLShader::UploadFloat3Array(name, values, count);
     }
 
+    void OpenGLShader::SetMat4Array(const std::string& name, const glm::mat4* values, uint32_t count)
+    {
+        if (count == 0) return;
+        OpenGLShader::UploadMat4Array(name, values, count);
+    }
+
     void OpenGLShader::UploadUniformBool(const std::string& name, bool value)
     {
         glUseProgram(m_RendererID);
@@ -295,6 +301,13 @@ namespace Boozy {
         glUseProgram(m_RendererID);
         GLuint location = glGetUniformLocation(m_RendererID, name.c_str());
         glUniform3fv(location, count, glm::value_ptr(values[0]));
+    }
+
+    void OpenGLShader::UploadMat4Array(const std::string& name, const glm::mat4* values, uint32_t count)
+    {
+        glUseProgram(m_RendererID);
+        GLuint location = glGetUniformLocation(m_RendererID, name.c_str());
+        glUniformMatrix4fv(location, count, GL_FALSE, glm::value_ptr(values[0]));
     }
 
     std::string OpenGLShader::ReadFile(const std::string& filepath)

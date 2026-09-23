@@ -96,7 +96,16 @@
     <ClInclude Include="src\Boozy\Renderer\Camera.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\FrameBuffer.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Boozy\Renderer\GraphicsContext.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Light.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Material.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Renderer\Mesh.h">
@@ -150,6 +159,9 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
@@ -174,8 +186,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Boozy\Renderer\Light.h" />
-    <ClInclude Include="src\Boozy\Renderer\Material.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Boozy\Core\Application.cpp">
@@ -200,6 +210,12 @@
       <Filter>src\Boozy\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Renderer\Buffer.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\FrameBuffer.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Material.cpp">
       <Filter>src\Boozy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Renderer\Mesh.cpp">
@@ -250,6 +266,9 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -274,6 +293,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Boozy\Renderer\Material.cpp" />
   </ItemGroup>
 </Project>

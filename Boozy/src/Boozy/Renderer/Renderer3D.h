@@ -24,6 +24,10 @@ namespace Boozy
         static void BeginScene(const Camera& camera, const std::vector<Light>& lights, const glm::vec3 ambient = { 0.1f,0.1f,0.1f });
         static void EndScene();
 
+        static void BeginShadow();
+        static void DrawShadow(const Transform& transform, const Ref<Mesh>& mesh);
+        static void EndShadow();
+
         static void DrawMesh(const Transform& transform, const Ref<Mesh>& mesh, const Ref<Shader>& shader);
         static void DrawMesh(const Transform& transform, const Ref<Mesh>& mesh, const Ref<Material>& material);
 

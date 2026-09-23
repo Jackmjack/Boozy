@@ -25,8 +25,10 @@ uniform mat4 u_InvViewProjection;
 uniform vec4 u_Color;
 uniform bool u_GridEnabled;
 uniform vec3 u_GridColor;
+uniform float u_GridScale;
 uniform float u_FadeStart;
 uniform float u_FadeEnd;
+uniform vec3 u_FadeColor;
 
 void main()
 {
@@ -48,9 +50,10 @@ void main()
 
     float fade = 1.0 - smoothstep(u_FadeStart, u_FadeEnd, t);
 
+    vec3 lit = u_Color.rgb * result;
     if (u_GridEnabled)
     {
-        vec2 coord = worldPos.xz;
+        vec2 coord = worldPos.xz / max(u_GridScale, 1e-4);
         vec2 f = fract(coord);
         vec2 d = min(f, 1.0 - f);
         vec2 w = fwidth(coord);
@@ -59,8 +62,7 @@ void main()
         float ly = (1.0 - min(d.y / w.y, 1.0)) * (1.0 - smoothstep(0.5, 1.0, w.y));
         float line = max(lx, ly);
 
-        color = vec4(mix(u_Color.rgb * result, u_GridColor * result, line) * fade, u_Color.a);
+        lit = mix(lit, u_GridColor * result, line);
     }
-    else
-        color = vec4(u_Color.rgb * result * fade, u_Color.a);
+    color = vec4(mix(u_FadeColor, lit, fade), u_Color.a);
 }
