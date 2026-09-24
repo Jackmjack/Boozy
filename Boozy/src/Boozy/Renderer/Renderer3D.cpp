@@ -19,12 +19,15 @@ namespace Boozy
 
     struct Renderer3DData
     {
+        glm::mat4 ViewMatrix = glm::mat4(1.0f);
+        glm::mat4 ProjectionMatrix = glm::mat4(1.0f);
         glm::mat4 ViewProjectionMatrix = glm::mat4(1.0f);
         std::vector<Light> Lights;
         glm::vec3 Ambient = glm::vec3(0.1f);
         Ref<Texture2D> WhiteTexture;
 
         Ref<VertexArray> FloorVertexArray;
+        Ref<TextureCube> Skybox;
 
         // ------------------ Shadow ------------------
         Ref<Shader> ShadowShader;
@@ -165,6 +168,8 @@ namespace Boozy
         RenderCommand::EnableBlending();
 
         s_Data->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+        s_Data->ViewMatrix = camera.GetViewMatrix();
+        s_Data->ProjectionMatrix = camera.GetProjectionMatrix();
         s_Data->Lights.clear();
         s_Data->Ambient = glm::vec3(0.0f);
     }
@@ -315,13 +320,41 @@ namespace Boozy
         shader->SetBool("u_GridEnabled", true);
         shader->SetFloat3("u_GridColor", glm::vec3(0.15f));
         shader->SetFloat("u_GridScale", 1.0f);
-        shader->SetFloat("u_FadeStart", 50.0f);
+        shader->SetFloat("u_FadeStart", 90.0f);
         shader->SetFloat("u_FadeEnd", 100.0f);
         shader->SetFloat3("u_FadeColor", glm::vec3(0.0f));
-
+        
         UploadLightsUniforms(shader);
+
+        if (s_Data->Skybox)
+        {
+            s_Data->Skybox->Bind(BZ_MAX_LIGHTS + 1);
+            shader->SetInt("u_Skybox", BZ_MAX_LIGHTS + 1);
+            shader->SetBool("u_HasSkybox", true);
+        }
+        else
+        {
+            shader->SetBool("u_HasSkybox", false);
+        }
 
         s_Data->FloorVertexArray->Bind();
         RenderCommand::DrawArrays(3);
+    }
+
+    void Renderer3D::DrawSkybox(const Ref<TextureCube>& skybox, const Ref<Shader>& shader)
+    {
+        s_Data->Skybox = skybox;
+
+        RenderCommand::DisableDepthTest();
+
+        glm::mat4 view = glm::mat4(glm::mat3(s_Data->ViewMatrix));
+
+        shader->Bind();
+        shader->SetMat4("u_ViewProjection", s_Data->ProjectionMatrix * view);
+        s_Data->Skybox->Bind(BZ_MAX_LIGHTS + 1);
+        shader->SetInt("u_Skybox", BZ_MAX_LIGHTS + 1);
+        RenderCommand::DrawArrays(36);
+
+        RenderCommand::EnableDepthTest();
     }
 }

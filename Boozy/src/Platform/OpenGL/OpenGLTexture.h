@@ -26,6 +26,23 @@ namespace Boozy {
 
         GLenum m_InternalFormat, m_DataFormat;
     };
+
+    class OpenGLTextureCube : public TextureCube
+    {
+    public:
+        OpenGLTextureCube(uint32_t size);
+        OpenGLTextureCube(const std::vector<std::string>& paths);
+        virtual ~OpenGLTextureCube();
+
+        virtual uint32_t GetWidth() const override { return m_Width; }
+        virtual uint32_t GetHeight() const override { return m_Width; }
+
+        virtual void Bind(uint32_t slot) const override;
+    private:
+        std::vector<std::string> m_Paths;
+        uint32_t m_Width;
+        uint32_t m_RendererID;
+    };
 }
 
 

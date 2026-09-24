@@ -23,6 +23,13 @@ void Sandbox3D::OnAttach()
 
     m_FloorShader = Boozy::Shader::Create("assets/shaders/Floor.glsl");
 
+    m_SkyboxShader = Boozy::Shader::Create("assets/shaders/Skybox.glsl");
+    m_Skybox = Boozy::TextureCube::Create({
+        "assets/textures/skybox/right.png", "assets/textures/skybox/left.png",
+        "assets/textures/skybox/top.png",   "assets/textures/skybox/bottom.png",
+        "assets/textures/skybox/front.png", "assets/textures/skybox/back.png",
+        });
+
     Boozy::Ref<Boozy::Shader> shader = Boozy::Shader::Create("assets/shaders/Lit3D.glsl");
     glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -54,6 +61,9 @@ void Sandbox3D::OnUpdate(Boozy::Timestep delta)
 
     Boozy::Renderer3D::BeginScene(m_CameraController.GetCamera(), m_Lights, m_Ambient);
 
+    Boozy::Renderer3D::DrawSkybox(m_Skybox, m_SkyboxShader);
+    Boozy::Renderer3D::DrawFloor(m_FloorShader);
+
     Boozy::Renderer3D::BeginShadow();
     if (m_Model && m_Model->IsValid())
         for (const auto& entry : m_Model->GetMeshes())
@@ -63,8 +73,6 @@ void Sandbox3D::OnUpdate(Boozy::Timestep delta)
     if (m_Model && m_Model->IsValid())
         for (const auto& entry : m_Model->GetMeshes())
             Boozy::Renderer3D::DrawMesh(m_ModelTransform, entry.Mesh, m_Material);
-
-    Boozy::Renderer3D::DrawFloor(m_FloorShader);
 
     Boozy::Renderer3D::EndScene();
 }

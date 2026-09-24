@@ -30,4 +30,6 @@ private:
     float m_RotationSpeed = 45.0f;
 
     Boozy::Ref<Boozy::Shader> m_FloorShader;
+    Boozy::Ref<Boozy::TextureCube> m_Skybox;
+    Boozy::Ref<Boozy::Shader> m_SkyboxShader;
 };

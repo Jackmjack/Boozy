@@ -29,6 +29,8 @@ uniform float u_GridScale;
 uniform float u_FadeStart;
 uniform float u_FadeEnd;
 uniform vec3 u_FadeColor;
+uniform samplerCube u_Skybox;
+uniform bool u_HasSkybox;
 
 void main()
 {
@@ -64,5 +66,10 @@ void main()
 
         lit = mix(lit, u_GridColor * result, line);
     }
-    color = vec4(mix(u_FadeColor, lit, fade), u_Color.a);
+
+    vec3 fadeColor = u_FadeColor;
+    if (u_HasSkybox)
+        fadeColor = texture(u_Skybox, dir).rgb;
+
+    color = vec4(mix(fadeColor, lit, fade), u_Color.a);
 }
