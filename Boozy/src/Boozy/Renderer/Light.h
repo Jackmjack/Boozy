@@ -65,6 +65,48 @@ namespace Boozy {
             return light;
         }
 
+        static glm::mat4 MakeDirectionalShadowMatrix(const Light& directional, glm::mat4& vp, uint32_t mapSize, float& radius)
+        {
+            const glm::mat4 invVP = glm::inverse(vp);
+            glm::vec3 c[8];
+            int n = 0;
+            for (int zi = 0; zi < 2; ++zi)
+            {
+                const float z = (zi == 0) ? -1.0f : 1.0f;      // -1 近平面, +1 远平面
+                for (int yi = 0; yi < 2; ++yi)
+                    for (int xi = 0; xi < 2; ++xi)
+                    {
+                        const glm::vec4 p = invVP * glm::vec4(xi ? 1.0f : -1.0f,
+                            yi ? 1.0f : -1.0f, z, 1.0f);
+                        c[n++] = glm::vec3(p) / p.w;
+                    }
+            }
+
+            glm::vec3 center(0.0f);
+            for (const glm::vec3& p : c) center += p;
+            center /= 8.0f;
+
+            radius = 0.0f;
+            for (const glm::vec3& p : c) radius = glm::max(radius, glm::length(p - center));
+            radius = glm::max(radius, 1e-3f);
+
+            const glm::vec3 d = glm::normalize(directional.Direction);
+            const glm::vec3 ref = std::abs(d.y) > 0.99f ? glm::vec3(0, 0, 1) : glm::vec3(0, 1, 0);
+            const glm::vec3 right = glm::normalize(glm::cross(ref, d));
+            const glm::vec3 up = glm::cross(right, d);
+
+            const float texel = 2.0f * radius / (float)mapSize;
+            const glm::vec3 ls(glm::dot(center, right), glm::dot(center, up), glm::dot(center, d));
+            const glm::vec3 q = glm::round(ls / texel) * texel;
+            const glm::vec3 snapped = right * q.x + up * q.y + d * q.z;
+
+            const glm::vec3 eye = snapped - d * (radius);
+            const glm::mat4 lightView = glm::lookAt(eye, snapped, up);
+            const glm::mat4 lightProj = glm::ortho(-radius, radius, -radius, radius,
+                0.0f, 2.0f * radius);
+            return lightProj * lightView;
+        }
+
         static std::vector<glm::mat4> MakePointShadowMatrix(const Light& point)
         {
             const glm::mat4 proj = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 50.0f);

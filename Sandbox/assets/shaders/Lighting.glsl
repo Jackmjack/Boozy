@@ -33,12 +33,15 @@ uniform int         u_HasShadowCube[MAX_LIGHTS];
 uniform mat4        u_MatrixCube[MAX_LIGHTS * 6];
 
 uniform float u_ShadowSoftness;
+uniform float u_ShadowNormalBias;
 
-float ShadowVisibility2D(vec3 worldPos, int lightIndex)
+float ShadowVisibility2D(vec3 worldPos, vec3 N, int lightIndex)
 {
     if (u_HasShadow[lightIndex] == 0) return 1.0;
 
-    vec4 lp = u_LightSpaceMatrix[lightIndex] * vec4(worldPos, 1.0);
+    vec3 p = worldPos + N * u_ShadowNormalBias;
+
+    vec4 lp = u_LightSpaceMatrix[lightIndex] * vec4(p, 1.0);
     vec3 c  = lp.xyz / lp.w * 0.5 + 0.5;
     if (c.x < 0.0 || c.x > 1.0 || c.y < 0.0 || c.y > 1.0 || c.z > 1.0) return 1.0;
 
@@ -101,7 +104,7 @@ vec3 LitSurface(vec3 N, vec3 worldPos)
         {
             vec3 L = normalize(-u_LightDirection[i]); // 从物体指向光源
             float NdotL = max(dot(N, L), 0.0);
-            result += u_LightColor[i] * u_LightIntensity[i] * NdotL * ShadowVisibility2D(worldPos, i);
+            result += u_LightColor[i] * u_LightIntensity[i] * NdotL * ShadowVisibility2D(worldPos, N, i);
         }
         else if (u_LightType[i] == 1)
         {
@@ -120,7 +123,7 @@ vec3 LitSurface(vec3 N, vec3 worldPos)
             float theta = dot(L, normalize(-u_LightDirection[i])); // 从物体指向光源
             float eps = max(u_LightCosInner[i] - u_LightCosOuter[i], 1e-4);
             float spot = clamp((theta - u_LightCosOuter[i]) / eps, 0.0, 1.0);
-            result += u_LightColor[i] * u_LightIntensity[i] * NdotL * attenuation * spot * ShadowVisibility2D(worldPos, i);
+            result += u_LightColor[i] * u_LightIntensity[i] * NdotL * attenuation * spot * ShadowVisibility2D(worldPos, N, i);
         }
     }
 

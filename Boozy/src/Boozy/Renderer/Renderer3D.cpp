@@ -32,6 +32,9 @@ namespace Boozy
         std::vector<Ref<FrameBuffer>> FBOs;
         std::vector<Ref<FrameBuffer>> CubeFBOs;
         float ShadowSoftness = 1.0f;
+        float ShadowRadius = 0.0f;
+        uint32_t ShadowMapSize = 4096;
+        float ShadowBiasScale = 2.5f;
 
         uint32_t MainFrameBuffer = 0;
         int32_t MainViewport[4] = { 0, 0, 0, 0 };
@@ -125,6 +128,8 @@ namespace Boozy
         shader->SetMat4Array("u_MatrixCube", cubeMatrices, BZ_MAX_LIGHTS * 6);
 
         shader->SetFloat("u_ShadowSoftness", s_Data->ShadowSoftness);
+        const float texelWorld = 2.0f * s_Data->ShadowRadius / (float)s_Data->ShadowMapSize;
+        shader->SetFloat("u_ShadowNormalBias", texelWorld * s_Data->ShadowBiasScale);
     }
 
     void Renderer3D::Init()
@@ -142,7 +147,7 @@ namespace Boozy
 
         s_Data->FBOs.resize(BZ_MAX_LIGHTS);
         for (auto& fbo : s_Data->FBOs)
-            fbo = FrameBuffer::Create({ 1024, 1024 });
+            fbo = FrameBuffer::Create({ s_Data->ShadowMapSize, s_Data->ShadowMapSize });
 
         s_Data->CubeFBOs.resize(BZ_MAX_LIGHTS);
     }
@@ -194,24 +199,7 @@ namespace Boozy
         {
             if (s_Data->Lights[i].Type == LightType::Directional)
             {
-                // ---- 光源空间矩阵 ----
-                // 盒子必须同时罩住 ①投影体 ②它在地板上的落点：IsInShadow() 对盒外片元直接 return 0.0
-                // （当成被照亮），所以接收面一旦在盒外，那块阴影根本不会出现，而不是"精度变差"。
-                // 茶壶平移到 y=5、本地包围盒中心 y≈1.6 → 世界中心 y≈6.6；落点 = (x+0.5y, 0, z+0.3y)
-                // （光方向归一化后水平分量正好是 0.5 / 0.3），自转后包围球半径约 4，落点最远再偏 6。
-                // 用固定球而不是每帧 AABB：矩阵每帧完全一致 → 纹素栅格不动 → 阴影不抖。
-                const glm::vec3 center(0.0f, 4.0f, -12.0f);
-                const float radius = 12.0f;
-
-                const glm::vec3 lightDir = glm::normalize(s_Data->Lights[i].Direction);   // 传播方向
-                const glm::vec3 up = std::abs(lightDir.y) > 0.99f ? glm::vec3(0.0f, 0.0f, 1.0f)
-                    : glm::vec3(0.0f, 1.0f, 0.0f);
-
-                // 光源在 -lightDir 那一侧。写成 + 会让光与阴影整个颠倒。
-                const glm::mat4 lightView = glm::lookAt(center - lightDir * (radius * 2.0f), center, up);
-                const glm::mat4 lightProj = glm::ortho(-radius, radius, -radius, radius, 0.1f, radius * 4.0f);
-
-                ShadowSlot slot = { i, lightProj * lightView, s_Data->FBOs[i]};
+                ShadowSlot slot = { i, Light::MakeDirectionalShadowMatrix(s_Data->Lights[i], s_Data->ViewProjectionMatrix, s_Data->FBOs[i]->GetProps().Width, s_Data->ShadowRadius), s_Data->FBOs[i]};
                 s_Data->Slots.push_back(slot);
             }
             else if (s_Data->Lights[i].Type == LightType::Point)
@@ -229,7 +217,6 @@ namespace Boozy
             }
         }
 
-        RenderCommand::EnablePolygonOffset();
         RenderCommand::DisableFaceCulling();
 
         for (auto& slot : s_Data->Slots)
@@ -284,7 +271,6 @@ namespace Boozy
             slot.Map->Unbind();
 
         RenderCommand::EnableFaceCulling();
-        RenderCommand::DisablePolygonOffset();
 
         RenderCommand::BindFrameBuffer(s_Data->MainFrameBuffer);
         RenderCommand::SetViewport(s_Data->MainViewport[0], s_Data->MainViewport[1],
