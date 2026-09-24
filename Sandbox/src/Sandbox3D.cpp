@@ -1,4 +1,5 @@
 ﻿#include "Sandbox3D.h"
+#include <algorithm>
 #include <imgui.h>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -9,7 +10,9 @@ Sandbox3D::Sandbox3D()
 
 void Sandbox3D::OnAttach()
 {
-    Boozy::Application::GetInstance().GetWindow().SetCursorMode(Boozy::WindowCursorMode::Disabled);
+    auto* imguiLayer = Boozy::Application::GetInstance().GetImGuiLayer();
+    imguiLayer->RegisterPanel("Light Settings", Boozy::DockSlot::Left);
+    imguiLayer->RegisterPanel("Scene Objects", Boozy::DockSlot::Right);
 
     m_CameraController.SetCameraPosition({0.0f, 3.0f, 0.0f});
 
@@ -37,24 +40,55 @@ void Sandbox3D::OnAttach()
     m_Material->SetDoubleSided(true);
 
     m_Model.reset(new Boozy::Model("assets/models/teapot.obj"));
-    m_ModelTransform = Boozy::Transform({ 0.0f, 0.0f, -12.0f }, m_Rotation, { 1.0f, 1.0f, 1.0f });
+
+    const int kGridN = 3;
+    const float kSpacing = 6.0f;
+    const float kBaseZ = -24.0f;
+    const float kOffset = (kGridN - 1) * 0.5f;
+
+    for (int ix = 0; ix < kGridN; ++ix)
+    {
+        for (int iz = 0; iz < kGridN; ++iz)
+        {
+            glm::vec3 position = {
+                (ix - kOffset) * kSpacing,
+                0.0f,
+                kBaseZ + (iz - kOffset) * kSpacing
+            };
+
+            std::string name = "Teapot_" + std::to_string(ix) + "_" + std::to_string(iz);
+
+            Boozy::Ref<Boozy::Material> material(new Boozy::Material(shader, color));
+            material->SetDoubleSided(true);
+
+            const Boozy::SceneObject& object = m_Scene.Add(
+                m_Model, material,
+                Boozy::Transform(position, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }),
+                name);
+
+            if (ix == 1 && iz == 1)
+                m_Spinning.push_back(object.ID);
+        }
+    }
 }
 
 void Sandbox3D::OnDetach()
 {
-    Boozy::Application::GetInstance().GetWindow().SetCursorMode(Boozy::WindowCursorMode::Normal);
 }
 
 void Sandbox3D::OnUpdate(Boozy::Timestep delta)
 {
-
-    if (Boozy::Input::IsKeyPressed(BZ_KEY_ESCAPE))
-        Boozy::Application::GetInstance().GetWindow().SetCursorMode(Boozy::WindowCursorMode::Normal);
-
     m_CameraController.OnUpdate(delta);
 
-    m_Rotation = { m_Rotation.x + m_RotationSpeed * delta, m_Rotation.y, m_Rotation.z + m_RotationSpeed * 2 * delta };
-    m_ModelTransform = Boozy::Transform({ 0.0f, 5.0f, -12.0f }, m_Rotation, { 1.0f, 1.0f, 1.0f });
+    m_Rotation += m_RotationSpeed * delta;
+    if (m_Rotation > 360.0f)
+        m_Rotation -= 360.0f;
+
+    for (uint32_t id : m_Spinning)
+    {
+        if (Boozy::SceneObject* object = m_Scene.Find(id))
+            object->ObTransform.SetRotation({ 0.0f, m_Rotation, 0.0f });
+    }
 
     Boozy::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
     Boozy::RenderCommand::Clear();
@@ -65,20 +99,98 @@ void Sandbox3D::OnUpdate(Boozy::Timestep delta)
     Boozy::Renderer3D::DrawFloor(m_FloorShader);
 
     Boozy::Renderer3D::BeginShadow();
-    if (m_Model && m_Model->IsValid())
-        for (const auto& entry : m_Model->GetMeshes())
-            Boozy::Renderer3D::DrawShadow(m_ModelTransform, entry.Mesh);
+    for (const Boozy::SceneObject& object : m_Scene.GetObjects())
+    {
+        if (!object.Visible || !object.Model || !object.Model->IsValid())
+            continue;
+
+        for (const auto& entry : object.Model->GetMeshes())
+            Boozy::Renderer3D::DrawShadow(object.ObTransform, entry.Mesh);
+    }
     Boozy::Renderer3D::EndShadow();
 
-    if (m_Model && m_Model->IsValid())
-        for (const auto& entry : m_Model->GetMeshes())
-            Boozy::Renderer3D::DrawMesh(m_ModelTransform, entry.Mesh, m_Material);
+    for (const Boozy::SceneObject& object : m_Scene.GetObjects())
+    {
+        if (!object.Visible || !object.Model || !object.Model->IsValid())
+            continue;
+
+        for (const auto& entry : object.Model->GetMeshes())
+            Boozy::Renderer3D::DrawMesh(object.ObTransform, entry.Mesh, object.Material);
+    }
 
     Boozy::Renderer3D::EndScene();
 }
 
 void Sandbox3D::OnImGuiRender()
 {
+    ImGui::SetNextWindowSize(ImVec2(360.0f, 420.0f), ImGuiCond_FirstUseEver);
+    ImGui::SetNextWindowPos(ImVec2(60.0f, 60.0f), ImGuiCond_FirstUseEver);
+    // ==================== 场景物体 ====================
+    ImGui::Begin("Scene Objects");
+
+    ImGui::Text("Objects: %d", (int)m_Scene.GetObjects().size());
+    ImGui::SameLine();
+    if (ImGui::Button("Add Teapot"))
+    {
+        // 复制一份材质，避免新物体和旧物体共用颜色
+        Boozy::Ref<Boozy::Material> material(new Boozy::Material(
+            m_Material->GetShader(), m_Material->GetColor()));
+        material->SetDoubleSided(true);
+
+        m_Scene.Add(m_Model, material,
+            Boozy::Transform({ 0.0f, 0.0f, -12.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }),
+            "Teapot_" + std::to_string(m_Scene.GetObjects().size()));
+    }
+    ImGui::Separator();
+
+    // 延迟删除：遍历中不能改 vector
+    uint32_t pendingRemove = 0;
+
+    for (Boozy::SceneObject& object : m_Scene.GetObjects())
+    {
+        ImGui::PushID((int)object.ID);
+
+        if (ImGui::CollapsingHeader(object.Name.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            ImGui::Checkbox("Visible", &object.Visible);
+
+            glm::vec3 position = object.ObTransform.GetPosition();
+            if (ImGui::DragFloat3("Position", glm::value_ptr(position), 0.1f, -200.0f, 200.0f, "%.2f"))
+                object.ObTransform.SetPosition(position);
+
+            glm::vec3 rotation = object.ObTransform.GetRotation();
+            if (ImGui::DragFloat3("Rotation", glm::value_ptr(rotation), 1.0f, -360.0f, 360.0f, "%.1f"))
+                object.ObTransform.SetRotation(rotation);
+
+            glm::vec3 scale = object.ObTransform.GetScale();
+            if (ImGui::DragFloat3("Scale", glm::value_ptr(scale), 0.01f, 0.01f, 100.0f, "%.2f"))
+                object.ObTransform.SetScale(scale);
+
+            if (object.Material)
+            {
+                glm::vec4 color = object.Material->GetColor();
+                if (ImGui::ColorEdit4("Color", glm::value_ptr(color), ImGuiColorEditFlags_Float))
+                    object.Material->SetColor(color);
+            }
+
+            if (ImGui::Button("Remove"))
+                pendingRemove = object.ID;
+        }
+
+        ImGui::PopID();
+    }
+
+    if (pendingRemove != 0)
+    {
+        m_Spinning.erase(
+            std::remove(m_Spinning.begin(), m_Spinning.end(), pendingRemove),
+            m_Spinning.end());
+        m_Scene.Remove(pendingRemove);
+    }
+
+    ImGui::End();
+
+    // ==================== 光照 ====================
     ImGui::Begin("Light Settings");
 
     ImGui::SeparatorText("Environment");
@@ -109,7 +221,6 @@ void Sandbox3D::OnImGuiRender()
     ImGui::DragFloat("Constant", &m_Lights[1].Constant, 0.01f, 0.001f, 10.0f, "%.4f");
     ImGui::DragFloat("Linear", &m_Lights[1].Linear, 0.001f, 0.0f, 10.0f, "%.4f");
     ImGui::DragFloat("Quadratic", &m_Lights[1].Quadratic, 0.001f, 0.0f, 10.0f, "%.4f");
-    // 实际衰减倍率
     ImGui::TextDisabled("attenuation @12 = %.4f",
         1.0f / (m_Lights[1].Constant + m_Lights[1].Linear * 12.0f + m_Lights[1].Quadratic * 144.0f));
     ImGui::PopID();

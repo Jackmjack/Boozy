@@ -3,6 +3,7 @@
 
 #include "Boozy/Core/Input.h"
 #include "Boozy/Core/KeyCodes.h"
+#include "Boozy/Core/MouseButtonCodes.h"
 
 namespace Boozy {
 
@@ -12,23 +13,24 @@ namespace Boozy {
 
     void PerspectiveCameraController::OnUpdate(Timestep delta)
     {
-        if (m_FirstMouse) { m_LastMousePosition = Input::GetMousePosition(); m_FirstMouse = false; }
+        if (Input::IsMouseButtonPressed(BZ_MOUSE_BUTTON_1))
+        {
+            if (m_FirstMouse) { m_LastMousePosition = Input::GetMousePosition(); m_FirstMouse = false; }
 
-        float MouseX = Input::GetMouseX();
-        float MouseY = Input::GetMouseY();
+            float MouseX = Input::GetMouseX();
+            float MouseY = Input::GetMouseY();
 
-        float deltaX = MouseX - m_LastMousePosition.first;
-        float deltaY = MouseY - m_LastMousePosition.second;
+            float deltaX = MouseX - m_LastMousePosition.first;
+            float deltaY = MouseY - m_LastMousePosition.second;
 
-        m_LastMousePosition = { MouseX, MouseY };
+            m_LastMousePosition = { MouseX, MouseY };
 
-        if (std::fabs(deltaX) > 100) deltaX = 0;
-        if (std::fabs(deltaY) > 100) deltaY = 0;
+            m_Yaw += deltaX * m_MouseSensitivity;
+            m_Pitch -= deltaY * m_MouseSensitivity;
 
-        m_Yaw += deltaX * m_MouseSensitivity;
-        m_Pitch -= deltaY * m_MouseSensitivity;
-
-        m_Pitch = glm::clamp(m_Pitch, -89.0f, 89.0f);
+            m_Pitch = glm::clamp(m_Pitch, -89.0f, 89.0f);
+        }
+        else m_FirstMouse = true;
 
         const float yaw = glm::radians(m_Yaw);
         const float pitch = glm::radians(m_Pitch);

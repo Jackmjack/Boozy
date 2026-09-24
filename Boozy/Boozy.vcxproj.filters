@@ -186,6 +186,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Boozy\Core\Application.cpp">
@@ -293,5 +294,6 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Scene.cpp" />
   </ItemGroup>
 </Project>

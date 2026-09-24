@@ -2,6 +2,7 @@
 
 #include "Boozy.h"
 
+#include <vector>
 #include <glm/glm.hpp>
 
 class Sandbox3D : public Boozy::Layer
@@ -18,15 +19,16 @@ public:
 private:
     Boozy::PerspectiveCameraController m_CameraController;
 
+    Boozy::Scene m_Scene;
+
     std::vector<Boozy::Light> m_Lights;
     glm::vec3 m_Ambient = { 0.1f, 0.1f, 0.1f };
 
     Boozy::Ref<Boozy::Material> m_Material;
-
     Boozy::Ref<Boozy::Model> m_Model;
-    Boozy::Transform m_ModelTransform;
 
-    glm::vec3 m_Rotation = { 0.0f, 0.0f, 0.0f };
+    std::vector<uint32_t> m_Spinning;
+    float m_Rotation = 0.0f;
     float m_RotationSpeed = 45.0f;
 
     Boozy::Ref<Boozy::Shader> m_FloorShader;

@@ -40,4 +40,5 @@
 #include "Boozy/Renderer/OrthographicCameraController.h"
 #include "Boozy/Renderer/PerspectiveCameraController.h"
 
+#include "Boozy/Renderer/Scene.h"
 // =================================

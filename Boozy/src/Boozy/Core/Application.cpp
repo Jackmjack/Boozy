@@ -74,8 +74,10 @@ namespace Boozy {
             }
 
             m_ImGuiLayer->Begin();
+            m_ImGuiLayer->BeginDockSpace();
             for (Layer* layer : m_LayerStack)
                 layer->OnImGuiRender();
+            m_ImGuiLayer->EndDockSpace();
             m_ImGuiLayer->End();
 
             m_Window->OnUpdate();
