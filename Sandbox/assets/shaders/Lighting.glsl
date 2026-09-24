@@ -66,17 +66,22 @@ vec3 CubeDirFromFaceUV(int face, vec2 uv)
     return                vec3(-t.x, -t.y, -1.0);   // -Z
 }
 
-float ShadowVisibilityCube(vec3 worldPos, int lightIndex)
+float ShadowVisibilityCube(vec3 worldPos, vec3 N, int lightIndex)
 {
     if (u_HasShadowCube[lightIndex] == 0) return 1.0;
 
-    vec3 v = worldPos - u_LightPosition[lightIndex];
+    float texSize = float(textureSize(u_ShadowCube[lightIndex], 0).x);
+    float lightDist = max(length(worldPos - u_LightPosition[lightIndex]), 0.01);
+    float cubeBias = (2.0 / texSize) * lightDist;
+    vec3 p = worldPos + N * cubeBias * 2.5;
+
+    vec3 v = p - u_LightPosition[lightIndex];
     vec3 a = abs(v);
     int face = (a.x >= a.y && a.x >= a.z) ? (v.x > 0.0 ? 0 : 1)
              : (a.y >= a.z)               ? (v.y > 0.0 ? 2 : 3)
                                           : (v.z > 0.0 ? 4 : 5);
 
-    vec4 lp = u_MatrixCube[lightIndex * 6 + face] * vec4(worldPos, 1.0);
+    vec4 lp = u_MatrixCube[lightIndex * 6 + face] * vec4(p, 1.0);
     vec3 c  = lp.xyz / lp.w * 0.5 + 0.5;
     if (c.z > 1.0 || c.z < 0.0) return 1.0;
 
@@ -112,7 +117,7 @@ vec3 LitSurface(vec3 N, vec3 worldPos)
             float NdotL = max(dot(N, L), 0.0);
             float d = length(u_LightPosition[i] - worldPos);
             float attenuation = 1.0 / (u_LightConstant[i] + u_LightLinear[i] * d + u_LightQuadratic[i] * d * d);
-            result += u_LightColor[i] * u_LightIntensity[i] * NdotL * attenuation * ShadowVisibilityCube(worldPos, i);
+            result += u_LightColor[i] * u_LightIntensity[i] * NdotL * attenuation * ShadowVisibilityCube(worldPos, N, i);
         }
         else if (u_LightType[i] == 2)
         {
