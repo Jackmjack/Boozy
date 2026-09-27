@@ -34,6 +34,7 @@
 #include "Boozy/Renderer/Light.h"
 
 #include "Boozy/Renderer/Camera.h"
+#include "Boozy/Renderer/Frustum.h"
 #include "Boozy/Renderer/OrthographicCamera.h"
 #include "Boozy/Renderer/PerspectiveCamera.h"
 

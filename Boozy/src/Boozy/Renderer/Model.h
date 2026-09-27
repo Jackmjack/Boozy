@@ -12,6 +12,11 @@ namespace Boozy {
     {
         Ref<Mesh> Mesh;
         uint32_t MaterialIndex = 0;
+
+        glm::vec3 BoundsMin{ 0.0f };
+        glm::vec3 BoundsMax{ 0.0f };
+        glm::vec3 BoundsCenter{ 0.0f };
+        float BoundsRadius = 1.0f;
     };
 
     class Model

@@ -149,6 +149,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Boozy\Renderer\Frustum.h" />
     <ClInclude Include="src\Boozy\Renderer\Scene.h" />
     <ClInclude Include="src\Boozy.h" />
     <ClInclude Include="src\Boozy\Core\Application.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Boozy\Renderer\Frustum.cpp" />
     <ClCompile Include="src\Boozy\Renderer\Scene.cpp" />
     <ClCompile Include="src\Boozy\Core\Application.cpp" />
     <ClCompile Include="src\Boozy\Core\Layer.cpp" />

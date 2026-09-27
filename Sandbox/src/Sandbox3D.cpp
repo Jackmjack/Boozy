@@ -90,6 +90,8 @@ void Sandbox3D::OnUpdate(Boozy::Timestep delta)
             object->ObTransform.SetRotation({ 0.0f, m_Rotation, 0.0f });
     }
 
+    const Boozy::Frustum cameraFrustum(m_CameraController.GetCamera().GetViewProjectionMatrix());
+
     Boozy::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
     Boozy::RenderCommand::Clear();
 
@@ -115,7 +117,17 @@ void Sandbox3D::OnUpdate(Boozy::Timestep delta)
             continue;
 
         for (const auto& entry : object.Model->GetMeshes())
+        {
+            const glm::vec3 scale = object.ObTransform.GetScale();
+            const float maxScale = glm::max(scale.x, glm::max(scale.y, scale.z));
+            const glm::vec3 center = glm::vec3(
+                object.ObTransform.GetTransformMatrix() * glm::vec4(entry.BoundsCenter, 1.0f));
+
+            if (!cameraFrustum.IsInside(center, entry.BoundsRadius * maxScale))
+                continue;
+
             Boozy::Renderer3D::DrawMesh(object.ObTransform, entry.Mesh, object.Material);
+        }
     }
 
     Boozy::Renderer3D::EndScene();
