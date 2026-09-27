@@ -9,17 +9,27 @@ namespace Boozy {
 
     class GraphicsContext;
 
+    enum class WindowCursorMode {
+        None = 0,
+        Normal,
+        Hidden,
+        Disabled,
+        Captured
+    };
+
     /// \brief 窗口基本属性结构体
     struct WindowProps
     {
         std::string Title;
         unsigned int Width;
         unsigned int Height;
+        WindowCursorMode CursorMode;
 
         WindowProps(const std::string& title = "Boozy Engine",
             unsigned int width = 1280,
-            unsigned int height = 720)
-            : Title(title), Width(width), Height(height) {}
+            unsigned int height = 720,
+            WindowCursorMode mode = WindowCursorMode::Normal)
+            : Title(title), Width(width), Height(height), CursorMode(mode) {}
     };
 
     /// \brief 窗口抽象
@@ -39,6 +49,9 @@ namespace Boozy {
         virtual unsigned int GetHeight() const = 0;
 
         virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
+
+        virtual void SetCursorMode(const WindowCursorMode mode) = 0;
+        virtual WindowCursorMode GetCursorMode() const = 0;
 
         /// \brief 设置是否开启垂直同步
         /// \param enabled true 开启（锁定显示器刷新率），false 关闭（不限帧率）

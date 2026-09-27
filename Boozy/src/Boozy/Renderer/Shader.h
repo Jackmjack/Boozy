@@ -38,6 +38,11 @@ namespace Boozy {
         virtual void SetMat3(const std::string& name, const glm::mat3& matrix) = 0;
         virtual void SetMat4(const std::string& name, const glm::mat4& matrix) = 0;
 
+        virtual void SetIntArray(const std::string& name, const int* values, uint32_t count) = 0;
+        virtual void SetFloatArray(const std::string& name, const float* values, uint32_t count) = 0;
+        virtual void SetFloat3Array(const std::string& name, const glm::vec3* values, uint32_t count) = 0;
+        virtual void SetMat4Array(const std::string& name, const glm::mat4* values, uint32_t count) = 0;
+
         static Ref<Shader> Create(const std::string& filepath);
         static Ref<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
     };

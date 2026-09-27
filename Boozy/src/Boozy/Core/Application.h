@@ -23,6 +23,7 @@ namespace Boozy {
         void PushOverlay(Layer* overlay);
 
         inline Window& GetWindow() { return *m_Window; }
+        ImGuiLayer* GetImGuiLayer() const { return m_ImGuiLayer; }
 
         inline static Application& GetInstance() { return *s_Instance; }
     private:

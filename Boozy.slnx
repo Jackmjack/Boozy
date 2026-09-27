@@ -5,6 +5,8 @@
     <BuildType Name="Release" />
     <Platform Name="x64" />
   </Configurations>
+  <Project Path="Boozy\vendor\assimp.vcxproj" Id="724885F2-5EEA-AFC8-47A5-C31C33E63619">
+  </Project>
   <Project Path="Boozy\Boozy.vcxproj" Id="D817E80C-442C-10BE-0DAE-B31D79810CEF">
   </Project>
   <Project Path="Boozy\vendor\Glad\Glad.vcxproj" Id="BDD6857C-A90D-870D-52FA-6C103E10030F">

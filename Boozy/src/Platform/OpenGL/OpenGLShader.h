@@ -5,6 +5,7 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <string>
+#include <unordered_set>
 
 namespace Boozy {
 
@@ -41,7 +42,14 @@ namespace Boozy {
         virtual void SetMat3(const std::string& name, const glm::mat3& matrix) override;
         virtual void SetMat4(const std::string& name, const glm::mat4& matrix) override;
 
+        virtual void SetIntArray(const std::string& name, const int* values, uint32_t count) override;
+        virtual void SetFloatArray(const std::string& name, const float* values, uint32_t count) override;
+        virtual void SetFloat3Array(const std::string& name, const glm::vec3* values, uint32_t count) override;
+        virtual void SetMat4Array(const std::string& name, const glm::mat4* values, uint32_t count) override;
+
     private:
+        GLint GetUniformLocation(const std::string& name);
+
         void UploadUniformBool(const std::string& name, bool value);
 
         void UploadUniformInt(const std::string& name, int value);
@@ -63,12 +71,18 @@ namespace Boozy {
         void UploadUniformMat3(const std::string& name, const glm::mat3& matrix);
         void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
 
+        void UploadIntArray(const std::string& name, const int* values, uint32_t count);
+        void UploadFloatArray(const std::string& name, const float* values, uint32_t count);
+        void UploadFloat3Array(const std::string& name, const glm::vec3* values, uint32_t count);
+        void UploadMat4Array(const std::string& name, const glm::mat4* values, uint32_t count);
+
         std::string ReadFile(const std::string& filepath);
         std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
         void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
 
         uint32_t m_RendererID;
         std::string m_Name;
+        std::unordered_set<std::string> m_MissingUniforms;
     };
 
 }

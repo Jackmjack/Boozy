@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <memory>
+#include <limits>
 
 #include <unordered_map>
 #include <string>

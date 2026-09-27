@@ -19,10 +19,28 @@ namespace Boozy {
 
         virtual void Init() = 0;
         virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) = 0;
+        virtual const int32_t* GetViewport() const = 0;
         virtual void SetClearColor(const glm::vec4& color) = 0;
         virtual void Clear() = 0;
+        virtual void ClearDepth() = 0;
+
+        virtual uint32_t GetFrameBuffer() const = 0;
+        virtual void BindFrameBuffer(uint32_t rendererID) = 0;
+
+        virtual void EnableDepthTest() = 0;
+        virtual void DisableDepthTest() = 0;
+        virtual void EnableFaceCulling() = 0;
+        virtual void DisableFaceCulling() = 0;
+        virtual void EnableBlending() = 0;
+        virtual void DisableBlending() = 0;
+        virtual void EnablePolygonOffset() = 0;
+        virtual void DisablePolygonOffset() = 0;
+
+        virtual void BindTexture(uint32_t slot, uint32_t rendererID) = 0;
+        virtual void BindTextureCube(uint32_t slot, uint32_t rendererID) = 0;
 
         virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) = 0;
+        virtual void DrawArrays(uint32_t vertexCount) = 0;
 
         inline static API GetAPI() { return s_API; }
     private:

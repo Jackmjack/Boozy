@@ -69,6 +69,9 @@
     <ClInclude Include="src\Boozy\Core\Timestep.h">
       <Filter>src\Boozy\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Boozy\Core\Transform.h">
+      <Filter>src\Boozy\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Boozy\Core\Window.h">
       <Filter>src\Boozy\Core</Filter>
     </ClInclude>
@@ -90,13 +93,37 @@
     <ClInclude Include="src\Boozy\Renderer\Buffer.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Camera.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\FrameBuffer.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Boozy\Renderer\GraphicsContext.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Light.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Material.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Mesh.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Model.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Renderer\OrthographicCamera.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Renderer\OrthographicCameraController.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\PerspectiveCamera.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\PerspectiveCameraController.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Boozy\Renderer\RenderCommand.h">
@@ -108,6 +135,9 @@
     <ClInclude Include="src\Boozy\Renderer\Renderer2D.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Renderer3D.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Boozy\Renderer\RendererAPI.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
@@ -117,6 +147,9 @@
     <ClInclude Include="src\Boozy\Renderer\Texture.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Vertex.h">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Boozy\Renderer\VertexArray.h">
       <Filter>src\Boozy\Renderer</Filter>
     </ClInclude>
@@ -124,6 +157,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
@@ -150,6 +186,8 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Boozy\Renderer\Scene.h" />
+    <ClInclude Include="src\Boozy\Renderer\Frustum.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Boozy\Core\Application.cpp">
@@ -164,6 +202,9 @@
     <ClCompile Include="src\Boozy\Core\Log.cpp">
       <Filter>src\Boozy\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Boozy\Core\Transform.cpp">
+      <Filter>src\Boozy\Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\Boozy\ImGui\ImGuiBuild.cpp">
       <Filter>src\Boozy\ImGui</Filter>
     </ClCompile>
@@ -173,10 +214,28 @@
     <ClCompile Include="src\Boozy\Renderer\Buffer.cpp">
       <Filter>src\Boozy\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\FrameBuffer.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Material.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Mesh.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Model.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Boozy\Renderer\OrthographicCamera.cpp">
       <Filter>src\Boozy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Renderer\OrthographicCameraController.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\PerspectiveCamera.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\PerspectiveCameraController.cpp">
       <Filter>src\Boozy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Renderer\RenderCommand.cpp">
@@ -186,6 +245,9 @@
       <Filter>src\Boozy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Renderer\Renderer2D.cpp">
+      <Filter>src\Boozy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Renderer3D.cpp">
       <Filter>src\Boozy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Boozy\Renderer\RendererAPI.cpp">
@@ -204,6 +266,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
@@ -230,5 +295,7 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\Boozy\Renderer\Scene.cpp" />
+    <ClCompile Include="src\Boozy\Renderer\Frustum.cpp" />
   </ItemGroup>
 </Project>

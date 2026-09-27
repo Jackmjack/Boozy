@@ -146,116 +146,180 @@ namespace Boozy {
         OpenGLShader::UploadUniformMat4(name, matrix);
     }
 
+    void OpenGLShader::SetIntArray(const std::string& name, const int* values, uint32_t count)
+    {
+        if (count == 0) return;
+        OpenGLShader::UploadIntArray(name, values, count);
+    }
+
+    void OpenGLShader::SetFloatArray(const std::string & name, const float* values, uint32_t count)
+    {
+        if (count == 0) return;
+        OpenGLShader::UploadFloatArray(name, values, count);
+    }
+
+    void OpenGLShader::SetFloat3Array(const std::string & name, const glm::vec3 * values, uint32_t count)
+    {
+        if (count == 0) return;
+        OpenGLShader::UploadFloat3Array(name, values, count);
+    }
+
+    void OpenGLShader::SetMat4Array(const std::string& name, const glm::mat4* values, uint32_t count)
+    {
+        if (count == 0) return;
+        OpenGLShader::UploadMat4Array(name, values, count);
+    }
+
+    GLint OpenGLShader::GetUniformLocation(const std::string& name)
+    {
+        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        if (location == -1 && m_MissingUniforms.find(name) == m_MissingUniforms.end())
+        {
+            m_MissingUniforms.insert(name);
+            BZ_WARN("Uniform '{}' not found in shader '{}' (location = -1); value is NOT uploaded",
+                name, m_Name);
+        }
+        return location;
+    }
+
     void OpenGLShader::UploadUniformBool(const std::string& name, bool value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform1i(location, value ? 1 : 0);
     }
 
     void OpenGLShader::UploadUniformInt(const std::string& name, int value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform1i(location, value);
     }
 
     void OpenGLShader::UploadUniformInt2(const std::string& name, const glm::ivec2& value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform2i(location, value.x, value.y);
     }
 
     void OpenGLShader::UploadUniformInt3(const std::string& name, const glm::ivec3& value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform3i(location, value.x, value.y, value.z);
     }
 
     void OpenGLShader::UploadUniformInt4(const std::string& name, const glm::ivec4& value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform4i(location, value.x, value.y, value.z, value.w);
     }
 
     void OpenGLShader::UploadUniformUInt(const std::string& name, uint32_t value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform1ui(location, value);
     }
 
     void OpenGLShader::UploadUniformUInt2(const std::string& name, const glm::uvec2& value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform2ui(location, value.x, value.y);
     }
 
     void OpenGLShader::UploadUniformUInt3(const std::string& name, const glm::uvec3& value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform3ui(location, value.x, value.y, value.z);
     }
 
     void OpenGLShader::UploadUniformUInt4(const std::string& name, const glm::uvec4& value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform4ui(location, value.x, value.y, value.z, value.w);
     }
 
     void OpenGLShader::UploadUniformFloat(const std::string& name, float value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform1f(location, value);
     }
 
     void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform2f(location, value.x, value.y);
     }
 
     void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform3f(location, value.x, value.y, value.z);
     }
 
     void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& value)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniform4f(location, value.x, value.y, value.z, value.w);
     }
 
     void OpenGLShader::UploadUniformMat2(const std::string& name, const glm::mat2& matrix)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniformMatrix2fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
     void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
     void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
     {
         glUseProgram(m_RendererID);
-        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        GLint location = GetUniformLocation(name);
         glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+    }
+
+    void OpenGLShader::UploadIntArray(const std::string& name, const int* values, uint32_t count)
+    {
+        glUseProgram(m_RendererID);
+        GLint location = GetUniformLocation(name);
+        glUniform1iv(location, count, values);
+    }
+
+    void OpenGLShader::UploadFloatArray(const std::string & name, const float* values, uint32_t count)
+    {
+        glUseProgram(m_RendererID);
+        GLint location = GetUniformLocation(name);
+        glUniform1fv(location, count, values);
+    }
+
+    void OpenGLShader::UploadFloat3Array(const std::string & name, const glm::vec3* values, uint32_t count)
+    {
+        glUseProgram(m_RendererID);
+        GLint location = GetUniformLocation(name);
+        glUniform3fv(location, count, glm::value_ptr(values[0]));
+    }
+
+    void OpenGLShader::UploadMat4Array(const std::string& name, const glm::mat4* values, uint32_t count)
+    {
+        glUseProgram(m_RendererID);
+        GLint location = GetUniformLocation(name);
+        glUniformMatrix4fv(location, count, GL_FALSE, glm::value_ptr(values[0]));
     }
 
     std::string OpenGLShader::ReadFile(const std::string& filepath)
@@ -283,20 +347,42 @@ namespace Boozy {
     {
         std::unordered_map<GLenum, std::string> shaderSources;
 
+        std::string src = source;
+
+        const std::string token = "#include \"";
+        size_t pos = 0;
+        int time = 0;
+
+        while ((pos = src.find(token, pos)) != std::string::npos)
+        {
+            if (++time > 32)
+            {
+                BZ_ERROR("Shader include expanded more than 32 times!");
+                break;
+            }
+
+            size_t start = pos + token.size();
+            size_t end = src.find("\"", start);
+            std::string includePath = src.substr(start, end - start);
+            std::string path = "assets/shaders/" + includePath;
+            std::string content = ReadFile(path);
+            src.replace(pos, end - pos + 1, content);
+        }
+
         const char* typeToken = "#type";
         size_t typeTokenLength = strlen(typeToken);
-        size_t pos = source.find(typeToken, 0);
+        pos = src.find(typeToken, 0);
         while (pos != std::string::npos)
         {
-            size_t eol = source.find_first_of("\r\n", pos);
+            size_t eol = src.find_first_of("\r\n", pos);
             BZ_ASSERT(eol != std::string::npos, "Syntax error");
             size_t begin = pos + typeTokenLength + 1;
-            std::string type = source.substr(begin, eol - begin);
+            std::string type = src.substr(begin, eol - begin);
             BZ_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
 
-            size_t nextLinePos = source.find_first_not_of("\r\n", eol);
-            pos = source.find(typeToken, nextLinePos);
-            shaderSources[ShaderTypeFromString(type)] = (pos == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, pos - nextLinePos);
+            size_t nextLinePos = src.find_first_not_of("\r\n", eol);
+            pos = src.find(typeToken, nextLinePos);
+            shaderSources[ShaderTypeFromString(type)] = (pos == std::string::npos) ? src.substr(nextLinePos) : src.substr(nextLinePos, pos - nextLinePos);
         }
 
         return shaderSources;
@@ -379,6 +465,7 @@ namespace Boozy {
         }
 
         m_RendererID = program;
+        m_MissingUniforms.clear();
     }
 
 }

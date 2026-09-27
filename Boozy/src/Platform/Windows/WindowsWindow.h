@@ -22,6 +22,8 @@ namespace Boozy {
         inline unsigned int GetHeight() const override { return m_Data.Height; }
 
         inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+        void SetCursorMode(WindowCursorMode mode) override;
+        WindowCursorMode GetCursorMode() const override { return m_Data.CursorMode; }
         void SetVSync(bool enabled) override;
         bool IsVSync() const override;
         inline virtual void* GetNativeWindow() const override { return m_Window; }
@@ -41,6 +43,7 @@ namespace Boozy {
             std::string Title;
             unsigned int Width, Height;
             bool VSync;
+            WindowCursorMode CursorMode;
 
             EventCallbackFn EventCallback; // 事件回调：GLFW 事件触发时，用它把事件抛回应用层
         };

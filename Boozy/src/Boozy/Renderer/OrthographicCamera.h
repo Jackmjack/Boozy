@@ -1,10 +1,11 @@
 ﻿#pragma once
 
+#include "Boozy/Renderer/Camera.h"
 #include <glm/glm.hpp>
 
 namespace Boozy {
 
-    class OrthographicCamera
+    class OrthographicCamera : public Camera
     {
     public:
         OrthographicCamera(float left, float right, float bottom, float top);
@@ -16,9 +17,10 @@ namespace Boozy {
         const float GetRotation() const { return m_Rotation; }
 
         void SetProjectionMatrix(float left, float right, float bottom, float top);
-        const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
-        const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
-        const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
+
+        const glm::mat4& GetProjectionMatrix() const override { return m_ProjectionMatrix; }
+        const glm::mat4& GetViewMatrix() const override { return m_ViewMatrix; }
+        const glm::mat4& GetViewProjectionMatrix() const override { return m_ViewProjectionMatrix; }
     private:
         void RecalculateViewMatrix();
 

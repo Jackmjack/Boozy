@@ -41,6 +41,7 @@ namespace Boozy {
         m_Data.Title = props.Title;
         m_Data.Width = props.Width;
         m_Data.Height = props.Height;
+        m_Data.CursorMode = props.CursorMode;
 
         BZ_INFO("Creating window: title = '{}', width = {}, height = {}", props.Title, props.Width, props.Height);
 
@@ -54,6 +55,7 @@ namespace Boozy {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_DEPTH_BITS, 24);
 
         m_Window = glfwCreateWindow(props.Width, props.Height, m_Data.Title.c_str(), nullptr, nullptr);
         BZ_ASSERT(m_Window, "Failed to create window!");
@@ -171,6 +173,38 @@ namespace Boozy {
     double WindowsWindow::GetTime() const
     {
         return glfwGetTime();
+    }
+
+    void WindowsWindow::SetCursorMode(WindowCursorMode mode)
+    {
+        switch (mode)
+        {
+            case WindowCursorMode::Normal:
+            {
+                glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                break;
+            }
+            case WindowCursorMode::Hidden:
+            {
+                glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+                break;
+            }
+            case WindowCursorMode::Disabled:
+            {
+                glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                if (glfwRawMouseMotionSupported()) glfwSetInputMode(m_Window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+                break;
+            }
+            case WindowCursorMode::Captured:
+            {
+                glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_CAPTURED);
+                break;
+            }
+            default:
+                BZ_ERROR("Unknown cursor mode!");
+        }
+
+        m_Data.CursorMode = mode;
     }
 
     void WindowsWindow::SetVSync(bool enabled)
