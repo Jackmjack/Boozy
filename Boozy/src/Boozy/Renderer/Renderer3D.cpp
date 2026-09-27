@@ -10,6 +10,8 @@ BZ_INIT_LOGGER("Renderer");
 
 namespace Boozy
 {
+    static constexpr uint32_t BZ_SKYBOX_SLOT = BZ_MAX_LIGHTS + 2;
+
     struct ShadowSlot {
         int LightIndex = -1;
         glm::mat4 LightSpaceMatrix{ 1.0f };
@@ -255,7 +257,6 @@ namespace Boozy
                     s_Data->ShadowShader->Bind();
                     s_Data->ShadowShader->SetMat4("u_LightSpaceMatrix", slot.CubeMatrixs[f]);
                     s_Data->ShadowShader->SetMat4("u_Model", transform.GetTransformMatrix());
-                    mesh->Bind();
                     RenderCommand::DrawIndexed(mesh->GetVertexArray());
                 }
                 continue;
@@ -265,7 +266,6 @@ namespace Boozy
             s_Data->ShadowShader->Bind();
             s_Data->ShadowShader->SetMat4("u_LightSpaceMatrix", slot.LightSpaceMatrix);
             s_Data->ShadowShader->SetMat4("u_Model", transform.GetTransformMatrix());
-            mesh->Bind();
             RenderCommand::DrawIndexed(mesh->GetVertexArray());
         }
     }
@@ -289,7 +289,6 @@ namespace Boozy
         shader->SetMat4("u_Model", transform.GetTransformMatrix());
         shader->SetInt("u_LightCount", 0);
 
-        mesh->Bind();
         RenderCommand::DrawIndexed(mesh->GetVertexArray());
     }
 
@@ -307,7 +306,6 @@ namespace Boozy
         texture->Bind(0);
         shader->SetInt("u_Texture", 0);
 
-        mesh->Bind();
         RenderCommand::DrawIndexed(mesh->GetVertexArray());
     }
 
@@ -328,8 +326,8 @@ namespace Boozy
 
         if (s_Data->Skybox)
         {
-            s_Data->Skybox->Bind(BZ_MAX_LIGHTS + 1);
-            shader->SetInt("u_Skybox", BZ_MAX_LIGHTS + 1);
+            s_Data->Skybox->Bind(BZ_SKYBOX_SLOT);
+            shader->SetInt("u_Skybox", BZ_SKYBOX_SLOT);
             shader->SetBool("u_HasSkybox", true);
         }
         else
@@ -351,8 +349,8 @@ namespace Boozy
 
         shader->Bind();
         shader->SetMat4("u_ViewProjection", s_Data->ProjectionMatrix * view);
-        s_Data->Skybox->Bind(BZ_MAX_LIGHTS + 1);
-        shader->SetInt("u_Skybox", BZ_MAX_LIGHTS + 1);
+        s_Data->Skybox->Bind(BZ_SKYBOX_SLOT);
+        shader->SetInt("u_Skybox", BZ_SKYBOX_SLOT);
         RenderCommand::DrawArrays(36);
 
         RenderCommand::EnableDepthTest();

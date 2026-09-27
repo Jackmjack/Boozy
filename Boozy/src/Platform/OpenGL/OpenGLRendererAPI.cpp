@@ -109,6 +109,8 @@ namespace Boozy {
     void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray)
     {
         BZ_ASSERT(vertexArray->GetIndexBuffer(), "VertexArray has no index buffer!");
+
+        vertexArray->Bind();
         glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
     }
 

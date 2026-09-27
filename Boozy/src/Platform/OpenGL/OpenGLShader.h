@@ -5,6 +5,7 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <string>
+#include <unordered_set>
 
 namespace Boozy {
 
@@ -47,6 +48,8 @@ namespace Boozy {
         virtual void SetMat4Array(const std::string& name, const glm::mat4* values, uint32_t count) override;
 
     private:
+        GLint GetUniformLocation(const std::string& name);
+
         void UploadUniformBool(const std::string& name, bool value);
 
         void UploadUniformInt(const std::string& name, int value);
@@ -79,6 +82,7 @@ namespace Boozy {
 
         uint32_t m_RendererID;
         std::string m_Name;
+        std::unordered_set<std::string> m_MissingUniforms;
     };
 
 }
