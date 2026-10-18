@@ -2,7 +2,7 @@
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "Boozy/Core/Log.h"
 #include <fstream>
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <glm/gtc/type_ptr.hpp>
 
 BZ_INIT_LOGGER("OpenGL");

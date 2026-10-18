@@ -1,0 +1,103 @@
+{
+    __meta__ = {
+        version = "1.0"
+    },
+    ["windows|x64"] = {
+        ["assimp v6.0.5#c28f6f88"] = {
+            repo = {
+                branch = "master",
+                commit = "e96d4103633e161d259aa307e02a4d0842207651",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "v6.0.5"
+        },
+        ["cmake#f56260b5"] = {
+            repo = {
+                branch = "master",
+                commit = "e96d4103633e161d259aa307e02a4d0842207651",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "4.3.4"
+        },
+        ["glad v2.0.8#4bf8a1c5"] = {
+            repo = {
+                branch = "master",
+                commit = "e96d4103633e161d259aa307e02a4d0842207651",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "v2.0.8"
+        },
+        ["glfw 3.4#f56260b5"] = {
+            repo = {
+                branch = "master",
+                commit = "e96d4103633e161d259aa307e02a4d0842207651",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "3.4"
+        },
+        ["glm 1.0.3#f56260b5"] = {
+            repo = {
+                branch = "master",
+                commit = "e96d4103633e161d259aa307e02a4d0842207651",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "1.0.3"
+        },
+        ["imgui v1.92.8-docking#7b57b7fb"] = {
+            repo = {
+                branch = "master",
+                commit = "e96d4103633e161d259aa307e02a4d0842207651",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "v1.92.8-docking"
+        },
+        ["minizip#f56260b5"] = {
+            repo = {
+                branch = "master",
+                commit = "e96d4103633e161d259aa307e02a4d0842207651",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "v1.3.2"
+        },
+        ["ninja#f56260b5"] = {
+            repo = {
+                branch = "master",
+                commit = "e96d4103633e161d259aa307e02a4d0842207651",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "v1.13.2"
+        },
+        ["opengl#f56260b5"] = {
+            repo = {
+                branch = "master",
+                commit = "e96d4103633e161d259aa307e02a4d0842207651",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "latest"
+        },
+        ["python 3.x#f56260b5"] = {
+            repo = {
+                branch = "master",
+                commit = "e96d4103633e161d259aa307e02a4d0842207651",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "3.14.3"
+        },
+        ["stb 2026.03.18#f56260b5"] = {
+            repo = {
+                branch = "master",
+                commit = "e96d4103633e161d259aa307e02a4d0842207651",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "2026.03.18"
+        },
+        ["zlib#f56260b5"] = {
+            repo = {
+                branch = "master",
+                commit = "e96d4103633e161d259aa307e02a4d0842207651",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "v1.3.2"
+        }
+    }
+}

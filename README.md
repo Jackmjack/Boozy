@@ -11,63 +11,88 @@
 
 ## 环境要求
 
-- **Windows**（目前只有 Win32 平台实现）
-- **Visual Studio 2026**（premake 的 `vs2026` action 生成 `.slnx`）
+- **Windows 10/11 x64**（目前唯一可构建/运行的平台；Linux 适配进行中，见下方说明）
+- **xmake ≥ 3.1.2**（`xmake.lua` 中通过 `set_xmakever("3.1.2")` 要求）
+- **MSVC 工具链**：推荐安装 Visual Studio 2026 Build Tools 的「使用 C++ 的桌面开发」工作负载即可（不需要完整 VS IDE；xmake 会自动探测 MSVC v145）
+- **VS Code**：推荐安装 `xmake` 扩展 + `C/C++` 扩展（clangd 可选）
 - **OpenGL 4.6 Core**（`WindowsWindow.cpp` 里用 GLFW 请求 4.6 core profile + 24 位深度缓冲）
-- Premake5 二进制放在 `vendor/bin/premake/`（**未纳入版本控制**，需自行下载）
+- **首次构建需要联网**：xmake-repo 会下载依赖源码并在本地编译
 
 ## 构建
 
 ```bat
-:: 1. 拉取子模块（GLFW / imgui / glm / assimp，clone 后首次必做）
-git submodule update --init --recursive
+:: 1. 配置（Debug）并编译
+xmake f -p windows -a x64 -m debug -y
+xmake -y
 
-:: 2. 生成 Visual Studio 工程
-scripts\Win-GenerateProjects.bat
-
-:: 3. 打开 Boozy.slnx，以 Sandbox 为启动项目，Debug x64 编译运行
+:: 2. 运行（工作目录会自动设为 Sandbox/，assets 相对路径才能加载）
+xmake run Sandbox
 ```
 
+Release：
+
+```bat
+xmake f -p windows -a x64 -m release -y
+xmake -y
+```
+
+构建产物在 `build/windows/x64/<mode>/`，日志写在 exe 同级的 `logs/` 目录。
+
 > **注意**：`Sandbox` 的启动层在 `Sandbox/src/SandboxApp.cpp` 里写死（当前是 `PushLayer(new Sandbox3D())`，2D 那行被注释掉了）。想跑 2D 就把这两行对调。
+
+### 依赖说明
+
+- 第三方库全部通过 **xmake-repo** 获取（见下方表格）
+- `xmake-requires.lock` 锁定了 xmake-repo 的 commit 与各包版本；即使本地包缓存被清掉，也能按同一版本复现
 
 ## 项目结构
 
 ```
 Boozy/
-├── Boozy/                        # 引擎（StaticLib）
+├── Boozy/                          # 引擎（StaticLib）
 │   ├── src/
-│   │   ├── Boozy.h               # 对外总头文件
-│   │   ├── bzpch.h/.cpp          # 预编译头
+│   │   ├── Boozy.h                 # 对外总头文件
+│   │   ├── bzpch.h/.cpp            # 预编译头
+│   │   ├── StbImageImpl.cpp        # stb_image 实现单元（header-only 库需要实现一次）
 │   │   ├── Boozy/
-│   │   │   ├── Core/             # Application / Layer / LayerStack / Log
-│   │   │   │                     # Window / Input / Transform / Timestep
-│   │   │   ├── Events/           # 事件基类 + 窗口 / 键盘 / 鼠标事件
-│   │   │   ├── ImGui/            # ImGuiLayer（含编辑器式 DockSpace）
-│   │   │   └── Renderer/         # 渲染抽象层（后端无关）
+│   │   │   ├── Core/               # Application / Layer / LayerStack / Log
+│   │   │   │                       # Window / Input / Transform / Timestep
+│   │   │   ├── Events/             # 事件基类 + 窗口 / 键盘 / 鼠标事件
+│   │   │   ├── ImGui/              # ImGuiLayer（含编辑器式 DockSpace）
+│   │   │   └── Renderer/           # 渲染抽象层（后端无关）
 │   │   └── Platform/
-│   │       ├── OpenGL/           # OpenGL 后端实现
-│   │       └── Windows/          # Win32 + GLFW 窗口与输入
-│   └── vendor/                   # 第三方库
-├── Sandbox/                      # 示例程序（ConsoleApp）
-│   ├── src/                      # Sandbox2D / Sandbox3D / SandboxApp
-│   └── assets/                   # 着色器、贴图、模型
-├── scripts/Win-GenerateProjects.bat
-├── premake5.lua
-└── Boozy.slnx                    # 由 premake 生成
+│   │       ├── OpenGL/             # OpenGL 后端实现
+│   │       └── Windows/            # 基于 GLFW 的窗口与输入（Windows 平台目录）
+├── Sandbox/                        # 示例程序（ConsoleApp）
+│   ├── src/                        # Sandbox2D / Sandbox3D / SandboxApp
+│   └── assets/                     # 着色器、贴图、模型
+├── xmake.lua                       # 构建脚本
+├── xmake-requires.lock             # 依赖版本锁定
+└── README.md
 ```
 
 ## 第三方库
 
-| 库 | 引入方式 | 用途 |
-|---|---|---|
-| [GLFW](https://github.com/glfw/glfw) | git submodule | 窗口与输入 |
-| [Glad](https://github.com/Dav1dde/glad) | 随仓库提供 | OpenGL 函数加载 |
-| [imgui](https://github.com/ocornut/imgui) | git submodule（docking 分支） | 调试界面 |
-| [glm](https://github.com/g-truc/glm) | git submodule | 数学库 |
-| [assimp](https://github.com/assimp/assimp) | git submodule | 模型加载 |
-| [stb_image](https://github.com/nothings/stb) | 随仓库提供 | 贴图解码 |
+全部通过 `xmake-repo` 以 `add_requires` 引入（版本写在 `xmake.lua`，并锁定在 `xmake-requires.lock`）：
 
-> assimp 有 3 个头文件由 CMake 生成、仓库里不存在，已预先放入 `Boozy/vendor/assimp-generated/`。
+| 库 | 版本 | 配置 | 用途 |
+|---|---|---|---|
+| [GLFW](https://github.com/glfw/glfw) | 3.4 | 默认 | 窗口与输入 |
+| [Glad](https://github.com/Dav1dde/glad) | v2.0.8 | `gl_version = 4.6`、`profile = core` | OpenGL 函数加载 |
+| [imgui](https://github.com/ocornut/imgui) | v1.92.8-docking | `glfw = true`、`opengl3 = true` | 调试界面（docking 分支） |
+| [glm](https://github.com/g-truc/glm) | 1.0.3 | header-only | 数学库 |
+| [assimp](https://github.com/assimp/assimp) | v6.0.5 | `no_export = true` | 模型加载 |
+| [stb_image](https://github.com/nothings/stb) | 2026.03.18 | header-only | 贴图解码 |
+
+## Linux（未完成）
+
+`xmake.lua` 已经预留了 `BZ_PLATFORM_LINUX` 分支，且依赖包在 Linux 上也能构建；但引擎源码目前仍依赖 Win32，暂时**不能在 Linux 上构建**：
+
+- `Core.h` 中有 `#error Boozy only supports Windows!`
+- `Log.cpp` 使用 `GetModuleFileNameW` / `SetConsoleTextAttribute` / `localtime_s`
+- `Platform/Windows/` 目录名与 `EntryPoint.h` 的平台判断
+
+Linux 适配完成后会更新这一节。
 
 ---
 
@@ -80,7 +105,7 @@ Boozy/
 - **日志**：六档等级（Trace→Critical）、控制台按等级着色、控制台 + 文件双输出、`std::mutex` 线程安全、C++20 `std::format` 占位符；宏 `BZ_*`，Warn 及以上附带文件名与行号
 - **事件系统**：`Event` 基类 + 窗口 / 应用 / 键盘 / 鼠标事件；`EVENT_CLASS_TYPE` / `EVENT_CLASS_CATEGORY` 宏生成类型名与种类掩码；`EventDispatcher::Dispatch<T>` 按类型分发
 - **层系统**：`Layer` 钩子（`OnAttach` / `OnDetach` / `OnUpdate` / `OnEvent` / `OnImGuiRender`）；`LayerStack` 区分「层」与「覆盖层」；事件从栈顶反向遍历，被处理即停止下传
-- **窗口**：`Window` 抽象接口 + `Window::Create()` 工厂，Win32 侧基于 GLFW 实现
+- **窗口**：`Window` 抽象接口 + `Window::Create()` 工厂，当前基于 GLFW 实现
 - **ImGui**：编辑器式固定停靠（`ImGuiLayer::BeginDockSpace` + `DockBuilder` 默认布局），布局由 `imgui.ini` 持久化
 
 ### 2D

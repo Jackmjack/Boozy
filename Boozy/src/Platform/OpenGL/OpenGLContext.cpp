@@ -3,7 +3,7 @@
 #include "Boozy/Core/Log.h"
 
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
+#include <glad/gl.h>
 
 BZ_INIT_LOGGER("OpenGL");
 
@@ -23,7 +23,7 @@ namespace Boozy {
     void OpenGLContext::Init()
     {
         glfwMakeContextCurrent(m_WindowHandle);
-        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+        int status = gladLoadGL((GLADloadfunc)glfwGetProcAddress);
         BZ_ASSERT(status, "Failed to initialize Glad!");
         BZ_INFO("Initialized OpenGL context successfully.");
         BZ_INFO("Vendor:   {}", (const char*)glGetString(GL_VENDOR));

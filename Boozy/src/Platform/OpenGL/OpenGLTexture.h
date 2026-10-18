@@ -2,7 +2,7 @@
 
 #include "Boozy/Renderer/Texture.h"
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 
 namespace Boozy {
 

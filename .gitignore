@@ -1,10 +1,9 @@
 ﻿# 目录
-.vs/
-bin/
-bin-int/
+.vscode/
+.xmake/
+build/
 
 # 文件
-*.user
 *.log
 imgui.ini
 

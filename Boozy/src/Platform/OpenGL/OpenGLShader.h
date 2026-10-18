@@ -2,7 +2,7 @@
 
 #include "Boozy/Renderer/Shader.h"
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <glm/glm.hpp>
 #include <string>
 #include <unordered_set>
