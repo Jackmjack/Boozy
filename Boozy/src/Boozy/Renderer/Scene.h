@@ -16,8 +16,8 @@ namespace Boozy
         uint32_t ID = 0;
         std::string Name;
 
-        Ref<Model> Model;
-        Ref<Material> Material;
+        Ref<Boozy::Model> Model;
+        Ref<Boozy::Material> Material;
 
         Transform ObTransform;
 

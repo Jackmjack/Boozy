@@ -7,6 +7,7 @@ namespace Boozy {
     static std::mutex g_LogMutex;
 
     // 每个等级对应的控制台前景色
+    #if defined(BZ_PLATFORM_WINDOWS)
     static WORD LevelToColor(LogLevel level)
     {
         switch (level)
@@ -20,6 +21,21 @@ namespace Boozy {
         default:                 return FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;      // 默认白
         }
     }
+    #elif defined(BZ_PLATFORM_LINUX)
+    static const char* LevelToAnsi(LogLevel level) {
+        switch (level) {
+        case LogLevel::Trace:    return "\033[90m";   // 亮黑
+        case LogLevel::Debug:    return "\033[37m";
+        case LogLevel::Info:     return "\033[92m";
+        case LogLevel::Warn:     return "\033[93m";
+        case LogLevel::Error:    return "\033[91m";
+        case LogLevel::Critical: return "\033[95m";
+        default:                 return "\033[0m";
+        }
+    }
+    #else
+        #error Boozy: unsupported platform!
+    #endif
 
     // 等级名称，补成 5 字符宽让前缀对齐
     static const char* LevelToString(LogLevel level)
@@ -41,7 +57,13 @@ namespace Boozy {
     {
         std::time_t t = std::time(nullptr);
         std::tm tm;
-        localtime_s(&tm, &t);
+        #if defined(BZ_PLATFORM_WINDOWS)
+            localtime_s(&tm, &t);
+        #elif defined(BZ_PLATFORM_LINUX)
+            localtime_r(&t, &tm);
+        #else
+            #error Boozy: unsupported platform!
+        #endif
         std::ostringstream ss;
         ss << std::put_time(&tm, "%H:%M:%S");
         return ss.str();
@@ -50,9 +72,17 @@ namespace Boozy {
     // 获取 exe 所在目录
     static std::filesystem::path GetExecutableDirectory()
     {
-        wchar_t buffer[MAX_PATH];
-        GetModuleFileNameW(nullptr, buffer, MAX_PATH);
-        return std::filesystem::path(buffer).parent_path();
+        #if defined(BZ_PLATFORM_WINDOWS)
+            wchar_t buffer[MAX_PATH];
+            GetModuleFileNameW(nullptr, buffer, MAX_PATH);
+            return std::filesystem::path(buffer).parent_path();
+        #elif defined(BZ_PLATFORM_LINUX)
+            std::error_code ec;
+            auto p = std::filesystem::read_symlink("/proc/self/exe", ec);
+            return ec ? std::filesystem::current_path() : p.parent_path();
+        #else
+            #error Boozy: unsupported platform!
+        #endif
     }
 
     Logger::Logger(const std::string& name)
@@ -75,14 +105,20 @@ namespace Boozy {
         // [时间][等级][模块]:正文
         std::string line = "[" + CurrentTime() + "][" + LevelToString(level) + "][" + m_Name + "] " + message;
 
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-        if (hConsole)
-            SetConsoleTextAttribute(hConsole, LevelToColor(level));
-        std::cout << line << std::endl;
+        #if defined(BZ_PLATFORM_WINDOWS)
+            HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+            if (hConsole)
+                SetConsoleTextAttribute(hConsole, LevelToColor(level));
+            std::cout << line << std::endl;
 
-        // 恢复默认色
-        if (hConsole)
-            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+            // 恢复默认色
+            if (hConsole)
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+        #elif defined(BZ_PLATFORM_LINUX)
+            std::cout << LevelToAnsi(level) << line << "\033[0m" << std::endl;
+        #else
+            #error Boozy: unsupported platform!
+        #endif
 
         // 写入本模块的日志文件
         if (m_File)

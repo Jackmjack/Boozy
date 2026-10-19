@@ -10,7 +10,7 @@ namespace Boozy {
 
     struct MeshEntry
     {
-        Ref<Mesh> Mesh;
+        Ref<Boozy::Mesh> Mesh;
         uint32_t MaterialIndex = 0;
 
         glm::vec3 BoundsMin{ 0.0f };

@@ -15,6 +15,7 @@ if is_plat("windows") then
     add_defines("BZ_PLATFORM_WINDOWS", "UNICODE", "_UNICODE")
 elseif is_plat("linux") then
     add_defines("BZ_PLATFORM_LINUX")
+    add_cxxflags("-Wno-unknown-pragmas")
 end
 
 target("Boozy")

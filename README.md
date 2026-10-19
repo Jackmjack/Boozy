@@ -11,14 +11,18 @@
 
 ## 环境要求
 
-- **Windows 10/11 x64**（目前唯一可构建/运行的平台；Linux 适配进行中，见下方说明）
+- **Windows 10/11 x64** 或 **Linux x86_64**
 - **xmake ≥ 3.1.2**（`xmake.lua` 中通过 `set_xmakever("3.1.2")` 要求）
-- **MSVC 工具链**：推荐安装 Visual Studio 2026 Build Tools 的「使用 C++ 的桌面开发」工作负载即可（不需要完整 VS IDE；xmake 会自动探测 MSVC v145）
+- **编译器**
+  - Windows：MSVC 工具链，推荐安装 Visual Studio 2026 Build Tools 的「使用 C++ 的桌面开发」工作负载即可（不需要完整 VS IDE；xmake 会自动探测 MSVC v145）
+  - Linux：GCC ≥ 13 或 Clang ≥ 17（需要支持 C++20 的 `std::format`）
 - **VS Code**：推荐安装 `xmake` 扩展 + `C/C++` 扩展（clangd 可选）
-- **OpenGL 4.6 Core**（`WindowsWindow.cpp` 里用 GLFW 请求 4.6 core profile + 24 位深度缓冲）
+- **OpenGL 4.6 Core**（通过 GLFW 请求 4.6 core profile + 24 位深度缓冲；Linux 下需要能提供 4.6 的显卡驱动）
 - **首次构建需要联网**：xmake-repo 会下载依赖源码并在本地编译
 
 ## 构建
+
+### Windows
 
 ```bat
 :: 1. 配置（Debug）并编译
@@ -29,40 +33,56 @@ xmake -y
 xmake run Sandbox
 ```
 
-Release：
+Release:
 
 ```bat
-xmake f -p windows -a x64 -m release -y
-xmake -y
+xmake f -p windows -a x64 -m release -y && xmake -y
 ```
 
-构建产物在 `build/windows/x64/<mode>/`，日志写在 exe 同级的 `logs/` 目录。
+### Linux
+
+```bash
+# 1. 配置（Debug）并编译
+xmake f -p linux -a x86_64 -m debug -y
+xmake -y
+
+# 2. 运行（工作目录同样会自动设为 Sandbox/）
+xmake run Sandbox
+```
+
+Release：
+
+```bash
+xmake f -p linux -a x86_64 -m release -y && xmake -y
+```
+
+构建产物在 `build/<plat>/<arch>/<mode>/`（例如 `build/linux/x86_64/debug/Sandbox`），日志写在 exe 同级的 `logs/` 目录。
 
 > **注意**：`Sandbox` 的启动层在 `Sandbox/src/SandboxApp.cpp` 里写死（当前是 `PushLayer(new Sandbox3D())`，2D 那行被注释掉了）。想跑 2D 就把这两行对调。
 
 ### 依赖说明
 
 - 第三方库全部通过 **xmake-repo** 获取（见下方表格）
-- `xmake-requires.lock` 锁定了 xmake-repo 的 commit 与各包版本；即使本地包缓存被清掉，也能按同一版本复现
+- `xmake-requires.lock` 锁定了 xmake-repo 的 commit 与各包版本（含 `windows|x64` 与 `linux|x86_64` 两套锁）；即使本地包缓存被清掉，也能按同一版本复现
 
 ## 项目结构
 
 ```
 Boozy/
 ├── Boozy/                          # 引擎（StaticLib）
-│   ├── src/
-│   │   ├── Boozy.h                 # 对外总头文件
-│   │   ├── bzpch.h/.cpp            # 预编译头
-│   │   ├── StbImageImpl.cpp        # stb_image 实现单元（header-only 库需要实现一次）
-│   │   ├── Boozy/
-│   │   │   ├── Core/               # Application / Layer / LayerStack / Log
-│   │   │   │                       # Window / Input / Transform / Timestep
-│   │   │   ├── Events/             # 事件基类 + 窗口 / 键盘 / 鼠标事件
-│   │   │   ├── ImGui/              # ImGuiLayer（含编辑器式 DockSpace）
-│   │   │   └── Renderer/           # 渲染抽象层（后端无关）
-│   │   └── Platform/
-│   │       ├── OpenGL/             # OpenGL 后端实现
-│   │       └── Windows/            # 基于 GLFW 的窗口与输入（Windows 平台目录）
+│   └── src/
+│       ├── Boozy.h                 # 对外总头文件
+│       ├── bzpch.h/.cpp            # 预编译头
+│       ├── StbImageImpl.cpp        # stb_image 实现单元（header-only 库需要实现一次）
+│       ├── Boozy/
+│       │   ├── Core/               # Application / Layer / LayerStack / Log
+│       │   │                       # Window / Input / Transform / Timestep
+│       │   ├── Events/             # 事件基类 + 窗口 / 键盘 / 鼠标事件
+│       │   ├── ImGui/              # ImGuiLayer（含编辑器式 DockSpace）
+│       │   └── Renderer/           # 渲染抽象层（后端无关）
+│       └── Platform/
+│           ├── OpenGL/             # OpenGL 后端实现
+│           └── Windows/            # 基于 GLFW 的窗口与输入（目录名为历史遗留，实际跨平台）
 ├── Sandbox/                        # 示例程序（ConsoleApp）
 │   ├── src/                        # Sandbox2D / Sandbox3D / SandboxApp
 │   └── assets/                     # 着色器、贴图、模型
@@ -84,15 +104,9 @@ Boozy/
 | [assimp](https://github.com/assimp/assimp) | v6.0.5 | `no_export = true` | 模型加载 |
 | [stb_image](https://github.com/nothings/stb) | 2026.03.18 | header-only | 贴图解码 |
 
-## Linux（未完成）
+## Linux 支持
 
-`xmake.lua` 已经预留了 `BZ_PLATFORM_LINUX` 分支，且依赖包在 Linux 上也能构建；但引擎源码目前仍依赖 Win32，暂时**不能在 Linux 上构建**：
-
-- `Core.h` 中有 `#error Boozy only supports Windows!`
-- `Log.cpp` 使用 `GetModuleFileNameW` / `SetConsoleTextAttribute` / `localtime_s`
-- `Platform/Windows/` 目录名与 `EntryPoint.h` 的平台判断
-
-Linux 适配完成后会更新这一节。
+Linux 已可构建并运行，2D / 3D 场景均正常。
 
 ---
 
@@ -159,7 +173,3 @@ Linux 适配完成后会更新这一节。
 ## 许可
 
 学习项目，未指定许可证。第三方库各自遵循其原有许可。
-
-## PS
-
-这篇 README 也是 AI 生成的。
